@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hash Generator — MD5, SHA-1, SHA-256, SHA-512 — DevSecSuite</title>
+<meta name="description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text. Free, fast, and private — runs entirely in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/hash-generator/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Hash Generator","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+nav a:hover{color:#58a6ff}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:120px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.82rem;color:#7ee787;word-break:break-all;min-height:2rem;margin-bottom:1rem}
+.output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer;margin-top:.5rem}
+button:hover{background:#2ea043}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>Hash Generator</h1>
+<p>Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text. Everything runs in your browser — nothing is sent to a server.</p>
+
+<div class="tool-box">
+<div class="form-group">
+<label for="input">Input text</label>
+<textarea id="input" placeholder="Enter text to hash..." oninput="hashAll()"></textarea>
+</div>
+<button onclick="hashAll()">Generate Hashes</button>
+</div>
+
+<div class="tool-box">
+<div class="output-label">MD5</div>
+<div class="output" id="md5Out">—</div>
+<div class="output-label">SHA-1</div>
+<div class="output" id="sha1Out">—</div>
+<div class="output-label">SHA-256</div>
+<div class="output" id="sha256Out">—</div>
+<div class="output-label">SHA-512</div>
+<div class="output" id="sha512Out">—</div>
+</div>
+
+<h2>What Is a Hash Function?</h2>
+<p>A hash function takes an input of any size and produces a fixed-size output called a "hash" or "digest." The same input always produces the same hash. Different inputs almost always produce different hashes. Hashes are one-way — you can't reverse them to recover the original input.</p>
+
+<h2>Hash Algorithms Compared</h2>
+<h3>MD5 (128-bit)</h3>
+<p>Fast but cryptographically broken. Collisions can be generated in seconds. Still used for non-security checksums and legacy systems. <strong>Do not use for passwords or signatures.</strong></p>
+
+<h3>SHA-1 (160-bit)</h3>
+<p>Also broken. Google demonstrated a practical collision in 2017. Deprecated for security use but still common in git and older systems.</p>
+
+<h3>SHA-256 (256-bit)</h3>
+<p>Part of the SHA-2 family. Currently considered secure. Standard for TLS certificates, blockchain, and password hashing (with salt and iterations).</p>
+
+<h3>SHA-512 (512-bit)</h3>
+<p>Larger variant of SHA-2. Slower than SHA-256 but more secure against brute force. Used in high-security contexts.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Can I reverse a hash?</h3>
+<p>No. Hashing is one-way by design. However, weak inputs (like common passwords) can be looked up in "rainbow tables" of precomputed hashes. Always use a salt and a slow algorithm like bcrypt or Argon2 for passwords.</p>
+<h3>What's the difference between hashing and encryption?</h3>
+<p>Encryption is reversible with the right key. Hashing is not reversible. Use encryption when you need to recover the original data; use hashing when you only need to verify integrity.</p>
+<h3>Which hash should I use?</h3>
+<p>For checksums: SHA-256. For passwords: bcrypt or Argon2 (not plain SHA). For digital signatures: SHA-256 or SHA-512. For legacy compatibility: MD5 or SHA-1, but only if you must.</p>
+<h3>Do you store my data?</h3>
+<p>No. Everything runs in your browser using the Web Crypto API. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function md5(s) {
+  s = unescape(encodeURIComponent(s));
+  function safeAdd(x, y) {
+    var lsw = (x & 0xFFFF) + (y & 0xFFFF);
+    var msw = (x >> 16) + (y >> 16) + (lsw >> 16);
+    return (msw << 16) | (lsw & 0xFFFF);
+  }
+  function rol(num, cnt) { return (num << cnt) | (num >>> (32 - cnt)); }
+  function cmn(q, a, b, x, s2, t) { return safeAdd(rol(safeAdd(safeAdd(a, q), safeAdd(x, t)), s2), b); }
+  function ff(a, b, c, d, x, s2, t) { return cmn((b & c) | (~b & d), a, b, x, s2, t); }
+  function gg(a, b, c, d, x, s2, t) { return cmn((b & d) | (c & ~d), a, b, x, s2, t); }
+  function hh(a, b, c, d, x, s2, t) { return cmn(b ^ c ^ d, a, b, x, s2, t); }
+  function ii(a, b, c, d, x, s2, t) { return cmn(c ^ (b | ~d), a, b, x, s2, t); }
+  function binlMD5(x, len) {
+    x[len >> 5] |= 0x80 << (len % 32);
+    x[(((len + 64) >>> 9) << 4) + 14] = len;
+    var i, olda, oldb, oldc, oldd;
+    var a = 1732584193, b = -271733879, c = -1732584194, d = 271733878;
+    for (i = 0; i < x.length; i += 16) {
+      olda = a; oldb = b; oldc = c; oldd = d;
+      a = ff(a, b, c, d, x[i], 7, -680876936); d = ff(d, a, b, c, x[i + 1], 12, -389564586);
+      c = ff(c, d, a, b, x[i + 2], 17, 606105819); b = ff(b, c, d, a, x[i + 3], 22, -1044525330);
+      a = ff(a, b, c, d, x[i + 4], 7, -176418897); d = ff(d, a, b, c, x[i + 5], 12, 1200080426);
+      c = ff(c, d, a, b, x[i + 6], 17, -1473231341); b = ff(b, c, d, a, x[i + 7], 22, -45705983);
+      a = ff(a, b, c, d, x[i + 8], 7, 1770035416); d = ff(d, a, b, c, x[i + 9], 12, -1958414417);
+      c = ff(c, d, a, b, x[i + 10], 17, -42063); b = ff(b, c, d, a, x[i + 11], 22, -1990404162);
+      a = ff(a, b, c, d, x[i + 12], 7, 1804603682); d = ff(d, a, b, c, x[i + 13], 12, -40341101);
+      c = ff(c, d, a, b, x[i + 14], 17, -1502002290); b = ff(b, c, d, a, x[i + 15], 22, 1236535329);
+      a = gg(a, b, c, d, x[i + 1], 5, -165796510); d = gg(d, a, b, c, x[i + 6], 9, -1069501632);
+      c = gg(c, d, a, b, x[i + 11], 14, 643717713); b = gg(b, c, d, a, x[i], 20, -373897302);
+      a = gg(a, b, c, d, x[i + 5], 5, -701558691); d = gg(d, a, b, c, x[i + 10], 9, 38016083);
+      c = gg(c, d, a, b, x[i + 15], 14, -660478335); b = gg(b, c, d, a, x[i + 4], 20, -405537848);
+      a = gg(a, b, c, d, x[i + 9], 5, 568446438); d = gg(d, a, b, c, x[i + 14], 9, -1019803690);
+      c = gg(c, d, a, b, x[i + 3], 14, -187363961); b = gg(b, c, d, a, x[i + 8], 20, 1163531501);
+      a = gg(a, b, c, d, x[i + 13], 5, -1444681467); d = gg(d, a, b, c, x[i + 2], 9, -51403784);
+      c = gg(c, d, a, b, x[i + 7], 14, 1735328473); b = gg(b, c, d, a, x[i + 12], 20, -1926607734);
+      a = hh(a, b, c, d, x[i + 5], 4, -378558); d = hh(d, a, b, c, x[i + 8], 11, -2022574463);
+      c = hh(c, d, a, b, x[i + 11], 16, 1839030562); b = hh(b, c, d, a, x[i + 14], 23, -35309556);
+      a = hh(a, b, c, d, x[i + 1], 4, -1530992060); d = hh(d, a, b, c, x[i + 4], 11, 1272893353);
+      c = hh(c, d, a, b, x[i + 7], 16, -155497632); b = hh(b, c, d, a, x[i + 10], 23, -1094730640);
+      a = hh(a, b, c, d, x[i + 13], 4, 681279174); d = hh(d, a, b, c, x[i], 11, -358537222);
+      c = hh(c, d, a, b, x[i + 3], 16, -722521979); b = hh(b, c, d, a, x[i + 6], 23, 76029189);
+      a = hh(a, b, c, d, x[i + 9], 4, -640364487); d = hh(d, a, b, c, x[i + 12], 11, -421815835);
+      c = hh(c, d, a, b, x[i + 15], 16, 530742520); b = hh(b, c, d, a, x[i + 2], 23, -995338651);
+      a = ii(a, b, c, d, x[i], 6, -198630844); d = ii(d, a, b, c, x[i + 7], 10, 1126891415);
+      c = ii(c, d, a, b, x[i + 14], 15, -1416354905); b = ii(b, c, d, a, x[i + 5], 21, -57434055);
+      a = ii(a, b, c, d, x[i + 12], 6, 1700485571); d = ii(d, a, b, c, x[i + 3], 10, -1894986606);
+      c = ii(c, d, a, b, x[i + 10], 15, -1051523); b = ii(b, c, d, a, x[i + 1], 21, -2054922799);
+      a = ii(a, b, c, d, x[i + 8], 6, 1873313359); d = ii(d, a, b, c, x[i + 15], 10, -30611744);
+      c = ii(c, d, a, b, x[i + 6], 15, -1560198380); b = ii(b, c, d, a, x[i + 13], 21, 1309151649);
+      a = ii(a, b, c, d, x[i + 4], 6, -145523070); d = ii(d, a, b, c, x[i + 11], 10, -1120210379);
+      c = ii(c, d, a, b, x[i + 2], 15, 718787259); b = ii(b, c, d, a, x[i + 9], 21, -343485551);
+      a = safeAdd(a, olda); b = safeAdd(b, oldb); c = safeAdd(c, oldc); d = safeAdd(d, oldd);
+    }
+    return [a, b, c, d];
+  }
+  function rstr2binl(input) {
+    var i;
+    var output = [];
+    output[(input.length >> 2) - 1] = undefined;
+    for (i = 0; i < output.length; i += 1) { output[i] = 0; }
+    var length8 = input.length * 8;
+    for (i = 0; i < length8; i += 8) {
+      output[i >> 5] |= (input.charCodeAt(i / 8) & 0xFF) << (i % 32);
+    }
+    return output;
+  }
+  function binl2rstr(input) {
+    var i, output = '';
+    var length32 = input.length * 32;
+    for (i = 0; i < length32; i += 8) {
+      output += String.fromCharCode((input[i >> 5] >>> (i % 32)) & 0xFF);
+    }
+    return output;
+  }
+  function rstr2hex(input) {
+    var hexTab = '0123456789abcdef';
+    var output = '';
+    var x, i;
+    for (i = 0; i < input.length; i += 1) {
+      x = input.charCodeAt(i);
+      output += hexTab.charAt((x >>> 4) & 0x0F) + hexTab.charAt(x & 0x0F);
+    }
+    return output;
+  }
+  return rstr2hex(binl2rstr(binlMD5(rstr2binl(s), s.length * 8)));
+}
+
+async function shaHash(algo, str) {
+  const buf = await crypto.subtle.digest(algo, new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
+}
+
+async function hashAll() {
+  const input = document.getElementById('input').value;
+  if (!input) {
+    ['md5Out','sha1Out','sha256Out','sha512Out'].forEach(function(id){ document.getElementById(id).textContent = '—'; });
+    return;
+  }
+  document.getElementById('md5Out').textContent = md5(input);
+  document.getElementById('sha1Out').textContent = await shaHash('SHA-1', input);
+  document.getElementById('sha256Out').textContent = await shaHash('SHA-256', input);
+  document.getElementById('sha512Out').textContent = await shaHash('SHA-512', input);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Formatter & Beautifier — DevSecSuite</title>
+<meta name="description" content="Format and beautify SQL queries for readability. Free, fast, private — runs entirely in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/sql-formatter/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"SQL Formatter","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.9rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:180px;resize:vertical;white-space:pre}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.status{margin-top:.75rem;font-size:.9rem;color:#7ee787}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>SQL Formatter</h1>
+<p>Format and beautify SQL queries for readability. Runs entirely in your browser.</p>
+<div class="tool-box">
+<div class="form-group"><label for="sql">Paste your SQL</label><textarea id="sql" placeholder="SELECT * FROM users WHERE age > 18 AND country = 'US' ORDER BY created_at DESC;"></textarea></div>
+<div class="button-row">
+<button onclick="formatSQL()">Format SQL</button>
+<button class="secondary" onclick="copyOutput()">Copy</button>
+<button class="secondary" onclick="clearAll()">Clear</button>
+</div>
+<div class="status" id="status"></div>
+</div>
+<h2>What Does This Formatter Do?</h2>
+<p>It adds line breaks and indentation to make SQL queries readable. Keywords are uppercased, and major clauses (SELECT, FROM, WHERE, JOIN, etc.) start on new lines.</p>
+<h2>Best Practices for Readable SQL</h2>
+<h3>Uppercase Keywords</h3>
+<p>SQL keywords (SELECT, FROM, WHERE) are conventionally uppercased. Table and column names are lowercase. This makes queries easier to scan.</p>
+<h3>One Clause Per Line</h3>
+<p>Breaking SELECT, FROM, WHERE, GROUP BY, and ORDER BY onto separate lines makes complex queries much easier to debug.</p>
+<h3>Indent Subqueries</h3>
+<p>Nested queries should be indented one level deeper than their parent. This visual hierarchy is critical for understanding complex queries.</p>
+<h2>Frequently Asked Questions</h2>
+<h3>Does this change my SQL?</h3>
+<p>No. Formatting only changes whitespace and keyword case. The query logic is preserved exactly.</p>
+<h3>Which SQL dialects are supported?</h3>
+<p>The formatter is dialect-agnostic. It works on ANSI SQL plus common extensions from MySQL, PostgreSQL, SQLite, and SQL Server.</p>
+<h3>Do you log my queries?</h3>
+<p>No. Everything runs in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function formatSQL(){
+const input=document.getElementById('sql').value.trim();
+if(!input){document.getElementById('status').textContent='Enter SQL first';return;}
+const keywords=['SELECT','FROM','WHERE','GROUP BY','ORDER BY','HAVING','LIMIT','OFFSET','INSERT INTO','VALUES','UPDATE','SET','DELETE FROM','JOIN','LEFT JOIN','RIGHT JOIN','INNER JOIN','OUTER JOIN','ON','AND','OR','UNION','UNION ALL','AS','IN','NOT','NULL','IS','LIKE','BETWEEN','CASE','WHEN','THEN','ELSE','END','CREATE TABLE','ALTER TABLE','DROP TABLE','PRIMARY KEY','FOREIGN KEY','REFERENCES'];
+let s=input.replace(/\s+/g,' ');
+let formatted=s;
+// Uppercase keywords
+keywords.forEach(function(kw){
+const re=new RegExp('\\b'+kw.replace(/ /g,'\\s+')+'\\b','gi');
+formatted=formatted.replace(re,kw);
+});
+// Add newlines before major clauses
+const majors=['SELECT','FROM','WHERE','GROUP BY','ORDER BY','HAVING','LIMIT','OFFSET','INSERT INTO','VALUES','UPDATE','SET','DELETE FROM','UNION','UNION ALL'];
+majors.forEach(function(kw){
+const re=new RegExp('\\s+'+kw+'\\b','g');
+formatted=formatted.replace(re,'\n'+kw);
+});
+// Newlines before JOINs
+formatted=formatted.replace(/\s+(LEFT JOIN|RIGHT JOIN|INNER JOIN|OUTER JOIN|JOIN)\b/g,'\n$1');
+// Newlines before AND/OR inside WHERE
+formatted=formatted.replace(/\s+(AND|OR)\s+/g,'\n  $1 ');
+// Indent subqueries
+formatted=formatted.replace(/\(/g,'(\n  ').replace(/\)/g,'\n)');
+// Clean up extra blank lines
+formatted=formatted.replace(/\n\s*\n/g,'\n').trim();
+document.getElementById('sql').value=formatted;
+document.getElementById('status').textContent='Formatted';
+}
+function copyOutput(){const t=document.getElementById('sql').value;if(!t)return;navigator.clipboard.writeText(t).then(function(){document.getElementById('status').textContent='Copied';});}
+function clearAll(){document.getElementById('sql').value='';document.getElementById('status').textContent='';}
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Base64 Encoder / Decoder — DevSecSuite</title>
+<meta name="description" content="Encode and decode Base64 strings. Handles UTF-8 and binary data. Free, fast, and completely private — runs in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/base64-encoder-decoder/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Base64 Encoder Decoder","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+nav a:hover{color:#58a6ff}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:120px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>Base64 Encoder / Decoder</h1>
+<p>Encode text to Base64 or decode Base64 back to text. Everything runs in your browser — no data is sent to a server.</p>
+
+<div class="tool-box">
+<div class="form-group">
+<label for="input">Input</label>
+<textarea id="input" placeholder="Type or paste text here..." oninput="update()"></textarea>
+</div>
+<div class="form-group">
+<label>Output</label>
+<textarea id="output" readonly placeholder="Result appears here..."></textarea>
+</div>
+<div class="button-row">
+<button onclick="encode()">Encode to Base64</button>
+<button onclick="decode()">Decode from Base64</button>
+<button class="secondary" onclick="copyOutput()">Copy Output</button>
+<button class="secondary" onclick="swap()">Swap</button>
+<button class="secondary" onclick="clearAll()">Clear</button>
+</div>
+</div>
+
+<h2>What Is Base64?</h2>
+<p>Base64 is a binary-to-text encoding scheme that represents binary data using 64 printable ASCII characters (A–Z, a–z, 0–9, +, /). It's used when binary data needs to be transmitted over media designed for text, like email, JSON, or URLs.</p>
+
+<h2>Common Uses</h2>
+<h3>Email Attachments</h3>
+<p>MIME email encodes attachments as Base64 because email protocols are text-based. A PDF attachment, for example, is Base64-encoded before sending.</p>
+<h3>Data URIs</h3>
+<p>Small images can be embedded directly in HTML or CSS using Base64 data URIs. This avoids extra HTTP requests but increases file size by about 33%.</p>
+<h3>API Authentication</h3>
+<p>HTTP Basic Auth encodes credentials as Base64. JWT tokens also use Base64URL encoding for their header and payload sections.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Is Base64 encryption?</h3>
+<p>No. Base64 is encoding, not encryption. Anyone can decode it instantly. Never use Base64 to protect sensitive data.</p>
+<h3>Why does Base64 make my data bigger?</h3>
+<p>Base64 uses 4 characters to represent every 3 bytes of original data. This is a 33% size increase. The trade-off is that the encoded output is safe to transmit over text-only channels.</p>
+<h3>What's Base64URL?</h3>
+<p>Base64URL is a variant that replaces <code>+</code> with <code>-</code> and <code>/</code> with <code>_</code>, and omits padding. It's safe for use in URLs and filenames. JWTs use Base64URL.</p>
+<h3>Do you store my data?</h3>
+<p>No. Everything runs in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function encode(){
+const input=document.getElementById('input').value;
+try{
+const bytes=new TextEncoder().encode(input);
+let binary='';
+bytes.forEach(function(b){binary+=String.fromCharCode(b);});
+document.getElementById('output').value=btoa(binary);
+}catch(e){document.getElementById('output').value='Error: '+e.message;}
+}
+function decode(){
+const input=document.getElementById('input').value.trim();
+try{
+const binary=atob(input);
+const bytes=new Uint8Array(binary.length);
+for(let i=0;i<binary.length;i++){bytes[i]=binary.charCodeAt(i);}
+document.getElementById('output').value=new TextDecoder().decode(bytes);
+}catch(e){document.getElementById('output').value='Error: Invalid Base64 input';}
+}
+function update(){}
+function copyOutput(){
+const out=document.getElementById('output');
+if(!out.value)return;
+navigator.clipboard.writeText(out.value).then(function(){
+const btn=event.target;
+const orig=btn.textContent;
+btn.textContent='Copied!';
+setTimeout(function(){btn.textContent=orig;},1500);
+});
+}
+function swap(){
+const input=document.getElementById('input');
+const output=document.getElementById('output');
+const tmp=input.value;
+input.value=output.value;
+output.value=tmp;
+}
+function clearAll(){
+document.getElementById('input').value='';
+document.getElementById('output').value='';
+}
+</script>
+</body>
+</html>

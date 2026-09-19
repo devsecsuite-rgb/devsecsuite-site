@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cron Expression Parser — DevSecSuite</title>
+<meta name="description" content="Parse cron expressions and see the next execution times. Free, fast, and private — runs in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/cron-expression-parser/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Cron Expression Parser","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+input{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:1.05rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace}
+input:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.9rem;color:#7ee787;min-height:3rem;white-space:pre-wrap}
+.output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em;margin-top:1rem}
+.examples{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.examples button{background:#21262d;border:1px solid #30363d;color:#c9d1d9;padding:.35rem .75rem;font-size:.8rem;font-family:"SF Mono",Monaco,monospace;border-radius:6px;cursor:pointer}
+.examples button:hover{background:#30363d;color:#58a6ff}
+.error{color:#f85149}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>Cron Expression Parser</h1>
+<p>Parse standard cron expressions and see the next execution times in your local time zone. Runs entirely in your browser.</p>
+<div class="tool-box">
+<div class="form-group">
+<label for="cronInput">Cron Expression (5 fields: minute hour day month weekday)</label>
+<input type="text" id="cronInput" value="*/5 * * * *" oninput="parseCron()">
+<div class="examples">
+<button onclick="setCron('* * * * *')">Every minute</button>
+<button onclick="setCron('*/5 * * * *')">Every 5 min</button>
+<button onclick="setCron('0 * * * *')">Every hour</button>
+<button onclick="setCron('0 9 * * 1-5')">9am weekdays</button>
+<button onclick="setCron('0 0 1 * *')">1st of month</button>
+<button onclick="setCron('30 14 * * 0')">Sun 2:30pm</button>
+</div>
+</div>
+<div class="output-label">Description</div>
+<div class="output" id="descOut">—</div>
+<div class="output-label">Next 5 Executions (local time)</div>
+<div class="output" id="nextOut">—</div>
+</div>
+<h2>Cron Format</h2>
+<p>A standard cron expression has 5 fields separated by spaces: <code>minute hour day-of-month month day-of-week</code>. Each field accepts numbers, ranges (<code>1-5</code>), lists (<code>1,3,5</code>), steps (<code>*/5</code>), and the wildcard <code>*</code>.</p>
+<h3>Field Values</h3>
+<p><strong>Minute:</strong> 0–59<br>
+<strong>Hour:</strong> 0–23<br>
+<strong>Day of month:</strong> 1–31<br>
+<strong>Month:</strong> 1–12 (or JAN–DEC)<br>
+<strong>Day of week:</strong> 0–6 (0 = Sunday, or SUN–SAT)</p>
+<h3>Special Characters</h3>
+<p><code>*</code> — any value<br>
+<code>,</code> — list separator (e.g., <code>1,15,30</code>)<br>
+<code>-</code> — range (e.g., <code>1-5</code>)<br>
+<code>/</code> — step (e.g., <code>*/5</code> means every 5)</p>
+<h2>Frequently Asked Questions</h2>
+<h3>What does "*/5 * * * *" mean?</h3>
+<p>Every 5 minutes. The first field (<code>*/5</code>) steps through minute values 0, 5, 10, 15, etc. The remaining fields are wildcards.</p>
+<h3>What's the difference between 5-field and 6-field cron?</h3>
+<p>Standard Unix cron uses 5 fields (no seconds). Some systems (Quartz, AWS) use 6 or 7 fields including seconds and years. This tool parses the standard 5-field format.</p>
+<h3>How do I run a job at midnight on the 1st of every month?</h3>
+<p><code>0 0 1 * *</code> — minute 0, hour 0, day 1, any month, any weekday.</p>
+<h3>Do you log my cron expressions?</h3>
+<p>No. Parsing happens in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function setCron(v){document.getElementById('cronInput').value=v;parseCron();}
+function parseField(field,min,max){
+if(field==='*'){var a=[];for(var i=min;i<=max;i++)a.push(i);return a;}
+if(field.indexOf(',')>-1){var out=[];field.split(',').forEach(function(p){out=out.concat(parseField(p,min,max));});return out;}
+if(field.indexOf('/')>-1){var parts=field.split('/');var range=parts[0];var step=parseInt(parts[1]);var start=min,end=max;
+if(range!=='*'){if(range.indexOf('-')>-1){var r=range.split('-');start=parseInt(r[0]);end=parseInt(r[1]);}else{start=parseInt(range);end=max;}}
+var arr=[];for(var i=start;i<=end;i+=step)arr.push(i);return arr;}
+if(field.indexOf('-')>-1){var p=field.split('-');var s=parseInt(p[0]);var e=parseInt(p[1]);var res=[];for(var i=s;i<=e;i++)res.push(i);return res;}
+return [parseInt(field)];
+}
+function describe(parts){
+var mins=parseField(parts[0],0,59);var hrs=parseField(parts[1],0,23);var doms=parseField(parts[2],1,31);var months=parseField(parts[3],1,12);var dows=parseField(parts[4],0,6);
+var d='Runs at ';
+if(mins.length===1&&hrs.length===1){d+='minute '+mins[0]+' of hour '+hrs[0];}else{d+='minutes ['+mins.join(',')+'] of hours ['+hrs.join(',')+']';}
+if(parts[2]!=='*')d+=' on day '+parts[2];
+if(parts[3]!=='*')d+=' of month '+parts[3];
+if(parts[4]!=='*')d+=' on weekday '+parts[4];
+return d+'.';
+}
+function parseCron(){
+var raw=document.getElementById('cronInput').value.trim();
+var descOut=document.getElementById('descOut');
+var nextOut=document.getElementById('nextOut');
+var parts=raw.split(/\s+/);
+if(parts.length!==5){descOut.innerHTML='<span class="error">Invalid: expected 5 fields, got '+parts.length+'</span>';nextOut.textContent='—';return;}
+try{
+var mins=parseField(parts[0],0,59);var hrs=parseField(parts[1],0,23);var doms=parseField(parts[2],1,31);var months=parseField(parts[3],1,12);var dows=parseField(parts[4],0,6);
+descOut.textContent=describe(parts);
+var now=new Date();var next=[];var d=new Date(now.getTime()+60000);d.setSeconds(0,0);
+var limit=0;
+while(next.length<5&&limit<100000){
+limit++;
+if(months.indexOf(d.getMonth()+1)===-1){d.setMonth(d.getMonth()+1);d.setDate(1);d.setHours(0,0,0);continue;}
+if(doms.indexOf(d.getDate())===-1){d.setDate(d.getDate()+1);d.setHours(0,0,0);continue;}
+if(dows.indexOf(d.getDay())===-1){d.setDate(d.getDate()+1);d.setHours(0,0,0);continue;}
+if(hrs.indexOf(d.getHours())===-1){d.setHours(d.getHours()+1);d.setMinutes(0,0,0);continue;}
+if(mins.indexOf(d.getMinutes())===-1){d.setMinutes(d.getMinutes()+1);d.setSeconds(0,0);continue;}
+next.push(new Date(d.getTime()));d.setMinutes(d.getMinutes()+1);
+}
+nextOut.textContent=next.map(function(dt){return dt.toString();}).join('\n');
+}catch(e){descOut.innerHTML='<span class="error">Error: '+e.message+'</span>';nextOut.textContent='—';}
+}
+parseCron();
+</script>
+</body>
+</html>

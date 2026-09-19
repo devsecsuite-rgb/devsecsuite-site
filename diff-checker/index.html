@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text Diff Checker — DevSecSuite</title>
+<meta name="description" content="Compare two texts and see the differences highlighted. Free, fast, private — runs entirely in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/diff-checker/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Diff Checker","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:960px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.85rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:200px;resize:vertical;white-space:pre}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.diff-output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.82rem;white-space:pre;min-height:3rem;overflow-x:auto;margin-top:1rem}
+.line-added{background:#0d2818;color:#7ee787;display:block;padding:0 .25rem}
+.line-removed{background:#2d0f0f;color:#f85149;display:block;padding:0 .25rem;text-decoration:line-through}
+.line-same{color:#8b949e;display:block;padding:0 .25rem}
+.stats{margin-top:1rem;font-size:.9rem;color:#8b949e}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>Text Diff Checker</h1>
+<p>Compare two texts and see exactly what changed — line by line. Runs entirely in your browser.</p>
+<div class="tool-box">
+<div class="grid-2">
+<div><label for="textA">Original Text</label><textarea id="textA" placeholder="Paste the original text here..."></textarea></div>
+<div><label for="textB">Modified Text</label><textarea id="textB" placeholder="Paste the modified text here..."></textarea></div>
+</div>
+<div class="button-row">
+<button onclick="runDiff()">Compare</button>
+<button class="secondary" onclick="clearAll()">Clear</button>
+</div>
+<div class="stats" id="stats"></div>
+<label style="margin-top:1rem">Diff Result</label>
+<div class="diff-output" id="diffOutput">—</div>
+</div>
+<h2>How Line-by-Line Diff Works</h2>
+<p>The diff algorithm compares two texts line by line. Lines that appear in both are shown as unchanged. Lines that appear only in the original are marked as removed. Lines that appear only in the modified version are marked as added.</p>
+<p>This tool uses a longest-common-subsequence (LCS) approach — the same algorithm behind <code>git diff</code> and <code>diff</code> on Unix systems.</p>
+<h2>Common Uses</h2>
+<p>• Comparing code versions before committing<br>
+• Spotting differences between two configuration files<br>
+• Reviewing edits between document drafts<br>
+• Checking API response changes</p>
+<h2>Frequently Asked Questions</h2>
+<h3>Can I compare files instead of pasting?</h3>
+<p>Not in this tool — copy the contents of each file and paste them into the two boxes. Future versions may support file upload.</p>
+<h3>Why does it show unchanged lines too?</h3>
+<p>Context. Seeing unchanged lines around a change helps you understand where the change happened. It's the same reason <code>git diff</code> shows surrounding context.</p>
+<h3>Do you log my text?</h3>
+<p>No. The comparison runs entirely in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function lcs(a,b){
+const m=a.length,n=b.length;
+const dp=Array(m+1).fill(null).map(function(){return Array(n+1).fill(0);});
+for(let i=1;i<=m;i++){for(let j=1;j<=n;j++){if(a[i-1]===b[j-1])dp[i][j]=dp[i-1][j-1]+1;else dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);}}
+const ops=[];
+let i=m,j=n;
+while(i>0||j>0){
+if(i>0&&j>0&&a[i-1]===b[j-1]){ops.unshift({op:'same',line:a[i-1]});i--;j--;}
+else if(j>0&&(i===0||dp[i][j-1]>=dp[i-1][j])){ops.unshift({op:'add',line:b[j-1]});j--;}
+else{ops.unshift({op:'remove',line:a[i-1]});i--;}
+}
+return ops;
+}
+function runDiff(){
+const a=document.getElementById('textA').value.split('\n');
+const b=document.getElementById('textB').value.split('\n');
+const out=document.getElementById('diffOutput');
+const stats=document.getElementById('stats');
+if(!a[0]&&!b[0]){out.textContent='—';stats.textContent='';return;}
+const ops=lcs(a,b);
+let added=0,removed=0,unchanged=0;
+let html='';
+ops.forEach(function(o){
+if(o.op==='add'){html+='<span class="line-added">+ '+escapeHtml(o.line)+'</span>\n';added++;}
+else if(o.op==='remove'){html+='<span class="line-removed">- '+escapeHtml(o.line)+'</span>\n';removed++;}
+else{html+='<span class="line-same">  '+escapeHtml(o.line)+'</span>\n';unchanged++;}
+});
+out.innerHTML=html;
+stats.textContent='+'+added+' added, -'+removed+' removed, '+unchanged+' unchanged';
+}
+function clearAll(){document.getElementById('textA').value='';document.getElementById('textB').value='';document.getElementById('diffOutput').textContent='—';document.getElementById('stats').textContent='';}
+</script>
+</body>
+</html>

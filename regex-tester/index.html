@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regex Tester — DevSecSuite</title>
+<meta name="description" content="Test regular expressions against sample text with live match highlighting. Free, fast, private — runs in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/regex-tester/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Regex Tester","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+input[type="text"],textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.9rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace}
+input:focus,textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+textarea{min-height:150px;resize:vertical}
+.flags{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.5rem;font-size:.85rem;color:#c9d1d9}
+.flags label{display:inline-flex;align-items:center;margin:0;font-size:.85rem;color:#c9d1d9;gap:.3rem}
+.flags input[type="checkbox"]{width:auto}
+.matches{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.85rem;color:#7ee787;white-space:pre-wrap;word-break:break-all;min-height:2rem;margin-top:1rem}
+.mark{background:#238636;color:#fff;padding:0 .2rem;border-radius:2px}
+.error{color:#f85149}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>Regex Tester</h1>
+<p>Test regular expressions against sample text with live match highlighting. Runs entirely in your browser.</p>
+<div class="tool-box">
+<div class="form-group"><label for="pattern">Regular Expression</label><input type="text" id="pattern" value="\b\w+@\w+\.\w+\b" oninput="testRegex()"></div>
+<div class="flags">
+<label><input type="checkbox" id="flagG" checked onchange="testRegex()"> g (global)</label>
+<label><input type="checkbox" id="flagI" onchange="testRegex()"> i (ignore case)</label>
+<label><input type="checkbox" id="flagM" onchange="testRegex()"> m (multiline)</label>
+</div>
+<div class="form-group" style="margin-top:1rem"><label for="text">Test Text</label><textarea id="text" oninput="testRegex()">Contact us at hello@example.com or support@devsecsuite.com for help.</textarea></div>
+<label>Highlighted Matches</label>
+<div class="matches" id="highlight">—</div>
+<label style="margin-top:1rem">Match Details</label>
+<div class="matches" id="details">—</div>
+</div>
+<h2>Regex Syntax Cheatsheet</h2>
+<h3>Character Classes</h3>
+<p><code>.</code> any char &nbsp; <code>\d</code> digit &nbsp; <code>\w</code> word char &nbsp; <code>\s</code> whitespace &nbsp; <code>[abc]</code> any of a,b,c &nbsp; <code>[^abc]</code> none of a,b,c</p>
+<h3>Quantifiers</h3>
+<p><code>*</code> 0+ &nbsp; <code>+</code> 1+ &nbsp; <code>?</code> 0 or 1 &nbsp; <code>{n}</code> exactly n &nbsp; <code>{n,m}</code> n to m</p>
+<h3>Anchors</h3>
+<p><code>^</code> start &nbsp; <code>$</code> end &nbsp; <code>\b</code> word boundary</p>
+<h3>Groups</h3>
+<p><code>(abc)</code> capture group &nbsp; <code>(?:abc)</code> non-capture &nbsp; <code>|</code> alternation</p>
+<h2>Frequently Asked Questions</h2>
+<h3>Which regex flavor is this?</h3>
+<p>JavaScript (ECMAScript). It's close to most other flavors but has some differences from PCRE, Python, and Java. Lookaheads work; lookbehinds work in modern browsers.</p>
+<h3>What does the "g" flag do?</h3>
+<p>Global — find all matches, not just the first. Without <code>g</code>, only the first match is returned.</p>
+<h3>Do you log my regex or text?</h3>
+<p>No. Everything runs in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function testRegex(){
+const pattern=document.getElementById('pattern').value;
+const text=document.getElementById('text').value;
+const hl=document.getElementById('highlight');
+const det=document.getElementById('details');
+if(!pattern){hl.textContent='—';det.textContent='—';return;}
+let flags='';
+if(document.getElementById('flagG').checked)flags+='g';
+if(document.getElementById('flagI').checked)flags+='i';
+if(document.getElementById('flagM').checked)flags+='m';
+let re;
+try{re=new RegExp(pattern,flags);}catch(e){hl.innerHTML='<span class="error">Invalid regex: '+escapeHtml(e.message)+'</span>';det.textContent='—';return;}
+if(!re.global){re=new RegExp(pattern,flags+'g');}
+const matches=[];
+let m;
+let lastIndex=0;
+let highlighted='';
+try{
+while((m=re.exec(text))!==null){
+if(m.index===re.lastIndex)re.lastIndex++;
+matches.push(m);
+highlighted+=escapeHtml(text.slice(lastIndex,m.index));
+highlighted+='<span class="mark">'+escapeHtml(m[0])+'</span>';
+lastIndex=m.index+m[0].length;
+if(matches.length>1000)break;
+}
+highlighted+=escapeHtml(text.slice(lastIndex));
+hl.innerHTML=highlighted;
+let detailText='Total matches: '+matches.length+'\n\n';
+matches.slice(0,20).forEach(function(mt,idx){
+detailText+='Match '+(idx+1)+': "'+mt[0]+'" at index '+mt.index+'\n';
+mt.forEach(function(g,gi){
+if(gi>0)detailText+='  Group '+gi+': '+(g===undefined?'(undefined)':'"'+g+'"')+'\n';
+});
+});
+if(matches.length>20)detailText+='\n... and '+(matches.length-20)+' more';
+det.textContent=detailText;
+}catch(e){hl.innerHTML='<span class="error">Error: '+escapeHtml(e.message)+'</span>';det.textContent='—';}
+}
+testRegex();
+</script>
+</body>
+</html>

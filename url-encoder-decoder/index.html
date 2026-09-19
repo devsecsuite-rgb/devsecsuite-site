@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>URL Encoder / Decoder — DevSecSuite</title>
+<meta name="description" content="Encode and decode URLs and query strings safely. Free, fast, private — runs entirely in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/url-encoder-decoder/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"URL Encoder Decoder","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.9rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:100px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.status{margin-top:.75rem;font-size:.9rem;color:#7ee787}
+.status.error{color:#f85149}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>URL Encoder / Decoder</h1>
+<p>Encode or decode URLs and query strings using percent-encoding. Everything runs in your browser.</p>
+<div class="tool-box">
+<div class="form-group"><label for="input">Input</label><textarea id="input" placeholder="Type or paste text here..."></textarea></div>
+<div class="button-row">
+<button onclick="encodeURIComponentFn()">encodeURIComponent</button>
+<button onclick="encodeURIFn()">encodeURI</button>
+<button class="secondary" onclick="decodeURIComponentFn()">Decode</button>
+<button class="secondary" onclick="copyOutput()">Copy</button>
+<button class="secondary" onclick="clearAll()">Clear</button>
+</div>
+<div class="status" id="status"></div>
+</div>
+<h2>What Is URL Encoding?</h2>
+<p>URL encoding (also called percent-encoding) converts characters that aren't safe for URLs into a <code>%XX</code> format, where XX is the hexadecimal byte value. Spaces become <code>%20</code>, ampersands become <code>%26</code>, and so on.</p>
+<h2>encodeURI vs encodeURIComponent</h2>
+<h3>encodeURI</h3>
+<p>Encodes a full URL. Does not encode characters that are valid anywhere in a URL, like <code>:</code>, <code>/</code>, <code>?</code>, <code>#</code>, <code>&amp;</code>. Use when encoding a complete URL.</p>
+<h3>encodeURIComponent</h3>
+<p>Encodes a single component of a URL, like a query parameter value. Encodes more characters, including <code>:</code>, <code>/</code>, <code>?</code>, <code>&amp;</code>. Use when encoding a parameter value that will be inserted into a URL.</p>
+<h2>Frequently Asked Questions</h2>
+<h3>When do I use which?</h3>
+<p>Use <code>encodeURI</code> when your whole string is a URL you want to keep intact. Use <code>encodeURIComponent</code> when you're building a query string or path segment from user input — this prevents injection of <code>&amp;</code> or <code>=</code> characters.</p>
+<h3>Why does my URL break with spaces?</h3>
+<p>Spaces are technically not allowed in URLs. They get encoded as <code>%20</code> (or <code>+</code> in query strings). This tool uses <code>%20</code>.</p>
+<h3>Do you log my URLs?</h3>
+<p>No. Everything runs in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function setStatus(msg,isErr){const s=document.getElementById('status');s.textContent=msg;s.className='status'+(isErr?' error':'');}
+function encodeURIComponentFn(){
+const v=document.getElementById('input').value;
+try{document.getElementById('input').value=encodeURIComponent(v);setStatus('Encoded with encodeURIComponent');}catch(e){setStatus('Error: '+e.message,true);}
+}
+function encodeURIFn(){
+const v=document.getElementById('input').value;
+try{document.getElementById('input').value=encodeURI(v);setStatus('Encoded with encodeURI');}catch(e){setStatus('Error: '+e.message,true);}
+}
+function decodeURIComponentFn(){
+const v=document.getElementById('input').value;
+try{document.getElementById('input').value=decodeURIComponent(v);setStatus('Decoded');}catch(e){setStatus('Error: Invalid encoded string',true);}
+}
+function copyOutput(){const t=document.getElementById('input').value;if(!t){setStatus('Nothing to copy',true);return;}navigator.clipboard.writeText(t).then(function(){setStatus('Copied');});}
+function clearAll(){document.getElementById('input').value='';setStatus('');}
+</script>
+</body>
+</html>

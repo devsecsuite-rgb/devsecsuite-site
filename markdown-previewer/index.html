@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Markdown Previewer — DevSecSuite</title>
+<meta name="description" content="Live markdown preview with real-time rendering. Free, fast, private — runs entirely in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/markdown-previewer/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Markdown Previewer","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:960px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+nav a:hover{color:#58a6ff}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.grid-2{grid-template-columns:1fr}}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.9rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:400px;resize:vertical;white-space:pre}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.preview{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;min-height:400px;overflow-y:auto;color:#c9d1d9}
+.preview h1,.preview h2,.preview h3{color:#f0f6fc;margin:1rem 0 .5rem;border-bottom:1px solid #30363d;padding-bottom:.3rem}
+.preview h1{font-size:1.5rem}
+.preview h2{font-size:1.25rem}
+.preview h3{font-size:1.1rem;border:none}
+.preview p{margin-bottom:.75rem;color:#c9d1d9}
+.preview code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.preview pre{background:#161b22;padding:1rem;border-radius:6px;overflow-x:auto;margin-bottom:.75rem}
+.preview pre code{background:none;padding:0}
+.preview ul,.preview ol{margin:0 0 .75rem 1.5rem;color:#c9d1d9}
+.preview li{margin-bottom:.25rem}
+.preview a{color:#58a6ff;text-decoration:none}
+.preview a:hover{text-decoration:underline}
+.preview blockquote{border-left:3px solid #30363d;padding-left:1rem;color:#8b949e;margin:1rem 0}
+.preview hr{border:none;border-top:1px solid #30363d;margin:1rem 0}
+.preview strong{color:#f0f6fc}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>Markdown Previewer</h1>
+<p>Write markdown on the left, see the rendered HTML on the right. Runs entirely in your browser.</p>
+<div class="tool-box">
+<div class="grid-2">
+<div>
+<label for="mdInput">Markdown</label>
+<textarea id="mdInput" oninput="renderMd()"># Hello Markdown
+
+This is **bold** and this is *italic*.
+
+## Features
+
+- Live preview
+- No server needed
+- Works offline
+
+## Code
+
+Here is `inline code` and a code block:
+
+function hello() {
+return "world";
+}
+
+
+> Blockquotes look like this.
+
+[Links work too](https://example.com)
+
+---
+
+**Start typing to see it render live.**</textarea>
+</div>
+<div>
+<label>Preview</label>
+<div class="preview" id="preview"></div>
+</div>
+</div>
+</div>
+<h2>Supported Markdown Syntax</h2>
+<p>This previewer supports the common markdown elements you'll use most: headings, bold, italic, links, code (inline and fenced blocks), lists, blockquotes, and horizontal rules.</p>
+<h2>Markdown Cheatsheet</h2>
+<p><code># Heading 1</code> through <code>###### Heading 6</code><br>
+<code>**bold**</code> and <code>*italic*</code><br>
+<code>`inline code`</code> and <code>```code block```</code><br>
+<code>- item</code> for bullet lists, <code>1. item</code> for numbered<br>
+<code>&gt; quote</code> for blockquotes<br>
+<code>[text](url)</code> for links<br>
+<code>---</code> for horizontal rule</p>
+<h2>Frequently Asked Questions</h2>
+<h3>Does it support tables?</h3>
+<p>Not in this version. Tables are a GitHub-Flavored Markdown extension. This tool covers standard CommonMark syntax.</p>
+<h3>Does it support HTML?</h3>
+<p>No — HTML is escaped for safety. This prevents XSS if you paste untrusted markdown.</p>
+<h3>Do you log my markdown?</h3>
+<p>No. Rendering happens entirely in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function escapeHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderMd(){
+let md=document.getElementById('mdInput').value;
+const out=document.getElementById('preview');
+let html=escapeHtml(md);
+html=html.replace(/```([\s\S]*?)```/g,function(m,code){return '<pre><code>'+code.trim()+'</code></pre>';});
+html=html.replace(/`([^`\n]+)`/g,'<code>$1</code>');
+html=html.replace(/^###### (.*)$/gm,'<h6>$1</h6>');
+html=html.replace(/^##### (.*)$/gm,'<h5>$1</h5>');
+html=html.replace(/^#### (.*)$/gm,'<h4>$1</h4>');
+html=html.replace(/^### (.*)$/gm,'<h3>$1</h3>');
+html=html.replace(/^## (.*)$/gm,'<h2>$1</h2>');
+html=html.replace(/^# (.*)$/gm,'<h1>$1</h1>');
+html=html.replace(/^---$/gm,'<hr>');
+html=html.replace(/^&gt; (.*)$/gm,'<blockquote>$1</blockquote>');
+html=html.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+html=html.replace(/\*([^*]+)\*/g,'<em>$1</em>');
+html=html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank" rel="noopener">$1</a>');
+html=html.replace(/^[-*] (.*)$/gm,'<li>$1</li>');
+html=html.replace(/^\d+\. (.*)$/gm,'<li>$1</li>');
+html=html.replace(/(<li>.*<\/li>\n?)+/g,function(m){return '<ul>'+m+'</ul>';});
+html=html.split('\n').map(function(line){
+if(line.match(/^<(h[1-6]|ul|ol|li|pre|blockquote|hr|code)/)||line.match(/^<\/(ul|ol|li|pre|blockquote)>/))return line;
+if(line.trim()==='')return '';
+return '<p>'+line+'</p>';
+}).join('\n');
+out.innerHTML=html;
+}
+renderMd();
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JWT Decoder — DevSecSuite</title>
+<meta name="description" content="Decode JSON Web Tokens (JWT) and inspect header, payload, and signature. Free, fast, and completely private — nothing leaves your browser.">
+<link rel="canonical" href="https://devsecsuite.com/jwt-decoder/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"JWT Decoder","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+nav a:hover{color:#58a6ff}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.9rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:100px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.85rem;color:#7ee787;word-break:break-all;white-space:pre-wrap;min-height:3rem;margin-bottom:1rem}
+.output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+.warning{background:#2d1f00;border:1px solid #9e6a03;color:#f0c674;padding:.75rem;border-radius:6px;font-size:.9rem;margin-bottom:1rem}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>JWT Decoder</h1>
+<p>Decode JSON Web Tokens and inspect their header, payload, and signature. Nothing leaves your browser — your tokens are never sent to a server.</p>
+
+<div class="tool-box">
+<div class="form-group">
+<label for="jwtInput">Paste your JWT</label>
+<textarea id="jwtInput" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." oninput="decodeJWT()"></textarea>
+</div>
+<div class="warning">⚠️ This tool only decodes — it does not verify signatures. Never paste production tokens into third-party sites. This tool runs entirely in your browser, so your token never leaves your device.</div>
+</div>
+
+<div class="tool-box">
+<div class="output-label">Header</div>
+<div class="output" id="headerOut">—</div>
+<div class="output-label">Payload</div>
+<div class="output" id="payloadOut">—</div>
+<div class="output-label">Signature</div>
+<div class="output" id="sigOut">—</div>
+</div>
+
+<h2>What Is a JWT?</h2>
+<p>A JSON Web Token (JWT) is a compact, URL-safe way to represent claims between two parties. It's commonly used for authentication and authorization. A JWT consists of three Base64URL-encoded parts separated by dots: <code>header.payload.signature</code>.</p>
+
+<h2>The Three Parts</h2>
+<h3>Header</h3>
+<p>Contains metadata about the token — typically the signing algorithm (<code>alg</code>) and token type (<code>typ</code>). Example: <code>{"alg":"HS256","typ":"JWT"}</code>.</p>
+<h3>Payload</h3>
+<p>Contains the claims — statements about the user and additional data. Standard claims include <code>sub</code> (subject), <code>iat</code> (issued at), <code>exp</code> (expiration), and <code>iss</code> (issuer).</p>
+<h3>Signature</h3>
+<p>Created by signing the encoded header and payload with a secret or private key. The signature verifies that the token hasn't been tampered with.</p>
+
+<h2>Frequently Asked Questions</h2>
+<h3>Is a JWT encrypted?</h3>
+<p>No. JWTs are signed, not encrypted. Anyone can decode and read the header and payload. Never put sensitive data (passwords, PII) in a JWT payload. If you need encryption, use JWE (JSON Web Encryption).</p>
+<h3>Can I trust the contents after decoding?</h3>
+<p>Only after verifying the signature. Decoding shows what the token claims; verification proves the claims are authentic. This tool only decodes. Always verify on your server before trusting a token.</p>
+<h3>Why does my token have three parts?</h3>
+<p>That's standard: <code>header.payload.signature</code>. If your token has 5 parts, it's likely a JWE (encrypted JWT). If it has fewer than 3, it's malformed or truncated.</p>
+<h3>Do you store my token?</h3>
+<p>No. Decoding happens entirely in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function base64UrlDecode(str){
+str=str.replace(/-/g,'+').replace(/_/g,'/');
+while(str.length%4)str+='=';
+const binary=atob(str);
+const bytes=new Uint8Array(binary.length);
+for(let i=0;i<binary.length;i++){bytes[i]=binary.charCodeAt(i);}
+return new TextDecoder().decode(bytes);
+}
+function decodeJWT(){
+const raw=document.getElementById('jwtInput').value.trim();
+const headerOut=document.getElementById('headerOut');
+const payloadOut=document.getElementById('payloadOut');
+const sigOut=document.getElementById('sigOut');
+if(!raw){
+headerOut.textContent='—';
+payloadOut.textContent='—';
+sigOut.textContent='—';
+return;
+}
+const parts=raw.split('.');
+if(parts.length!==3){
+headerOut.textContent='Invalid JWT — expected 3 parts, got '+parts.length;
+payloadOut.textContent='—';
+sigOut.textContent='—';
+return;
+}
+try{
+const header=JSON.parse(base64UrlDecode(parts[0]));
+headerOut.textContent=JSON.stringify(header,null,2);
+}catch(e){headerOut.textContent='Error decoding header: '+e.message;}
+try{
+const payload=JSON.parse(base64UrlDecode(parts[1]));
+let display=JSON.stringify(payload,null,2);
+if(payload.exp){
+const expDate=new Date(payload.exp*1000);
+const now=new Date();
+const status=expDate<now?'EXPIRED':'VALID';
+display+='\n\n// exp: '+expDate.toISOString()+' ('+status+')';
+}
+if(payload.iat){
+display+='\n// iat: '+new Date(payload.iat*1000).toISOString();
+}
+payloadOut.textContent=display;
+}catch(e){payloadOut.textContent='Error decoding payload: '+e.message;}
+sigOut.textContent=parts[2]||'(empty)';
+}
+</script>
+</body>
+</html>

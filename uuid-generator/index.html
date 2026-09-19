@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UUID Generator — DevSecSuite</title>
+    <meta name="description" content="Generate RFC 4122 UUID v4 identifiers. Bulk generation supported. Free, fast, private — runs entirely in your browser.">
+    <link rel="canonical" href="https://devsecsuite.com/uuid-generator/">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"UUID Generator","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+        header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+        .container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+        header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+        .logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+        nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+        nav a:hover{color:#58a6ff}
+        main{padding:3rem 0}
+        h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+        h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+        h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+        p{margin-bottom:1rem;color:#c9d1d9}
+        code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+        .tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+        label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+        input{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:1rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace}
+        input:focus{outline:2px solid #58a6ff;border-color:transparent}
+        .form-group{margin-bottom:1.25rem}
+        .output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.9rem;color:#7ee787;word-break:break-all;min-height:3rem;white-space:pre-wrap;margin-top:1rem}
+        button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer;margin-top:.5rem}
+        button:hover{background:#2ea043}
+        .button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+        .button-row button{margin-top:0}
+        .secondary{background:#21262d;border:1px solid #30363d}
+        .secondary:hover{background:#30363d}
+        footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+        footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+        footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+    </style>
+</head>
+<body>
+    <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+    <main><div class="container">
+        <h1>UUID Generator</h1>
+        <p>Generate RFC 4122 version 4 UUIDs. Cryptographically random, generated in your browser using <code>crypto.randomUUID()</code>.</p>
+
+        <div class="tool-box">
+            <div class="form-group">
+                <label for="count">How many UUIDs? (1–100)</label>
+                <input type="number" id="count" value="1" min="1" max="100">
+            </div>
+            <button onclick="generate()">Generate UUIDs</button>
+            <div class="output" id="uuidOut">—</div>
+            <div class="button-row">
+                <button class="secondary" onclick="copyOutput()">Copy to Clipboard</button>
+                <button class="secondary" onclick="clearOutput()">Clear</button>
+            </div>
+        </div>
+
+        <h2>What Is a UUID?</h2>
+        <p>A UUID (Universally Unique Identifier) is a 128-bit identifier formatted as 32 hexadecimal digits in five groups separated by hyphens: <code>xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx</code>. UUIDs are designed to be unique without requiring a central authority to assign them.</p>
+
+        <h2>UUID Versions</h2>
+        <h3>Version 4 (Random)</h3>
+        <p>The most common version. Uses random or pseudo-random numbers. 122 of the 128 bits are random, giving 2^122 possible values. Collision probability is effectively zero. This is what most applications use and what this tool generates.</p>
+        <h3>Version 1 (Time-based)</h3>
+        <p>Combines the current timestamp with the MAC address of the generating machine. Predictable, so not recommended for security-sensitive use. Useful when you need UUIDs that sort by creation time.</p>
+        <h3>Version 7 (Time-ordered)</h3>
+        <p>Newer standard (RFC 9562). Combines time and randomness in a way that sorts chronologically. Better for database primary keys because they're sequential and index-friendly.</p>
+
+        <h2>Frequently Asked Questions</h2>
+        <h3>Can two UUIDs collide?</h3>
+        <p>In practice, no. You would need to generate about 2.7 × 10^18 UUID v4 values before a 50% chance of any collision exists. At one billion UUIDs per second, that would take about 85 years.</p>
+        <h3>Are UUIDs secure?</h3>
+        <p>Version 4 UUIDs generated with <code>crypto.randomUUID()</code> are cryptographically random and safe for security purposes. UUIDs generated with non-crypto random sources are not.</p>
+        <h3>Should I use UUIDs as database primary keys?</h3>
+        <p>Version 4 UUIDs are not sequential, which hurts database index performance. Use UUID v7 for primary keys — they're time-ordered and index-friendly. For internal use, consider sequential IDs like auto-increment integers.</p>
+        <h3>Do you store my UUIDs?</h3>
+        <p>No. Generation happens entirely in your browser. Nothing is sent to our servers.</p>
+    </div></main>
+    <footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+    <script>
+        function generate(){
+            const count=Math.min(Math.max(parseInt(document.getElementById('count').value)||1,1),100);
+            const out=[];
+            for(let i=0;i<count;i++){out.push(crypto.randomUUID());}
+            document.getElementById('uuidOut').textContent=out.join('\n');
+        }
+        function copyOutput(){
+            const text=document.getElementById('uuidOut').textContent;
+            if(text==='—'||!text){return;}
+            navigator.clipboard.writeText(text).then(function(){
+                const btn=event.target;
+                const original=btn.textContent;
+                btn.textContent='Copied!';
+                setTimeout(function(){btn.textContent=original;},1500);
+            });
+        }
+        function clearOutput(){
+            document.getElementById('uuidOut').textContent='—';
+        }
+    </script>
+</body>
+</html>
+}

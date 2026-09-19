@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unix Timestamp Converter — DevSecSuite</title>
+    <meta name="description" content="Convert Unix timestamps to human-readable dates and back. Free, fast, and completely private — runs in your browser.">
+    <link rel="canonical" href="https://devsecsuite.com/unix-timestamp-converter/">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"Unix Timestamp Converter","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+        header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+        .container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+        header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+        .logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+        nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+        nav a:hover{color:#58a6ff}
+        main{padding:3rem 0}
+        h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+        h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+        h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+        p{margin-bottom:1rem;color:#c9d1d9}
+        code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+        .tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+        label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+        input{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:1rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace}
+        input:focus{outline:2px solid #58a6ff;border-color:transparent}
+        .form-group{margin-bottom:1.25rem}
+        .output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.95rem;color:#7ee787;word-break:break-all;min-height:3rem;white-space:pre-wrap}
+        .output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+        .row{margin-bottom:1.25rem}
+        button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer;margin-top:.5rem}
+        button:hover{background:#2ea043}
+        footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+        footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+        footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+    </style>
+</head>
+<body>
+    <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+    <main><div class="container">
+        <h1>Unix Timestamp Converter</h1>
+        <p>Convert between Unix timestamps and human-readable dates. Everything runs in your browser — no data is sent to a server.</p>
+
+        <div class="tool-box">
+            <div class="form-group">
+                <label for="tsInput">Unix Timestamp (seconds or milliseconds)</label>
+                <input type="text" id="tsInput" placeholder="e.g., 1758027600" oninput="convertFromTs()">
+            </div>
+            <div class="row">
+                <div class="output-label">UTC</div>
+                <div class="output" id="utcOut">—</div>
+            </div>
+            <div class="row">
+                <div class="output-label">Your Local Time</div>
+                <div class="output" id="localOut">—</div>
+            </div>
+            <div class="row">
+                <div class="output-label">ISO 8601</div>
+                <div class="output" id="isoOut">—</div>
+            </div>
+        </div>
+
+        <div class="tool-box">
+            <div class="form-group">
+                <label for="dateInput">Date (YYYY-MM-DD HH:MM:SS)</label>
+                <input type="text" id="dateInput" placeholder="e.g., 2026-09-16 12:00:00" oninput="convertFromDate()">
+            </div>
+            <div class="output-label">Unix Timestamp (seconds)</div>
+            <div class="output" id="tsOut">—</div>
+            <button onclick="useNow()">Use Current Time</button>
+        </div>
+
+        <h2>What Is a Unix Timestamp?</h2>
+        <p>A Unix timestamp is the number of seconds that have elapsed since January 1, 1970 at 00:00:00 UTC (the "Unix epoch"). It's the standard way computers represent time because it's a single integer that works across every time zone and platform.</p>
+
+        <h2>Seconds vs Milliseconds</h2>
+        <p>Unix timestamps are traditionally in seconds. JavaScript and some APIs use milliseconds. A 10-digit number is seconds (e.g., <code>1758027600</code>). A 13-digit number is milliseconds (e.g., <code>1758027600000</code>). This tool detects both automatically.</p>
+
+        <h2>Frequently Asked Questions</h2>
+        <h3>Why does my timestamp show a different date?</h3>
+        <p>Unix timestamps are always in UTC. Your local time zone offset is applied when displayed. The "Local Time" field shows what your device thinks the time is.</p>
+        <h3>What's the year 2038 problem?</h3>
+        <p>Older 32-bit systems store Unix timestamps as signed 32-bit integers, which overflow on January 19, 2038. Modern 64-bit systems handle dates far beyond this.</p>
+        <h3>Do you store my timestamps?</h3>
+        <p>No. Everything runs in your browser using JavaScript. No data is ever sent to our servers.</p>
+    </div></main>
+    <footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+    <script>
+        function convertFromTs(){
+            const raw=document.getElementById('tsInput').value.trim();
+            if(!raw){['utcOut','localOut','isoOut'].forEach(id=>document.getElementById(id).textContent='—');return;}
+            let ms=parseInt(raw,10);
+            if(isNaN(ms)){['utcOut','localOut','isoOut'].forEach(id=>document.getElementById(id).textContent='Invalid');return;}
+            if(raw.length<=10)ms*=1000;
+            const d=new Date(ms);
+            if(isNaN(d.getTime())){['utcOut','localOut','isoOut'].forEach(id=>document.getElementById(id).textContent='Invalid');return;}
+            document.getElementById('utcOut').textContent=d.toUTCString();
+            document.getElementById('localOut').textContent=d.toString();
+            document.getElementById('isoOut').textContent=d.toISOString();
+        }
+        function convertFromDate(){
+            const raw=document.getElementById('dateInput').value.trim();
+            if(!raw){document.getElementById('tsOut').textContent='—';return;}
+            const d=new Date(raw.replace(' ','T'));
+            if(isNaN(d.getTime())){document.getElementById('tsOut').textContent='Invalid date';return;}
+            document.getElementById('tsOut').textContent=Math.floor(d.getTime()/1000);
+        }
+        function useNow(){
+            const now=new Date();
+            document.getElementById('dateInput').value=now.toISOString().slice(0,19).replace('T',' ');
+            convertFromDate();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JSON Formatter & Validator — DevSecSuite</title>
+<meta name="description" content="Format, validate, and minify JSON. Free, fast, and private — runs entirely in your browser.">
+<link rel="canonical" href="https://devsecsuite.com/json-formatter/">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"JSON Formatter","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.9rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:180px;resize:vertical;white-space:pre}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.status{margin-top:.75rem;font-size:.9rem;color:#7ee787}
+.status.error{color:#f85149}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
+<main><div class="container">
+<h1>JSON Formatter</h1>
+<p>Format, validate, and minify JSON. Everything runs in your browser — no data is sent to a server.</p>
+<div class="tool-box">
+<div class="form-group">
+<label for="jsonInput">Paste your JSON</label>
+<textarea id="jsonInput" placeholder='{"name":"example","values":[1,2,3]}'></textarea>
+</div>
+<div class="button-row">
+<button onclick="formatJSON(2)">Format (2 spaces)</button>
+<button onclick="formatJSON(4)">Format (4 spaces)</button>
+<button class="secondary" onclick="minify()">Minify</button>
+<button class="secondary" onclick="validate()">Validate</button>
+<button class="secondary" onclick="copyOutput()">Copy</button>
+<button class="secondary" onclick="clearAll()">Clear</button>
+</div>
+<div class="status" id="status"></div>
+</div>
+<h2>What Is JSON?</h2>
+<p>JSON (JavaScript Object Notation) is a lightweight data interchange format. It's readable by humans and machines, and it's the standard format for APIs, configuration files, and data storage in modern web development.</p>
+<h2>When to Format vs Minify</h2>
+<h3>Format (Pretty Print)</h3>
+<p>Adds indentation and line breaks to make JSON readable. Use for debugging, reviewing API responses, or editing config files. Increases file size but improves readability.</p>
+<h3>Minify</h3>
+<p>Removes all whitespace to reduce file size. Use for production APIs, network transmission, and storage. A 10KB formatted JSON file might shrink to 6KB minified.</p>
+<h2>Frequently Asked Questions</h2>
+<h3>Why does my JSON fail to parse?</h3>
+<p>Common causes: trailing commas (not allowed in JSON), single quotes instead of double quotes, unquoted keys, comments (not allowed in JSON). This tool reports the exact line and column of the error.</p>
+<h3>Is JSON the same as JavaScript objects?</h3>
+<p>Similar but not identical. JSON requires double quotes around keys and string values. JavaScript objects allow single quotes, unquoted keys, and functions. JSON is a subset of JavaScript literal syntax.</p>
+<h3>What's JSON5 or JSONC?</h3>
+<p>Extensions that allow comments and trailing commas. Used in config files (like VS Code settings). Not valid JSON — most parsers will reject them.</p>
+<h3>Do you store my JSON?</h3>
+<p>No. Parsing happens entirely in your browser. Nothing is sent to our servers.</p>
+</div></main>
+<footer><div class="container"><div><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>
+<script>
+function setStatus(msg,isError){
+var s=document.getElementById('status');
+s.textContent=msg;
+s.className='status'+(isError?' error':'');
+}
+function formatJSON(spaces){
+var raw=document.getElementById('jsonInput').value.trim();
+if(!raw){setStatus('Enter JSON first',true);return;}
+try{
+var obj=JSON.parse(raw);
+document.getElementById('jsonInput').value=JSON.stringify(obj,null,spaces);
+setStatus('Valid JSON — formatted with '+spaces+' spaces');
+}catch(e){setStatus('Invalid JSON: '+e.message,true);}
+}
+function minify(){
+var raw=document.getElementById('jsonInput').value.trim();
+if(!raw){setStatus('Enter JSON first',true);return;}
+try{
+var obj=JSON.parse(raw);
+document.getElementById('jsonInput').value=JSON.stringify(obj);
+setStatus('Valid JSON — minified');
+}catch(e){setStatus('Invalid JSON: '+e.message,true);}
+}
+function validate(){
+var raw=document.getElementById('jsonInput').value.trim();
+if(!raw){setStatus('Enter JSON first',true);return;}
+try{JSON.parse(raw);setStatus('Valid JSON');}
+catch(e){setStatus('Invalid JSON: '+e.message,true);}
+}
+function copyOutput(){
+var text=document.getElementById('jsonInput').value;
+if(!text){setStatus('Nothing to copy',true);return;}
+navigator.clipboard.writeText(text).then(function(){setStatus('Copied to clipboard');});
+}
+function clearAll(){
+document.getElementById('jsonInput').value='';
+setStatus('');
+}
+</script>
+</body>
+</html>
