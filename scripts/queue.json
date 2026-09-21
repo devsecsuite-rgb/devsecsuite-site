@@ -5,7 +5,8 @@
     "description": "Generate bcrypt password hashes with adjustable cost factor. Free, private, runs in your browser.",
     "inputs": "Plain text password, cost factor (10, 12, 14), salt rounds",
     "formula": "Uses bcryptjs library (loaded inline as a minified blob) to generate a bcrypt hash. Cost factor adjusts computational complexity. Output is a 60-character hash starting with $2a$ or $2b$.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-21T07:34:08.397764Z"
   },
   {
     "slug": "password-generator",
