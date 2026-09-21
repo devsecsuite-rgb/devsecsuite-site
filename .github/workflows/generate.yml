@@ -18,7 +18,8 @@ jobs:
           python-version: '3.11'
       - name: Generate tool
         env:
-          GEMINI_API_KEYS: ${{ secrets.GEMINI_API_KEYS }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
         run: python scripts/generate_calculator.py
       - name: Commit and push
         run: |
