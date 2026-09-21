@@ -1,0 +1,162 @@
+[
+  {
+    "slug": "bcrypt-generator",
+    "name": "Bcrypt Hash Generator",
+    "description": "Generate bcrypt password hashes with adjustable cost factor. Free, private, runs in your browser.",
+    "inputs": "Plain text password, cost factor (10, 12, 14), salt rounds",
+    "formula": "Uses bcryptjs library (loaded inline as a minified blob) to generate a bcrypt hash. Cost factor adjusts computational complexity. Output is a 60-character hash starting with $2a$ or $2b$.",
+    "status": "pending"
+  },
+  {
+    "slug": "password-generator",
+    "name": "Strong Password Generator",
+    "description": "Generate cryptographically secure passwords. Customize length, character sets, and complexity.",
+    "inputs": "Password length, include uppercase, include lowercase, include numbers, include symbols, exclude ambiguous characters",
+    "formula": "Uses crypto.getRandomValues() to generate passwords. Entropy calculation = log2(pool_size) * length. Displays entropy bits and estimated crack time.",
+    "status": "pending"
+  },
+  {
+    "slug": "yaml-formatter",
+    "name": "YAML Formatter & Validator",
+    "description": "Format, validate, and lint YAML files. Detect syntax errors and convert to JSON.",
+    "inputs": "YAML input text, indent size (2 or 4 spaces), output format (YAML or JSON)",
+    "formula": "Parses YAML using js-yaml inline. Validates structure, normalizes indentation, optionally converts to JSON. Reports syntax errors with line numbers.",
+    "status": "pending"
+  },
+  {
+    "slug": "xml-formatter",
+    "name": "XML Formatter & Beautifier",
+    "description": "Format, validate, and minify XML. Free, private, runs in your browser.",
+    "inputs": "XML input text, indent size, action (format, minify, validate)",
+    "formula": "Uses DOMParser to parse XML, walks the tree, and re-serializes with configurable indentation. Reports parse errors.",
+    "status": "pending"
+  },
+  {
+    "slug": "html-entity-encoder",
+    "name": "HTML Entity Encoder / Decoder",
+    "description": "Encode and decode HTML entities. Convert special characters to safe HTML entities.",
+    "inputs": "Input text, action (encode or decode), entity type (named or numeric)",
+    "formula": "Replaces special characters with &amp;, &lt;, &gt;, &quot;, &#39; for encoding. Decodes using textarea innerHTML trick or hex/dec conversion.",
+    "status": "pending"
+  },
+  {
+    "slug": "color-picker-converter",
+    "name": "Color Picker & Converter",
+    "description": "Convert colors between HEX, RGB, HSL, and HSV. Includes color preview and palette generator.",
+    "inputs": "Color input (HEX, RGB, or HSL), target format",
+    "formula": "Converts between color spaces using standard formulas. HEX to RGB: parse 6-char hex. RGB to HSL: standard algorithm with hue angle. HSL to RGB inverse.",
+    "status": "pending"
+  },
+  {
+    "slug": "base64-image-encoder",
+    "name": "Image to Base64 Encoder",
+    "description": "Convert images to Base64 data URIs. Free, private, runs in your browser.",
+    "inputs": "Image file upload or drag-and-drop, output format (data URI or raw Base64)",
+    "formula": "Uses FileReader.readAsDataURL() to encode image as Base64. Displays encoded string and total size. Optional compression via canvas.",
+    "status": "pending"
+  },
+  {
+    "slug": "markdown-to-html",
+    "name": "Markdown to HTML Converter",
+    "description": "Convert markdown to clean HTML. Live preview, copy output with one click.",
+    "inputs": "Markdown input, options (GitHub-flavored, line breaks, sanitize)",
+    "formula": "Parses markdown with a lightweight inline parser. Converts headings, bold, italic, links, code blocks, lists, blockquotes. Outputs sanitized HTML.",
+    "status": "pending"
+  },
+  {
+    "slug": "html-to-markdown",
+    "name": "HTML to Markdown Converter",
+    "description": "Convert HTML to clean markdown. Strips tags, preserves structure, handles links and images.",
+    "inputs": "HTML input, options (preserve links, preserve images, bullet style)",
+    "formula": "Walks the DOM tree, converts h1-h6 to # headers, strong to **, em to *, a to [text](url), ul to -, pre to code blocks.",
+    "status": "pending"
+  },
+  {
+    "slug": "url-parser",
+    "name": "URL Parser & Analyzer",
+    "description": "Break down any URL into protocol, hostname, path, query params, and fragment.",
+    "inputs": "URL input",
+    "formula": "Uses the URL API (new URL()) to parse. Displays each component separately. Query params are decoded and listed individually.",
+    "status": "pending"
+  },
+  {
+    "slug": "http-status-codes",
+    "name": "HTTP Status Code Lookup",
+    "description": "Look up any HTTP status code. Full reference of all standard and common codes.",
+    "inputs": "Status code number or search query, category filter (1xx, 2xx, 3xx, 4xx, 5xx)",
+    "formula": "Static reference data with descriptions, causes, and examples. Search filters by code or description text.",
+    "status": "pending"
+  },
+  {
+    "slug": "mime-type-lookup",
+    "name": "MIME Type Lookup",
+    "description": "Look up the correct MIME type for any file extension. Complete reference of standard MIME types.",
+    "inputs": "File extension or MIME type, search query",
+    "formula": "Static reference map of extensions to MIME types. Reverse lookup also supported. Includes common and uncommon types.",
+    "status": "pending"
+  },
+  {
+    "slug": "htaccess-redirect-generator",
+    "name": "Redirect Generator",
+    "description": "Generate redirect rules for .htaccess, Nginx, Apache, and Cloudflare. Copy-paste ready.",
+    "inputs": "Source URL, target URL, redirect type (301 or 302), server type (Apache, Nginx, Cloudflare)",
+    "formula": "Generates syntax-correct redirect rules for the selected server. Apache uses RewriteRule, Nginx uses return directive, Cloudflare uses redirect rules.",
+    "status": "pending"
+  },
+  {
+    "slug": "user-agent-parser",
+    "name": "User-Agent Parser",
+    "description": "Parse any user-agent string. Identify browser, OS, device type, and version.",
+    "inputs": "User-agent string",
+    "formula": "Pattern-matches known browser and OS signatures. Detects Chrome, Firefox, Safari, Edge, and mobile vs desktop. Displays structured output.",
+    "status": "pending"
+  },
+  {
+    "slug": "cron-expression-builder",
+    "name": "Cron Expression Builder",
+    "description": "Build cron expressions visually. Select intervals, preview the schedule in plain English.",
+    "inputs": "Visual selections (minute, hour, day, month, weekday), output format",
+    "formula": "Builds cron string from visual selections. Validates against standard cron rules. Human-readable description via pattern matching.",
+    "status": "pending"
+  },
+  {
+    "slug": "uuid-bulk-generator",
+    "name": "Bulk UUID Generator",
+    "description": "Generate up to 1,000 UUIDs at once. Download as CSV or copy to clipboard.",
+    "inputs": "Number of UUIDs (1-1000), UUID version (v4 only for browser), output format (plain, CSV, JSON)",
+    "formula": "Uses crypto.randomUUID() in a loop. Formats output based on selection. CSV format includes an index column.",
+    "status": "pending"
+  },
+  {
+    "slug": "random-number-generator",
+    "name": "Random Number Generator",
+    "description": "Generate cryptographically secure random numbers. Customizable range and quantity.",
+    "inputs": "Minimum value, maximum value, quantity, allow duplicates",
+    "formula": "Uses crypto.getRandomValues() for cryptographic randomness. Scales to range, optionally removes duplicates for lottery-style picks.",
+    "status": "pending"
+  },
+  {
+    "slug": "lorem-ipsum-generator",
+    "name": "Lorem Ipsum Generator",
+    "description": "Generate lorem ipsum placeholder text. Control paragraphs, sentences, and word count.",
+    "inputs": "Output type (paragraphs, sentences, words), quantity, start with 'Lorem ipsum'",
+    "formula": "Static word pool of 50+ Latin words. Randomly assembles sentences and paragraphs based on requested quantity. Always starts with 'Lorem ipsum dolor sit amet'.",
+    "status": "pending"
+  },
+  {
+    "slug": "slug-generator",
+    "name": "URL Slug Generator",
+    "description": "Convert any text into a clean, SEO-friendly URL slug.",
+    "inputs": "Input text, separator (- or _), lowercase option, remove stop words option",
+    "formula": "Lowercases, removes special characters, replaces spaces with separator, optionally strips common stop words (a, an, the, and, or, etc).",
+    "status": "pending"
+  },
+  {
+    "slug": "case-converter",
+    "name": "Text Case Converter",
+    "description": "Convert text between camelCase, PascalCase, snake_case, kebab-case, UPPERCASE, and more.",
+    "inputs": "Input text, target case (camelCase, PascalCase, snake_case, SCREAMING_SNAKE, kebab-case, Title Case, Sentence case, lowercase, UPPERCASE)",
+    "formula": "Splits input on word boundaries (spaces, camelCase transitions, underscores), then reassembles using the target case rules.",
+    "status": "pending"
+  }
+]
