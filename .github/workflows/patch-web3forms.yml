@@ -1,0 +1,26 @@
+name: Patch Web3Forms UUID
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python scripts/patch_web3forms.py
+        continue-on-error: true
+      - run: |
+          git config user.name "DevSecSuite Bot"
+          git config user.email "bot@devsecsuite.com"
+          if [[ -n $(git status --porcelain) ]]; then
+            git add .
+            git commit -m "Update Web3Forms UUID across all pages"
+            git push
+          fi
