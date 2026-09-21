@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 DevSecSuite — Automated Developer Tool Generator
-Generates one new developer tool page per run using Gemini API (multi-key rotation).
+Multi-provider: Groq (primary) + OpenRouter (fallback).
 """
 import os
 import json
@@ -12,24 +12,43 @@ import urllib.request
 import urllib.error
 from datetime import datetime
 
-_keys_env = os.environ.get("GEMINI_API_KEYS") or os.environ.get("GEMINI_API_KEY", "")
-API_KEYS = [k.strip() for k in _keys_env.split(",") if k.strip()]
-if not API_KEYS:
-    print("ERROR: No Gemini API keys found in GEMINI_API_KEYS")
+# Load API keys from environment
+GROQ_KEY = os.environ.get("GROQ_API_KEY", "").strip()
+OPENROUTER_KEY = os.environ.get("OPENROUTER_API_KEY", "").strip()
+
+if not GROQ_KEY and not OPENROUTER_KEY:
+    print("ERROR: No API keys found. Set GROQ_API_KEY and/or OPENROUTER_API_KEY")
     sys.exit(1)
-print(f"Loaded {len(API_KEYS)} API key(s)")
 
-MODEL_CANDIDATES = [
-    "gemini-3.5-flash-lite",
-    "gemini-3.1-flash-lite",
-    "gemini-3.5-flash",
-    "gemini-3.8-flash",
-]
+print(f"Groq key: {'set' if GROQ_KEY else 'missing'}")
+print(f"OpenRouter key: {'set' if OPENROUTER_KEY else 'missing'}")
 
-BASE_URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={key}"
+# Shared User-Agent (required — Cloudflare blocks default Python UA with error 1010)
+UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+
+# Providers, tried in order
+PROVIDERS = []
+if GROQ_KEY:
+    PROVIDERS.append({
+        "name": "groq",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "key": GROQ_KEY,
+        "models": ["openai/gpt-oss-120b", "openai/gpt-oss-20b"],
+    })
+if OPENROUTER_KEY:
+    PROVIDERS.append({
+        "name": "openrouter",
+        "url": "https://openrouter.ai/api/v1/chat/completions",
+        "key": OPENROUTER_KEY,
+        "models": [
+            "meta-llama/llama-3.3-70b-instruct:free",
+            "deepseek/deepseek-r1:free",
+        ],
+    })
+
 QUEUE_FILE = "scripts/queue.json"
-TIMEOUT_PER_ATTEMPT = 60
-MAX_RETRIES_PER_MODEL = 2
+TIMEOUT_PER_ATTEMPT = 120
+MAX_RETRIES = 2
 
 
 def load_queue():
@@ -136,73 +155,77 @@ No JavaScript alert functions.
 Output the full HTML file now:"""
 
 
-def call_gemini_once(prompt, model, api_key):
-    url = BASE_URL.format(model=model, key=api_key)
+def call_provider(prompt, provider, model):
+    """Single API call with a specific provider/model (OpenAI-compatible format)."""
     payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {"temperature": 0.4, "maxOutputTokens": 32768},
+        "model": model,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.4,
+        "max_tokens": 32768,
     }
-    req = urllib.request.Request(url, data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"}, method="POST")
+    req = urllib.request.Request(
+        provider["url"],
+        data=json.dumps(payload).encode("utf-8"),
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {provider['key']}",
+            "User-Agent": UA,
+            "HTTP-Referer": "https://devsecsuite.com",
+            "X-Title": "DevSecSuite",
+        },
+        method="POST",
+    )
     with urllib.request.urlopen(req, timeout=TIMEOUT_PER_ATTEMPT) as resp:
-        return json.loads(resp.read().decode("utf-8"))
+        data = json.loads(resp.read().decode("utf-8"))
+    return data["choices"][0]["message"]["content"]
 
 
-def call_gemini_with_retries(prompt, model, api_key):
+def call_with_retries(prompt, provider, model):
+    """Try a provider+model combo with retries for transient errors."""
     last_error = None
-    for attempt in range(MAX_RETRIES_PER_MODEL):
+    for attempt in range(MAX_RETRIES):
         try:
-            print(f"    Attempt {attempt + 1}/{MAX_RETRIES_PER_MODEL}")
-            data = call_gemini_once(prompt, model, api_key)
-            return data["candidates"][0]["content"]["parts"][0]["text"]
+            print(f"    Attempt {attempt + 1}/{MAX_RETRIES}")
+            return call_provider(prompt, provider, model)
         except urllib.error.HTTPError as e:
-            error_body = e.read().decode("utf-8", errors="replace")
-            print(f"    HTTP {e.code}: {error_body[:150]}")
+            body = e.read().decode("utf-8", errors="replace")
+            print(f"    HTTP {e.code}: {body[:200]}")
             last_error = e
-            if e.code in (429, 404):
+            if e.code in (401, 402, 403, 404):
                 raise
-            if e.code in (500, 502, 503, 504):
-                time.sleep(5 * (attempt + 1))
+            if e.code in (429, 500, 502, 503, 504):
+                time.sleep(10 * (attempt + 1))
                 continue
             raise
         except (TimeoutError, urllib.error.URLError) as e:
             print(f"    Network error: {e}")
             last_error = e
-            time.sleep(5 * (attempt + 1))
+            time.sleep(10 * (attempt + 1))
             continue
-    raise RuntimeError(f"All attempts failed for {model}: {last_error}")
+    raise RuntimeError(f"All retries failed: {last_error}")
 
 
 def generate_with_fallback(prompt):
+    """Try each provider+model in order until one succeeds."""
     errors = []
-    for model in MODEL_CANDIDATES:
-        model_failed = False
-        for key_idx, api_key in enumerate(API_KEYS):
-            key_label = f"key {key_idx + 1}/{len(API_KEYS)}"
-            print(f"Trying {model} with {key_label}")
+    for provider in PROVIDERS:
+        for model in provider["models"]:
+            print(f"Trying {provider['name']} / {model}")
             try:
-                result = call_gemini_with_retries(prompt, model, api_key)
-                print(f"Success: {model} ({key_label})")
+                result = call_with_retries(prompt, provider, model)
+                print(f"Success: {provider['name']} / {model}")
                 return result
             except urllib.error.HTTPError as e:
-                if e.code == 404:
-                    print(f"  Model {model} not available — skipping")
-                    errors.append(f"{model}: 404")
-                    model_failed = True
+                if e.code in (401, 402, 403):
+                    print(f"  Auth/credit error — skipping remaining {provider['name']} models")
+                    errors.append(f"{provider['name']}/{model}: {e.code}")
                     break
-                elif e.code == 429:
-                    print(f"  Quota exhausted on {key_label} — trying next key")
-                    errors.append(f"{model} {key_label}: 429")
-                    continue
-                else:
-                    errors.append(f"{model} {key_label}: {e.code}")
-                    continue
-            except Exception as e:
-                errors.append(f"{model} {key_label}: {e}")
+                errors.append(f"{provider['name']}/{model}: {e.code}")
                 continue
-        if model_failed:
-            continue
-    raise RuntimeError("All model/key combinations failed:\n" + "\n".join(errors))
+            except Exception as e:
+                errors.append(f"{provider['name']}/{model}: {e}")
+                continue
+    raise RuntimeError("All providers failed:\n" + "\n".join(errors))
 
 
 def extract_html(text):
