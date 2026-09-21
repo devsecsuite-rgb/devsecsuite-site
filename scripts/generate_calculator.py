@@ -124,7 +124,7 @@ REQUIREMENTS:
 6. Include an `.output` area with `.output-label` above it showing "Result" or similar. The output updates live or when the button is clicked.
 7. Include a `.lead-form` below the tool output that appears when output is generated. Use this exact form:
 <form action="https://api.web3forms.com/submit" method="POST">
-    <input type="hidden" name="access_key" value="7ddf27ee-45e4-4fe4-afd3-5b802ece6846">
+    <input type="hidden" name="access_key" value="d540b73c-53d0-46a3-8692-3827aedc2d77">
     <input type="email" name="email" required placeholder="your@email.com">
     <input type="hidden" name="tool" value="{item['name']}">
     <input type="hidden" name="page_url" id="pageUrl" value="">
