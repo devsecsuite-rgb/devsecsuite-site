@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://devsecsuite.com/password-generator/">
+<title>Strong Password Generator — DevSecSuite</title>
+<meta name="description" content="Generate cryptographically secure passwords. Customize length, character sets, and complexity.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:120px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+input[type="text"],input[type="number"],input[type="email"],select{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:inherit}
+input:focus,select:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.85rem;color:#7ee787;word-break:break-all;min-height:2rem;margin-bottom:1rem;white-space:pre-wrap}
+.output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.lead-form{margin-top:1.5rem;padding:1.25rem;background:#161b22;border:1px solid #30363d;border-radius:8px;display:none}
+.lead-form.show{display:block}
+.lead-form button{background:#238636;width:100%;margin-top:.5rem}
+.lead-form input[type="email"]{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;color:#e6e6e6;font-size:1rem;margin-bottom:.5rem}
+.content-section{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebApplication","name":"Strong Password Generator","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+</script>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="/" class="logo">devsecsuite</a>
+    <nav>
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <h1>Strong Password Generator</h1>
+    <div class="tool-box">
+      <div class="form-group">
+        <label for="length">Password length</label>
+        <input type="number" id="length" placeholder="e.g., 16" min="4" max="128">
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="includeUpper"> Include uppercase (A‑Z)</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="includeLower"> Include lowercase (a‑z)</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="includeNumbers"> Include numbers (0‑9)</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="includeSymbols"> Include symbols (!@#$…)</label>
+      </div>
+      <div class="form-group">
+        <label><input type="checkbox" id="excludeAmbiguous"> Exclude ambiguous characters (O,0,l,1)</label>
+      </div>
+      <div class="button-row">
+        <button id="generateBtn">Generate Password</button>
+      </div>
+      <div class="output-label">Result</div>
+      <div class="output" id="outputArea"></div>
+    </div>
+
+    <details>
+      <summary>How this tool works</summary>
+      <p>The generator builds a character pool based on the selected options and uses the Web Crypto API (<code>crypto.getRandomValues()</code>) to pick random characters securely. Entropy is calculated as <code>log₂(poolSize) × length</code>, giving a measure of password strength. An estimated crack time assumes 10 billion guesses per second.</p>
+      <p>Reference: <a href="https://www.rfc-editor.org/rfc/rfc4086" target="_blank">RFC 4086 – Randomness Requirements for Security</a>.</p>
+    </details>
+
+    <section class="content-section">
+      <h2>What Is Strong Password Generator?</h2>
+      <p>The Strong Password Generator is a lightweight web‑based utility designed for developers, security engineers, and anyone needing high‑entropy passwords on the fly. It leverages the browser’s native cryptographic functions to produce passwords that are resistant to brute‑force attacks. By allowing fine‑grained control over character sets—uppercase, lowercase, digits, symbols, and the option to exclude ambiguous characters—it ensures that generated passwords meet both security policies and usability requirements.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Common Use Cases</h2>
+      <p>Developers often need temporary credentials for testing APIs, provisioning service accounts, or seeding databases with secure defaults. Security teams use the generator to enforce password policies during onboarding or when rotating secrets. Additionally, the tool serves as an educational resource, demonstrating how entropy and character pool size directly affect password strength, which is valuable for training junior engineers on secure coding practices.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Frequently Asked Questions</h2>
+
+      <h3>How secure is the generated password?</h3>
+      <p>The password is generated using <code>crypto.getRandomValues()</code>, which provides cryptographically secure random numbers as defined by the Web Crypto API. This ensures that each character is chosen with uniform distribution from the selected pool, making the password suitable for high‑security contexts.</p>
+
+      <h3>Can I use this tool offline?</h3>
+      <p>Yes. Since the generator runs entirely in the browser without external API calls, it works offline after the page has loaded. All calculations and random number generation happen locally on the client side.</p>
+
+      <h3>What does “exclude ambiguous characters” do?</h3>
+      <p>When enabled, the generator removes characters that are easily confused, such as “O”, “0”, “l”, and “1”. This reduces the chance of transcription errors when sharing passwords verbally or typing them from printed material.</p>
+    </section>
+
+    <div class="lead-form" id="leadForm">
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="d540b73c-53d0-46a3-8692-3827aedc2d77">
+        <input type="email" name="email" required placeholder="your@email.com">
+        <input type="hidden" name="tool" value="Strong Password Generator">
+        <input type="hidden" name="page_url" id="pageUrl" value="">
+        <input type="hidden" name="subject" value="DevSecSuite subscriber — Strong Password Generator">
+        <input type="hidden" name="redirect" value="https://devsecsuite.com/thank-you/">
+        <button type="submit">Get Developer Tips Weekly</button>
+      </form>
+      <script>document.getElementById('pageUrl').value = window.location.href;</script>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="container">
+    <div>
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <div>© 2026 DevSecSuite.</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const lower = "abcdefghijklmnopqrstuvwxyz";
+  const numbers = "0123456789";
+  const symbols = "!@#$%^&*()-_=+[]{}|;:,.<>?/~`";
+  const ambiguous = "O0l1";
+
+  function buildPool(options){
+    let pool = "";
+    if(options.upper) pool += upper;
+    if(options.lower) pool += lower;
+    if(options.numbers) pool += numbers;
+    if(options.symbols) pool += symbols;
+    if(options.excludeAmbiguous){
+      pool = pool.split('').filter(ch => !ambiguous.includes(ch)).join('');
+    }
+    return pool;
+  }
+
+  function getRandomInt(max){
+    const array = new Uint32Array(1);
+    window.crypto.getRandomValues(array);
+    // Use modulo bias reduction
+    const range = 0xFFFFFFFF - (0xFFFFFFFF % max);
+    let value = array[0];
+    while(value >= range){
+      window.crypto.getRandomValues(array);
+      value = array[0];
+    }
+    return value % max;
+  }
+
+  function generatePassword(length, pool){
+    let pwd = "";
+    const poolSize = pool.length;
+    for(let i=0;i<length;i++){
+      const idx = getRandomInt(poolSize);
+      pwd += pool.charAt(idx);
+    }
+    return pwd;
+  }
+
+  function calculateEntropy(poolSize, length){
+    return Math.log2(poolSize) * length;
+  }
+
+  function formatTime(seconds){
+    const units = [
+      {label:"years", value:31536000},
+      {label:"days", value:86400},
+      {label:"hours", value:3600},
+      {label:"minutes", value:60},
+      {label:"seconds", value:1}
+    ];
+    for(const u of units){
+      if(seconds >= u.value){
+        const val = (seconds / u.value).toFixed(2);
+        return `${val} ${u.label}`;
+      }
+    }
+    return "less than a second";
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', function(){
+    const length = parseInt(document.getElementById('length').value,10);
+    const options = {
+      upper: document.getElementById('includeUpper').checked,
+      lower: document.getElementById('includeLower').checked,
+      numbers: document.getElementById('includeNumbers').checked,
+      symbols: document.getElementById('includeSymbols').checked,
+      excludeAmbiguous: document.getElementById('excludeAmbiguous').checked
+    };
+    if(!length || length < 4){
+      alert("Please enter a valid length (minimum 4).");
+      return;
+    }
+    const pool = buildPool(options);
+    if(pool.length === 0){
+      alert("Select at least one character set.");
+      return;
+    }
+    const password = generatePassword(length, pool);
+    const entropy = calculateEntropy(pool.length, length);
+    const guessesPerSec = 1e10;
+    const crackSeconds = Math.pow(2, entropy) / guessesPerSec;
+    const crackTime = formatTime(crackSeconds);
+    const output = `Password: ${password}
+Entropy: ${entropy.toFixed(2)} bits
+Estimated crack time @10B guesses/sec: ${crackTime}`;
+    document.getElementById('outputArea').textContent = output;
+    document.getElementById('leadForm').classList.add('show');
+  });
+})();
+</script>
+</body>
+</html>

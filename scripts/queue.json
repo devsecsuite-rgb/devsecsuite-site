@@ -14,7 +14,8 @@
     "description": "Generate cryptographically secure passwords. Customize length, character sets, and complexity.",
     "inputs": "Password length, include uppercase, include lowercase, include numbers, include symbols, exclude ambiguous characters",
     "formula": "Uses crypto.getRandomValues() to generate passwords. Entropy calculation = log2(pool_size) * length. Displays entropy bits and estimated crack time.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-22T03:03:54.188233Z"
   },
   {
     "slug": "yaml-formatter",
