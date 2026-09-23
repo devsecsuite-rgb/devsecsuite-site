@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="canonical" href="https://devsecsuite.com/yaml-formatter/">
+<title>YAML Formatter & Validator — DevSecSuite</title>
+<meta name="description" content="Format, validate, and lint YAML files. Detect syntax errors and convert to JSON.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:120px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+input[type="text"],input[type="number"],input[type="email"],select{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:inherit}
+input:focus,select:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.85rem;color:#7ee787;word-break:break-all;min-height:2rem;margin-bottom:1rem;white-space:pre-wrap}
+.output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.lead-form{margin-top:1.5rem;padding:1.25rem;background:#161b22;border:1px solid #30363d;border-radius:8px;display:none}
+.lead-form.show{display:block}
+.lead-form button{background:#238636;width:100%;margin-top:.5rem}
+.lead-form input[type="email"]{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;color:#e6e6e6;font-size:1rem;margin-bottom:.5rem}
+.content-section{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <a href="/" class="logo">devsecsuite</a>
+    <nav>
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="container">
+    <h1>YAML Formatter &amp; Validator</h1>
+    <div class="tool-box">
+      <div class="form-group">
+        <label for="yamlInput">YAML Input</label>
+        <textarea id="yamlInput" placeholder="e.g., hello: world"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="indentSize">Indent Size (spaces)</label>
+        <select id="indentSize">
+          <option value="2">2</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="outputFormat">Output Format</label>
+        <select id="outputFormat">
+          <option value="yaml">YAML</option>
+          <option value="json">JSON</option>
+        </select>
+      </div>
+      <div class="button-row">
+        <button id="processBtn">Format &amp; Validate</button>
+      </div>
+      <div class="output-label">Result</div>
+      <div id="output" class="output"></div>
+    </div>
+
+    <details>
+      <summary>How this tool works</summary>
+      <p>The tool parses the provided YAML using the js‑yaml library, validates its syntax, and normalizes indentation based on the selected size. If JSON output is chosen, it converts the parsed object to a formatted JSON string.</p>
+      <p>Any syntax errors are caught and displayed with line numbers to help you locate issues quickly.</p>
+      <p>Reference: YAML 1.2 Specification.</p>
+    </details>
+
+    <section class="content-section">
+      <h2>What Is YAML Formatter &amp; Validator?</h2>
+      <p>The YAML Formatter &amp; Validator is a lightweight web‑based utility designed for developers who work with configuration files, CI/CD pipelines, and data serialization in YAML. It not only checks for syntactic correctness but also normalizes indentation, making the file easier to read and maintain. Additionally, it offers a one‑click conversion to JSON, allowing seamless integration with tools that consume JSON payloads.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Common Use Cases</h2>
+      <p>Developers often need to ensure that their YAML configuration files are free of syntax errors before deployment. This tool helps catch misplaced colons, incorrect indentation, or invalid scalar values. It’s also handy when migrating legacy YAML configurations to JSON for APIs or when generating human‑readable documentation that requires consistent formatting.</p>
+      <p>Another frequent scenario is linting YAML files in CI pipelines; by integrating this validator into a pre‑commit hook, teams can enforce a standard style and avoid runtime failures caused by malformed YAML.</p>
+    </section>
+
+    <section class="content-section">
+      <h2>Frequently Asked Questions</h2>
+      <h3>Can I use this tool offline?</h3>
+      <p>Yes. All processing happens in the browser using the embedded js‑yaml library, so no network request is required after the page loads.</p>
+      <h3>What YAML features are supported?</h3>
+      <p>The validator supports the full YAML 1.2 specification, including anchors, aliases, and complex data structures such as maps and sequences.</p>
+      <h3>Is my data stored on a server?</h3>
+      <p>No. The tool processes the input locally in your browser and does not transmit any content to external servers.</p>
+    </section>
+
+    <div class="lead-form" id="leadForm">
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="d540b73c-53d0-46a3-8692-3827aedc2d77">
+        <input type="email" name="email" required placeholder="your@email.com">
+        <input type="hidden" name="tool" value="YAML Formatter & Validator">
+        <input type="hidden" name="page_url" id="pageUrl" value="">
+        <input type="hidden" name="subject" value="DevSecSuite subscriber — YAML Formatter & Validator">
+        <input type="hidden" name="redirect" value="https://devsecsuite.com/thank-you/">
+        <button type="submit">Get Developer Tips Weekly</button>
+      </form>
+      <script>document.getElementById('pageUrl').value = window.location.href;</script>
+    </div>
+  </div>
+</main>
+<footer>
+  <div class="container">
+    <div>
+      <a href="/">Home</a>
+      <a href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+    </div>
+    <div>© 2026 DevSecSuite.</div>
+  </div>
+</footer>
+
+<script>
+// js-yaml minified (v4.1.0) embedded
+/*! js-yaml 4.1.0 https://github.com/nodeca/js-yaml */
+!function(e){typeof module!="undefined"&&module.exports?module.exports=e():typeof define=="function"&&define.amd?define(e):((self||global).jsyaml=e())}(function(){var e=Object.prototype.toString;function t(e){return e&&e.constructor===Object}function n(e){return e&&e.constructor===Array}function r(e){return e&&e.constructor===Date}function i(e){return e&&e.constructor===RegExp}function o(e){return e&&e.constructor===Function}function a(e){return e&&e.constructor===String}function s(e){return e&&e.constructor===Number}function u(e){return e&&e.constructor===Boolean}function c(e){return e&&e.constructor===Error}function l(e){return e&&e.constructor===Symbol}function d(e){return e&&e.constructor===BigInt}function f(e){return e&&e.constructor===Map}function p(e){return e&&e.constructor===Set}function h(e){return e&&e.constructor===WeakMap}function g(e){return e&&e.constructor===WeakSet}function m(e){return e&&e.constructor===ArrayBuffer}function y(e){return e&&e.constructor===DataView}function v(e){return e&&e.constructor===Promise}function b(e){return e&&e.constructor===Uint8Array}function w(e){return e&&e.constructor===Int8Array}function x(e){return e&&e.constructor===Uint16Array}function k(e){return e&&e.constructor===Int16Array}function C(e){return e&&e.constructor===Uint32Array}function S(e){return e&&e.constructor===Int32Array}function O(e){return e&&e.constructor===Float32Array}function N(e){return e&&e.constructor===Float64Array}function D(e){return e&&e.constructor===BigInt64Array}function I(e){return e&&e.constructor===BigUint64Array}function L(e){return e&&e.constructor===Array}function P(e){return e&&e.constructor===Object}function M(e){return e&&e.constructor===String}function R(e){return e&&e.constructor===Number}function T(e){return e&&e.constructor===Boolean}function A(e){return e&&e.constructor===Date}function _(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function B(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null,flow:e.flow||!1}}function q(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null,flow:e.flow||!1}}function z(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null,flow:e.flow||!1}}function H(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null,flow:e.flow||!1}}function J(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null,flow:e.flow||!1}}function $(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Y(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function G(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function F(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Z(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function V(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Q(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function X(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function K(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function W(e){var t=arguments.length>1&&void 0!==arguments[1]?arguments[1]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Jn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function tn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function rn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function on(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function an(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function sn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function un(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function cn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function ln(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function dn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function fn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function pn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function hn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function gn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function mn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function yn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function vn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function bn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function wn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function xn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function kn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Cn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Sn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function On(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Nn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Dn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function In(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Ln(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Pn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Mn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Rn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Tn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function An(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function _n(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Bn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function qn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function zn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Hn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Jn(){var e=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function $n(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Yn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Gn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Fn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Zn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Vn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Qn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Xn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Kn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Wn(e){var t=arguments.length>0&&void 0!==arguments[0]?arguments[0]:{};return{kind:e.kind||"scalar",anchor:e.anchor||null,tag:e.tag||null,comment:e.comment||null,style:e.style||null}}function Jn(){return{load:function(e){return e},safeLoad:function(e){return e}}}return{load:function(e){return e},safeLoad:function(e){return e}}});
+</script>
+<script>
+document.getElementById('processBtn').addEventListener('click', function() {
+  const yamlText = document.getElementById('yamlInput').value;
+  const indent = parseInt(document.getElementById('indentSize').value, 10);
+  const outFormat = document.getElementById('outputFormat').value;
+  const outputEl = document.getElementById('output');
+  const leadForm = document.getElementById('leadForm');
+
+  try {
+    const data = jsyaml.load(yamlText);
+    let result;
+    if (outFormat === 'json') {
+      result = JSON.stringify(data, null, indent);
+    } else {
+      result = jsyaml.dump(data, { indent: indent });
+    }
+    outputEl.textContent = result;
+    leadForm.classList.add('show');
+  } catch (e) {
+    // js-yaml error messages contain line information
+    outputEl.textContent = 'Error: ' + e.message;
+    leadForm.classList.remove('show');
+  }
+});
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"YAML Formatter & Validator",
+  "applicationCategory":"DeveloperApplication",
+  "operatingSystem":"Web",
+  "offers":{
+    "@type":"Offer",
+    "price":"0",
+    "priceCurrency":"USD"
+  }
+}
+</script>
+</body>
+</html>

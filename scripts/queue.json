@@ -23,7 +23,8 @@
     "description": "Format, validate, and lint YAML files. Detect syntax errors and convert to JSON.",
     "inputs": "YAML input text, indent size (2 or 4 spaces), output format (YAML or JSON)",
     "formula": "Parses YAML using js-yaml inline. Validates structure, normalizes indentation, optionally converts to JSON. Reports syntax errors with line numbers.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-23T03:03:53.777881Z"
   },
   {
     "slug": "xml-formatter",
