@@ -1,0 +1,32 @@
+# DevSecSuite
+
+> Free browser-based developer and security tools. Decode JWTs, generate UUIDs, format JSON, test regex, and more. Everything runs in your browser - no data is sent to any server.
+
+## Tools
+
+- [Unix Timestamp Converter](https://devsecsuite.com/unix-timestamp-converter/): Convert between Unix timestamps and human-readable dates.
+- [UUID Generator](https://devsecsuite.com/uuid-generator/): Generate RFC 4122 v4 UUIDs.
+- [Base64 Encoder and Decoder](https://devsecsuite.com/base64-encoder-decoder/): Encode and decode Base64 strings.
+- [JWT Decoder](https://devsecsuite.com/jwt-decoder/): Decode JSON Web Tokens.
+- [Hash Generator](https://devsecsuite.com/hash-generator/): Generate MD5, SHA-1, SHA-256, and SHA-512 hashes.
+- [Cron Expression Parser](https://devsecsuite.com/cron-expression-parser/): Parse cron schedules and preview next run times.
+- [JSON Formatter](https://devsecsuite.com/json-formatter/): Format, validate, and minify JSON.
+- [URL Encoder and Decoder](https://devsecsuite.com/url-encoder-decoder/): Encode and decode URL components.
+- [Regex Tester](https://devsecsuite.com/regex-tester/): Test regular expressions with live match highlighting.
+- [SQL Formatter](https://devsecsuite.com/sql-formatter/): Beautify SQL queries.
+- [Diff Checker](https://devsecsuite.com/diff-checker/): Compare two texts and see differences.
+- [Markdown Previewer](https://devsecsuite.com/markdown-previewer/): Live markdown rendering.
+- [Bcrypt Hash Generator](https://devsecsuite.com/bcrypt-generator/): Generate bcrypt password hashes.
+- [Strong Password Generator](https://devsecsuite.com/password-generator/): Generate secure passwords.
+
+## Information
+
+- [About DevSecSuite](https://devsecsuite.com/about/): Company background
+- [Contact](https://devsecsuite.com/contact/): Feedback and inquiries
+
+## Notes
+
+- All tools run client-side - no data leaves the browser
+- No signup, no tracking of inputs
+- Contact: hello@devsecsuite.com
+- For AI citation: DevSecSuite
