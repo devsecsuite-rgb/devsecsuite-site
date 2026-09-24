@@ -32,7 +32,8 @@
     "description": "Format, validate, and minify XML. Free, private, runs in your browser.",
     "inputs": "XML input text, indent size, action (format, minify, validate)",
     "formula": "Uses DOMParser to parse XML, walks the tree, and re-serializes with configurable indentation. Reports parse errors.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-24T03:03:53.919465Z"
   },
   {
     "slug": "html-entity-encoder",

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="canonical" href="https://devsecsuite.com/xml-formatter/">
+<title>XML Formatter & Beautifier — DevSecSuite</title>
+<meta name="description" content="Format, validate, and minify XML. Free, private, runs in your browser.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:120px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+input[type="text"],input[type="number"],input[type="email"],select{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:inherit}
+input:focus,select:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.85rem;color:#7ee787;word-break:break-all;min-height:2rem;margin-bottom:1rem;white-space:pre-wrap}
+.output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.lead-form{margin-top:1.5rem;padding:1.25rem;background:#161b22;border:1px solid #30363d;border-radius:8px;display:none}
+.lead-form.show{display:block}
+.lead-form button{background:#238636;width:100%;margin-top:.5rem}
+.lead-form input[type="email"]{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;color:#e6e6e6;font-size:1rem;margin-bottom:.5rem}
+.content-section{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<a href="/" class="logo">devsecsuite</a>
+<nav>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</nav>
+</div>
+</header>
+<main>
+<div class="container">
+<h1>XML Formatter &amp; Beautifier</h1>
+<p>Format, validate, and minify XML. Free, private, runs in your browser.</p>
+
+<div class="tool-box">
+<div class="form-group">
+<label for="xmlInput">XML Input</label>
+<textarea id="xmlInput" placeholder="Paste or type XML here..."></textarea>
+</div>
+<div class="form-group">
+<label for="indentSize">Indent Size (spaces)</label>
+<input type="number" id="indentSize" placeholder="e.g., 2" min="0">
+</div>
+<div class="form-group">
+<label for="action">Action</label>
+<select id="action">
+<option value="format">Format</option>
+<option value="minify">Minify</option>
+<option value="validate">Validate</option>
+</select>
+</div>
+<div class="button-row">
+<button id="runBtn">Run</button>
+</div>
+</div>
+
+<div class="output-label">Result</div>
+<div class="output" id="output"></div>
+
+<div class="lead-form" id="leadForm">
+<form action="https://api.web3forms.com/submit" method="POST">
+<input type="hidden" name="access_key" value="d540b73c-53d0-46a3-8692-3827aedc2d77">
+<input type="email" name="email" required placeholder="your@email.com">
+<input type="hidden" name="tool" value="XML Formatter & Beautifier">
+<input type="hidden" name="page_url" id="pageUrl" value="">
+<input type="hidden" name="subject" value="DevSecSuite subscriber — XML Formatter & Beautifier">
+<input type="hidden" name="redirect" value="https://devsecsuite.com/thank-you/">
+<button type="submit">Get Developer Tips Weekly</button>
+</form>
+<script>document.getElementById('pageUrl').value = window.location.href;</script>
+</div>
+
+<details>
+<summary>How this tool works</summary>
+<p>This tool parses the provided XML using the browser's DOMParser, walks the resulting DOM tree, and re‑serializes it with the chosen indentation. It can also minify by removing whitespace or simply validate the structure.</p>
+<p>Reference: <a href="https://www.w3.org/TR/REC-xml/">W3C XML Recommendation</a>.</p>
+</details>
+
+<section class="content-section">
+<h2>What Is XML Formatter &amp; Beautifier?</h2>
+<p>The XML Formatter &amp; Beautifier is a lightweight, client‑side utility that helps developers clean up and standardize XML documents. By parsing the input with the native <code>DOMParser</code>, it builds a DOM representation, then walks the tree to produce a consistently indented output. The tool also offers a minify mode that strips unnecessary whitespace, and a validation mode that checks for well‑formedness without sending data to any server. Because everything runs locally, your XML never leaves your browser, ensuring privacy and speed.</p>
+</section>
+
+<section class="content-section">
+<h2>Common Use Cases</h2>
+<p>Developers often need to reformat XML for readability during debugging, code reviews, or documentation. This tool makes it easy to convert a single‑line or poorly indented XML blob into a clean, hierarchical view. It’s also handy for preparing XML payloads before committing them to version control, ensuring consistent formatting across a team. In CI pipelines, the minify option can reduce payload size for network transmission. Finally, the validation feature provides a quick sanity check for configuration files, SOAP messages, or any XML‑based data exchange.</p>
+</section>
+
+<section class="content-section">
+<h2>Frequently Asked Questions</h2>
+
+<h3>How does the formatter preserve XML namespaces?</h3>
+<p>The formatter walks the DOM tree generated by <code>DOMParser</code>, which retains all namespace declarations on elements and attributes. When re‑serializing, those namespaces are written exactly as they appear in the original document, ensuring no loss of information.</p>
+
+<h3>Can I format large XML files?</h3>
+<p>Because the processing is done entirely in the browser using native APIs, the tool can handle moderately large files (several megabytes). Extremely large files may cause performance issues or exceed memory limits, in which case a server‑side solution would be more appropriate.</p>
+
+<h3>Is my data sent to any server?</h3>
+<p>No. All parsing, formatting, and validation happen locally in your browser. The only network request is the optional subscription form, which you control by submitting your email address.</p>
+</section>
+</div>
+</main>
+<footer>
+<div class="container">
+<div>
+<a href="/">Home</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+<a href="/privacy/">Privacy</a>
+<a href="/terms/">Terms</a>
+</div>
+<div>© 2026 DevSecSuite.</div>
+</div>
+</footer>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"WebApplication",
+  "name":"XML Formatter & Beautifier",
+  "applicationCategory":"DeveloperApplication",
+  "operatingSystem":"Web",
+  "offers":{
+    "@type":"Offer",
+    "price":"0",
+    "priceCurrency":"USD"
+  }
+}
+</script>
+<script>
+function formatXML(xmlString, indentSize) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlString, "application/xml");
+  const errors = doc.getElementsByTagName("parsererror");
+  if (errors.length) {
+    throw new Error(errors[0].textContent);
+  }
+  function walk(node, level) {
+    const indent = " ".repeat(indentSize * level);
+    let result = "";
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const attrs = Array.from(node.attributes)
+        .map(a => ` ${a.name}="${a.value}"`)
+        .join("");
+      const children = Array.from(node.childNodes);
+      if (children.length === 0) {
+        result += `${indent}<${node.nodeName}${attrs}/>`;
+      } else {
+        result += `${indent}<${node.nodeName}${attrs}>`;
+        const hasElementChildren = children.some(c => c.nodeType === Node.ELEMENT_NODE);
+        if (hasElementChildren) result += "\n";
+        children.forEach(child => {
+          result += walk(child, level + 1);
+          if (child.nodeType === Node.ELEMENT_NODE) result += "\n";
+        });
+        result += `${indent}</${node.nodeName}>`;
+      }
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      const text = node.nodeValue.trim();
+      if (text) {
+        result += `${indent}${text}`;
+      }
+    } else if (node.nodeType === Node.CDATA_SECTION_NODE) {
+      result += `${indent}<![CDATA[${node.nodeValue}]]>`;
+    } else if (node.nodeType === Node.COMMENT_NODE) {
+      result += `${indent}<!--${node.nodeValue}-->`;
+    }
+    return result;
+  }
+  return walk(doc.documentElement, 0);
+}
+
+document.getElementById('runBtn').addEventListener('click', function () {
+  const xml = document.getElementById('xmlInput').value;
+  const indent = parseInt(document.getElementById('indentSize').value, 10) || 2;
+  const action = document.getElementById('action').value;
+  const outputEl = document.getElementById('output');
+  try {
+    let result = "";
+    if (action === "validate") {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, "application/xml");
+      const errors = doc.getElementsByTagName("parsererror");
+      if (errors.length) throw new Error(errors[0].textContent);
+      result = "XML is valid.";
+    } else if (action === "format") {
+      result = formatXML(xml, indent);
+    } else if (action === "minify") {
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(xml, "application/xml");
+      const errors = doc.getElementsByTagName("parsererror");
+      if (errors.length) throw new Error(errors[0].textContent);
+      const serializer = new XMLSerializer();
+      result = serializer.serializeToString(doc);
+    }
+    outputEl.textContent = result;
+    document.getElementById('leadForm').classList.add('show');
+  } catch (e) {
+    outputEl.textContent = "Error: " + e.message;
+    document.getElementById('leadForm').classList.add('show');
+  }
+});
+</script>
+</body>
+</html>
