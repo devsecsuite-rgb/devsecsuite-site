@@ -51,6 +51,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Encode and decode Base64 strings. Handles UTF-8 and binary data. Free, fast, and completely private — runs in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Base64 encryption?","acceptedAnswer":{"@type":"Answer","text":"No. Base64 is encoding, not encryption. Anyone can decode it instantly. Never use Base64 to protect sensitive data."}},{"@type":"Question","name":"Why does Base64 make my data bigger?","acceptedAnswer":{"@type":"Answer","text":"Base64 uses 4 characters to represent every 3 bytes of original data. This is a 33% size increase. The trade-off is that the encoded output is safe to transmit over text-only channels."}},{"@type":"Question","name":"What's Base64URL?","acceptedAnswer":{"@type":"Answer","text":"Base64URL is a variant that replaces + with - and / with _, and omits padding. It's safe for use in URLs and filenames. JWTs use Base64URL."}}]}
+</script>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>

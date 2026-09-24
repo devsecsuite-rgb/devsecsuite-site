@@ -49,6 +49,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Decode JSON Web Tokens (JWT) and inspect header, payload, and signature. Free, fast, and completely private — nothing leaves your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is a JWT encrypted?","acceptedAnswer":{"@type":"Answer","text":"No. JWTs are signed, not encrypted. Anyone can decode and read the header and payload. Never put sensitive data (passwords, PII) in a JWT payload. If you need encryption, use JWE (JSON Web Encryption)."}},{"@type":"Question","name":"Can I trust the contents after decoding?","acceptedAnswer":{"@type":"Answer","text":"Only after verifying the signature. Decoding shows what the token claims; verification proves the claims are authentic. This tool only decodes. Always verify on your server before trusting a token."}},{"@type":"Question","name":"Why does my token have three parts?","acceptedAnswer":{"@type":"Answer","text":"That's standard: header.payload.signature. If your token has 5 parts, it's likely a JWE (encrypted JWT). If it has fewer than 3, it's malformed or truncated."}}]}
+</script>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>

@@ -51,6 +51,10 @@
 <meta name="twitter:description" content="Convert Unix timestamps to human-readable dates and back. Free, fast, and completely private — runs in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my timestamp show a different date?","acceptedAnswer":{"@type":"Answer","text":"Unix timestamps are always in UTC. Your local time zone offset is applied when displayed. The \"Local Time\" field shows what your device thinks the time is."}},{"@type":"Question","name":"What's the year 2038 problem?","acceptedAnswer":{"@type":"Answer","text":"Older 32-bit systems store Unix timestamps as signed 32-bit integers, which overflow on January 19, 2038. Modern 64-bit systems handle dates far beyond this."}},{"@type":"Question","name":"Do you store my timestamps?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser using JavaScript. No data is ever sent to our servers."}}]}
+</script>
 </head>
 <body>
     <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>

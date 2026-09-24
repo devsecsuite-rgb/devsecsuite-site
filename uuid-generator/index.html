@@ -53,6 +53,10 @@
 <meta name="twitter:description" content="Generate RFC 4122 UUID v4 identifiers. Bulk generation supported. Free, fast, private — runs entirely in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can two UUIDs collide?","acceptedAnswer":{"@type":"Answer","text":"In practice, no. You would need to generate about 2.7 \u00d7 10^18 UUID v4 values before a 50% chance of any collision exists. At one billion UUIDs per second, that would take about 85 years."}},{"@type":"Question","name":"Are UUIDs secure?","acceptedAnswer":{"@type":"Answer","text":"Version 4 UUIDs generated with crypto.randomUUID() are cryptographically random and safe for security purposes. UUIDs generated with non-crypto random sources are not."}},{"@type":"Question","name":"Should I use UUIDs as database primary keys?","acceptedAnswer":{"@type":"Answer","text":"Version 4 UUIDs are not sequential, which hurts database index performance. Use UUID v7 for primary keys \u2014 they're time-ordered and index-friendly. For internal use, consider sequential IDs like auto-increment integers."}}]}
+</script>
 </head>
 <body>
     <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>

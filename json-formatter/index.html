@@ -50,6 +50,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Format, validate, and minify JSON. Free, fast, and private — runs entirely in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why does my JSON fail to parse?","acceptedAnswer":{"@type":"Answer","text":"Common causes: trailing commas (not allowed in JSON), single quotes instead of double quotes, unquoted keys, comments (not allowed in JSON). This tool reports the exact line and column of the error."}},{"@type":"Question","name":"Is JSON the same as JavaScript objects?","acceptedAnswer":{"@type":"Answer","text":"Similar but not identical. JSON requires double quotes around keys and string values. JavaScript objects allow single quotes, unquoted keys, and functions. JSON is a subset of JavaScript literal syntax."}},{"@type":"Question","name":"What's JSON5 or JSONC?","acceptedAnswer":{"@type":"Answer","text":"Extensions that allow comments and trailing commas. Used in config files (like VS Code settings). Not valid JSON \u2014 most parsers will reject them."}}]}
+</script>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>

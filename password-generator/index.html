@@ -60,6 +60,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Generate cryptographically secure passwords. Customize length, character sets, and complexity.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How secure is the generated password?","acceptedAnswer":{"@type":"Answer","text":"The password is generated using crypto.getRandomValues(), which provides cryptographically secure random numbers as defined by the Web Crypto API. This ensures that each character is chosen with uniform distribution from the selected pool, making the password suitable for high\u2011security contexts."}},{"@type":"Question","name":"Can I use this tool offline?","acceptedAnswer":{"@type":"Answer","text":"Yes. Since the generator runs entirely in the browser without external API calls, it works offline after the page has loaded. All calculations and random number generation happen locally on the client side."}},{"@type":"Question","name":"What does \u201cexclude ambiguous characters\u201d do?","acceptedAnswer":{"@type":"Answer","text":"When enabled, the generator removes characters that are easily confused, such as \u201cO\u201d, \u201c0\u201d, \u201cl\u201d, and \u201c1\u201d. This reduces the chance of transcription errors when sharing passwords verbally or typing them from printed material."}}]}
+</script>
 </head>
 <body>
 <header>

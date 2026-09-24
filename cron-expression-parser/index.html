@@ -49,6 +49,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Parse cron expressions and see the next execution times. Free, fast, and private — runs in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What does \"*/5 * * * *\" mean?","acceptedAnswer":{"@type":"Answer","text":"Every 5 minutes. The first field (*/5) steps through minute values 0, 5, 10, 15, etc. The remaining fields are wildcards."}},{"@type":"Question","name":"What's the difference between 5-field and 6-field cron?","acceptedAnswer":{"@type":"Answer","text":"Standard Unix cron uses 5 fields (no seconds). Some systems (Quartz, AWS) use 6 or 7 fields including seconds and years. This tool parses the standard 5-field format."}},{"@type":"Question","name":"How do I run a job at midnight on the 1st of every month?","acceptedAnswer":{"@type":"Answer","text":"0 0 1 * * \u2014 minute 0, hour 0, day 1, any month, any weekday."}}]}
+</script>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>

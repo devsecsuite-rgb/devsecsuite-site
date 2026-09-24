@@ -57,6 +57,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Generate bcrypt password hashes with adjustable cost factor. Free, private, runs in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why choose bcrypt over other hashing algorithms?","acceptedAnswer":{"@type":"Answer","text":"Bcrypt incorporates a built\u2011in salt and a configurable work factor, making it resistant to rainbow\u2011table attacks and adaptable to increasing hardware capabilities. Its adaptive nature means you can raise the cost as computers get faster."}},{"@type":"Question","name":"Is the generated hash safe to use in production?","acceptedAnswer":{"@type":"Answer","text":"Yes, as long as you use a sufficient cost factor (typically 12 or higher). The hash format complies with the standard bcrypt specification, ensuring compatibility with most server\u2011side libraries."}},{"@type":"Question","name":"Can I generate hashes for multiple passwords at once?","acceptedAnswer":{"@type":"Answer","text":"The current version processes one password per click. For batch operations, consider using a script with the bcrypt library in your preferred language."}}]}
+</script>
 </head>
 <body>
 <header>

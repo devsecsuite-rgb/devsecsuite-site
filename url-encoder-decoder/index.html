@@ -50,6 +50,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Encode and decode URLs and query strings safely. Free, fast, private — runs entirely in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"When do I use which?","acceptedAnswer":{"@type":"Answer","text":"Use encodeURI when your whole string is a URL you want to keep intact. Use encodeURIComponent when you're building a query string or path segment from user input \u2014 this prevents injection of &amp; or = characters."}},{"@type":"Question","name":"Why does my URL break with spaces?","acceptedAnswer":{"@type":"Answer","text":"Spaces are technically not allowed in URLs. They get encoded as %20 (or + in query strings). This tool uses %20."}},{"@type":"Question","name":"Do you log my URLs?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser. Nothing is sent to our servers."}}]}
+</script>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>

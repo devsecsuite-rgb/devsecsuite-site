@@ -48,6 +48,10 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <meta name="twitter:description" content="Generate MD5, SHA-1, SHA-256, and SHA-512 hashes from any text. Free, fast, and private — runs entirely in your browser.">
 <meta name="twitter:image" content="https://devsecsuite.com/og-image.png">
 <link rel="icon" href="/favicon.ico">
+
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Can I reverse a hash?","acceptedAnswer":{"@type":"Answer","text":"No. Hashing is one-way by design. However, weak inputs (like common passwords) can be looked up in \"rainbow tables\" of precomputed hashes. Always use a salt and a slow algorithm like bcrypt or Argon2 for passwords."}},{"@type":"Question","name":"What's the difference between hashing and encryption?","acceptedAnswer":{"@type":"Answer","text":"Encryption is reversible with the right key. Hashing is not reversible. Use encryption when you need to recover the original data; use hashing when you only need to verify integrity."}},{"@type":"Question","name":"Which hash should I use?","acceptedAnswer":{"@type":"Answer","text":"For checksums: SHA-256. For passwords: bcrypt or Argon2 (not plain SHA). For digital signatures: SHA-256 or SHA-512. For legacy compatibility: MD5 or SHA-1, but only if you must."}}]}
+</script>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>
