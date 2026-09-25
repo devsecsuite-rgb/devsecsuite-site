@@ -50,7 +50,8 @@
     "description": "Convert colors between HEX, RGB, HSL, and HSV. Includes color preview and palette generator.",
     "inputs": "Color input (HEX, RGB, or HSL), target format",
     "formula": "Converts between color spaces using standard formulas. HEX to RGB: parse 6-char hex. RGB to HSL: standard algorithm with hue angle. HSL to RGB inverse.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-25T03:03:58.918953Z"
   },
   {
     "slug": "base64-image-encoder",
