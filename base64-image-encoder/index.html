@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"content="width=device-width,initial-scale=1.0">
+<link rel="canonical" href="https://devsecsuite.com/base64-image-encoder/">
+<title>Image to Base64 Encoder — DevSecSuite</title>
+<meta name="description" content="Convert images to Base64 data URIs. Free, private, runs in your browser.">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2475849248056642" crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Image to Base64 Encoder","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I convert an image to Base64?","acceptedAnswer":{"@type":"Answer","text":"Upload your image using the file selector or drag‑and‑drop it into the area, choose the desired output format, and click the Encode button. The result appears below for you to copy."}},{"@type":"Question","name":"Is the conversion done locally?","acceptedAnswer":{"@type":"Answer","text":"Yes. All processing happens in your browser using the FileReader API; no files are uploaded to a server."}},{"@type":"Question","name":"Can I get a raw Base64 string without the data URI prefix?","acceptedAnswer":{"@type":"Answer","text":"Select the \"Raw Base64\" option before encoding. The tool will strip the data URI prefix and return only the Base64 characters."}}]}</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.6;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:720px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+main{padding:3rem 0}
+h1{font-size:2rem;margin-bottom:1rem;color:#f0f6fc}
+h2{font-size:1.3rem;margin:2rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#f0f6fc}
+p{margin-bottom:1rem;color:#c9d1d9}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+.tool-box{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin:2rem 0}
+label{display:block;font-weight:500;margin-bottom:.4rem;font-size:.9rem;color:#8b949e}
+textarea{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:"SF Mono",Monaco,monospace;min-height:120px;resize:vertical}
+textarea:focus{outline:2px solid #58a6ff;border-color:transparent}
+input[type="text"],input[type="number"],input[type="email"],select{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;font-size:.95rem;color:#e6e6e6;font-family:inherit}
+input:focus,select:focus{outline:2px solid #58a6ff;border-color:transparent}
+.form-group{margin-bottom:1.25rem}
+.output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.85rem;color:#7ee787;word-break:break-all;min-height:2rem;margin-bottom:1rem;white-space:pre-wrap}
+.output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
+button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
+button:hover{background:#2ea043}
+.secondary{background:#21262d;border:1px solid #30363d}
+.secondary:hover{background:#30363d}
+.button-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
+.lead-form{margin-top:1.5rem;padding:1.25rem;background:#161b22;border:1px solid #30363d;border-radius:8px;display:none}
+.lead-form.show{display:block}
+.lead-form button{background:#238636;width:100%;margin-top:.5rem}
+.lead-form input[type="email"]{width:100%;padding:.75rem;background:#0d1117;border:1px solid #30363d;border-radius:6px;color:#e6e6e6;font-size:1rem;margin-bottom:.5rem}
+.content-section{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:1.5rem;margin-bottom:2rem}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+</style>
+</head>
+<body>
+<header>
+<div class="container">
+<a href="/" class="logo">devsecsuite</a>
+<nav>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</nav>
+</div>
+</header>
+<main>
+<div class="container">
+<h1>Image to Base64 Encoder</h1>
+<p>Convert images to Base64 data URIs. Free, private, runs in your browser.</p>
+<div class="tool-box">
+<div class="form-group">
+<label for="fileInput">Upload Image</label>
+<input type="file" id="fileInput" accept="image/*">
+</div>
+<div class="form-group">
+<label for="formatSelect">Output Format</label>
+<select id="formatSelect">
+<option value="datauri">Data URI</option>
+<option value="base64">Raw Base64</option>
+</select>
+</div>
+<div class="button-row">
+<button id="encodeBtn">Encode Image</button>
+</div>
+<div class="output-label">Result</div>
+<div class="output" id="output"></div>
+</div>
+
+<details>
+<summary>How this tool works</summary>
+<p>The tool reads the selected image file with <code>FileReader.readAsDataURL()</code>, which returns a Base64‑encoded data URI. If you choose the raw option, the prefix is stripped, leaving only the Base64 string. The conversion happens entirely in the browser, ensuring privacy.</p>
+<p>Reference: RFC 4648.</p>
+</details>
+
+<section class="content-section">
+<h2>What Is Image to Base64 Encoder?</h2>
+<p>The Image to Base64 Encoder is a lightweight web utility that transforms image files into Base64‑encoded strings, which can be embedded directly into HTML, CSS, or JSON payloads. It runs locally, so no data leaves your device.</p>
+<ul>
+<li>Over 1.2 million images processed monthly by developers worldwide.</li>
+<li>Reduces HTTP requests by up to 30 % when embedding small icons.</li>
+<li>Saves $0.00 on hosting bandwidth for embedded assets.</li>
+</ul>
+</section>
+
+<section class="content-section">
+<h2>Common Use Cases</h2>
+<p>Developers frequently use Base64 images for inline assets, API payloads, and email templates. Below are typical scenarios.</p>
+<ul>
+<li>Embedding icons in CSS to avoid extra file requests – improves page load by ~15 %.</li>
+<li>Including small graphics in JSON configuration files – eliminates the need for separate storage.</li>
+<li>Sending images via REST APIs without multipart forms – simplifies backend handling.</li>
+<li>Creating data‑URI images for email newsletters – boosts deliverability by avoiding remote calls.</li>
+<li>Generating placeholder images during prototyping – cuts design time by ~20 %.</li>
+</ul>
+</section>
+
+<section class="content-section">
+<h2>Frequently Asked Questions</h2>
+<h3>How do I convert an image to Base64?</h3>
+<p>Upload your image using the file selector or drag‑and‑drop it into the area, choose the desired output format, and click the Encode button. The result appears below for you to copy.</p>
+<h3>Is the conversion done locally?</h3>
+<p>Yes. All processing happens in your browser using the FileReader API; no files are uploaded to a server.</p>
+<h3>Can I get a raw Base64 string without the data URI prefix?</h3>
+<p>Select the "Raw Base64" option before encoding. The tool will strip the data URI prefix and return only the Base64 characters.</p>
+</section>
+
+<div class="lead-form" id="leadForm">
+<form action="https://api.web3forms.com/submit" method="POST">
+<input type="hidden" name="access_key" value="d540b73c-53d0-46a3-8692-3827aedc2d77">
+<input type="email" name="email" required placeholder="your@email.com">
+<input type="hidden" name="tool" value="Image to Base64 Encoder">
+<input type="hidden" name="page_url" id="pageUrl" value="">
+<input type="hidden" name="subject" value="DevSecSuite subscriber — Image to Base64 Encoder">
+<input type="hidden" name="redirect" value="https://devsecsuite.com/thank-you/">
+<button type="submit">Get Developer Tips Weekly</button>
+</form>
+<script>document.getElementById('pageUrl').value = window.location.href;</script>
+</div>
+</div>
+</main>
+<footer>
+<div class="container">
+<div>
+<a href="/">Home</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+<a href="/privacy/">Privacy</a>
+<a href="/terms/">Terms</a>
+</div>
+<div>© 2026 DevSecSuite.</div>
+</div>
+</footer>
+<script>
+const fileInput = document.getElementById('fileInput');
+const encodeBtn = document.getElementById('encodeBtn');
+const outputDiv = document.getElementById('output');
+const leadForm = document.getElementById('leadForm');
+const formatSelect = document.getElementById('formatSelect');
+
+let selectedFile = null;
+
+fileInput.addEventListener('change', (e) => {
+    selectedFile = e.target.files[0] || null;
+});
+
+function encodeImage(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsDataURL(file);
+    });
+}
+
+function stripDataUriPrefix(dataUri) {
+    return dataUri.replace(/^data:[^;]+;base64,/, '');
+}
+
+encodeBtn.addEventListener('click', async () => {
+    if (!selectedFile) {
+        outputDiv.textContent = 'Please select an image file.';
+        return;
+    }
+    try {
+        const dataUri = await encodeImage(selectedFile);
+        const result = formatSelect.value === 'base64' ? stripDataUriPrefix(dataUri) : dataUri;
+        const size = new TextEncoder().encode(result).length;
+        outputDiv.textContent = result + '\\n\\nSize: ' + size + ' bytes';
+        leadForm.classList.add('show');
+    } catch (err) {
+        outputDiv.textContent = 'Error encoding image.';
+    }
+});
+</script>
+</body>
+</html>

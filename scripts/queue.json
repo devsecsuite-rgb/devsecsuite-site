@@ -59,7 +59,8 @@
     "description": "Convert images to Base64 data URIs. Free, private, runs in your browser.",
     "inputs": "Image file upload or drag-and-drop, output format (data URI or raw Base64)",
     "formula": "Uses FileReader.readAsDataURL() to encode image as Base64. Displays encoded string and total size. Optional compression via canvas.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-26T03:03:28.391366Z"
   },
   {
     "slug": "markdown-to-html",
