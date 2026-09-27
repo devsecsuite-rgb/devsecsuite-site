@@ -14,7 +14,8 @@
     "description": "Generate RFC 4122 compliant UUID v4. Free, private, runs in your browser.",
     "inputs": "Number of UUIDs to generate",
     "formula": "Uses crypto.randomUUID() to generate UUID v4 per RFC 4122.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:33:48.144745Z"
   },
   {
     "slug": "base64-encoder-decoder",
