@@ -68,7 +68,8 @@
     "description": "Convert markdown to clean HTML. Live preview, copy output with one click.",
     "inputs": "Markdown input, options (GitHub-flavored, line breaks, sanitize)",
     "formula": "Parses markdown with a lightweight inline parser. Converts headings, bold, italic, links, code blocks, lists, blockquotes. Outputs sanitized HTML.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:22:35.099053Z"
   },
   {
     "slug": "html-to-markdown",
