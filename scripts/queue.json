@@ -104,7 +104,8 @@
     "description": "Live markdown preview as you type. Free, private, runs in your browser.",
     "inputs": "Markdown input",
     "formula": "Converts markdown to HTML and renders a live preview side-by-side.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T03:37:14.646195Z"
   },
   {
     "slug": "bcrypt-generator",
