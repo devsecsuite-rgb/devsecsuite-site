@@ -185,7 +185,8 @@
     "description": "Convert HTML to clean markdown. Strips tags, preserves structure, handles links and images.",
     "inputs": "HTML input, options (preserve links, preserve images, bullet style)",
     "formula": "Walks the DOM tree, converts h1-h6 to # headers, strong to **, em to *, a to [text](url), ul to -, pre to code blocks.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T03:48:20.640072Z"
   },
   {
     "slug": "url-parser",
