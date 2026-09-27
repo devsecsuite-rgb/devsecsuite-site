@@ -32,7 +32,8 @@
     "description": "Decode JWT tokens. View header, payload, and signature. Free, private, runs in your browser.",
     "inputs": "JWT token string",
     "formula": "Splits the token into three Base64 parts, decodes header and payload, displays as formatted JSON.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:35:45.246475Z"
   },
   {
     "slug": "hash-generator",
