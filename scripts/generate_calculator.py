@@ -256,6 +256,24 @@ def extract_html(text):
             return truncated
     raise ValueError("Could not extract HTML")
 
+    def fix_missing_container_css(html):
+    """Ensure the .container and header .container CSS rules are present and correct."""
+    html = html.replace('.header .container{', 'header .container{')
+
+    if '.container{max-width' in html or '.container {max-width' in html:
+        return html
+
+    body_pattern = r'(body\{[^}]*\})'
+    replacement = r'\1\n.container{max-width:720px;margin:0 auto;padding:0 1.5rem}'
+
+    if re.search(body_pattern, html):
+        html = re.sub(body_pattern, replacement, html, count=1)
+        print("  Patched missing .container CSS rule")
+    else:
+        print("  WARNING: could not find body{} to inject .container rule")
+
+    return html
+
 
 def write_page(slug, html):
     os.makedirs(slug, exist_ok=True)
@@ -310,6 +328,7 @@ def main():
     prompt = build_prompt(item)
     raw = generate_with_fallback(prompt)
     html = extract_html(raw)
+    html = fix_missing_container_css(html)
     write_page(item["slug"], html)
     update_sitemap(item["slug"])
     update_homepage(item["slug"], item["name"], item["description"])
