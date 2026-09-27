@@ -86,7 +86,8 @@
     "description": "Format SQL queries. Beautify SELECT, INSERT, UPDATE, DELETE statements.",
     "inputs": "SQL query, dialect (MySQL, PostgreSQL, SQLite, MSSQL)",
     "formula": "Tokenizes SQL and re-emits with consistent indentation and keyword casing.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T03:22:52.251004Z"
   },
   {
     "slug": "diff-checker",
