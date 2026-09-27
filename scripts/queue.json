@@ -77,7 +77,8 @@
     "description": "Test regular expressions with live matching and capture groups. Free, private, runs in your browser.",
     "inputs": "Regex pattern, flags (g, i, m, s, u, y), test string",
     "formula": "Uses JavaScript RegExp engine. Highlights matches and lists capture groups.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T03:04:02.645789Z"
   },
   {
     "slug": "sql-formatter",
