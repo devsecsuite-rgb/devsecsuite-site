@@ -68,7 +68,8 @@
     "description": "Encode and decode URLs and query strings. Free, private, runs in your browser.",
     "inputs": "Input text, action (encode or decode), component (full URL or query value)",
     "formula": "Uses encodeURIComponent() and decodeURIComponent() for component encoding.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:42:43.538302Z"
   },
   {
     "slug": "regex-tester",
