@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How DevSecSuite Works - Client-Side, No Data Sent</title>
+<meta name="description" content="Every DevSecSuite tool runs entirely in your browser. No data is sent to a server. Here's exactly how it works, and how you can verify it yourself.">
+<link rel="canonical" href="https://devsecsuite.com/how-it-works/">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://devsecsuite.com/how-it-works/">
+<meta property="og:title" content="How DevSecSuite Works">
+<meta property="og:description" content="Every tool runs locally in your browser. Here's how to verify it.">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FwLYPCBN7B"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FwLYPCBN7B');</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;line-height:1.7;color:#0f172a;background:#ffffff;-webkit-font-smoothing:antialiased}
+a{color:#3b82f6;text-decoration:none}
+a:hover{color:#2563eb}
+header{background:#ffffff;border-bottom:1px solid #e2e8f0;padding:1rem 0}
+.container{max-width:760px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:1200px}
+.logo{font-size:1.25rem;font-weight:800;color:#0f172a;letter-spacing:-.02em}
+.logo span{color:#3b82f6}
+nav{display:flex;gap:1.5rem}
+nav a{color:#64748b;font-weight:500;font-size:.95rem}
+main{padding:3rem 0 4rem}
+h1{font-size:2.5rem;letter-spacing:-.03em;font-weight:800;margin-bottom:1rem;line-height:1.15}
+.lead{font-size:1.2rem;color:#475569;margin-bottom:2.5rem}
+h2{font-size:1.5rem;letter-spacing:-.02em;font-weight:700;margin:2.5rem 0 1rem}
+h3{font-size:1.1rem;font-weight:700;margin:1.5rem 0 .5rem}
+p{color:#334155;margin-bottom:1rem}
+ul,ol{margin:0 0 1.25rem 1.5rem;color:#334155}
+li{margin-bottom:.5rem}
+.callout{background:#eff6ff;border-left:4px solid #3b82f6;border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.callout p{margin:0;color:#1e3a8a}
+.callout strong{color:#1e3a8a}
+.verify-box{background:#f0fdf4;border-left:4px solid #10b981;border-radius:8px;padding:1.5rem;margin:2rem 0}
+.verify-box h3{margin-top:0;color:#065f46}
+.verify-box ol{margin-bottom:0;color:#065f46}
+.verify-box li{color:#065f46}
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.95rem}
+th,td{text-align:left;padding:.75rem;border-bottom:1px solid #e2e8f0}
+th{background:#f8fafc;font-weight:700;color:#0f172a}
+td{color:#475569}
+.updated{color:#64748b;font-size:.9rem;margin-top:3rem;padding-top:1.5rem;border-top:1px solid #e2e8f0}
+footer{background:#0f172a;color:#94a3b8;padding:2rem 0;font-size:.9rem;text-align:center;margin-top:4rem}
+footer a{color:#94a3b8;margin:0 1rem}
+@media(max-width:768px){h1{font-size:1.85rem}nav{display:none}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<a href="/" class="logo">Dev<span>Sec</span>Suite</a>
+<nav>
+<a href="/">Tools</a>
+<a href="/how-it-works/">How It Works</a>
+<a href="/about/">About</a>
+</nav>
+</div>
+</header>
+
+<main>
+<div class="container">
+
+<h1>How DevSecSuite works</h1>
+<p class="lead">Every tool on this site runs entirely in your browser. Nothing you type, paste, or upload is sent to a server — not to us, not to any third party. This page explains exactly how that works and how you can verify it yourself.</p>
+
+<h2>The core principle: client-side by default</h2>
+<p>Most online developer tools work like this: you type something into a box, it gets sent to a server, the server processes it, and the result comes back. That model works — but it means your data leaves your machine. For developers handling JWT tokens, hashes, SQL queries, or password material, that's a problem.</p>
+<p>DevSecSuite is built the opposite way. Every tool is a static HTML page with JavaScript that runs locally in your browser. When you click "Generate" or "Convert," the computation happens on your own device using standard browser APIs. There is no backend. There is no API endpoint. There is no database.</p>
+
+<div class="callout">
+<p><strong>In practical terms:</strong> if you disconnected from the internet after loading the page, every tool would keep working. That's the test.</p>
+</div>
+
+<h2>What this means for each tool</h2>
+<table>
+<tr><th>Tool</th><th>How it runs locally</th></tr>
+<tr><td>Base64 encoder/decoder</td><td>Uses the browser's native <code>btoa()</code> and <code>atob()</code> functions</td></tr>
+<tr><td>Hash generator</td><td>Uses the Web Crypto API (<code>crypto.subtle.digest</code>)</td></tr>
+<tr><td>JWT decoder</td><td>Splits the token and decodes the Base64 payload in JavaScript</td></tr>
+<tr><td>UUID generator</td><td>Uses <code>crypto.randomUUID()</code> — the browser's secure random source</td></tr>
+<tr><td>Password generator</td><td>Uses <code>crypto.getRandomValues()</code> for cryptographic randomness</td></tr>
+<tr><td>JSON/YAML/XML/SQL formatters</td><td>Parse and reformat strings in JavaScript — nothing leaves the page</td></tr>
+<tr><td>Regex tester</td><td>Uses the browser's native <code>RegExp</code> engine</td></tr>
+<tr><td>Cron parser</td><td>Pure JavaScript date logic</td></tr>
+<tr><td>Unix timestamp converter</td><td>Uses JavaScript's <code>Date</code> object</td></tr>
+<tr><td>Diff checker</td><td>String comparison in JavaScript</td></tr>
+<tr><td>Markdown previewer</td><td>Converts Markdown to HTML in the browser</td></tr>
+<tr><td>Color picker</td><td>Uses the browser's native color input</td></tr>
+<tr><td>URL encoder/decoder</td><td>Uses <code>encodeURIComponent()</code> and <code>decodeURIComponent()</code></td></tr>
+<tr><td>HTML entity encoder</td><td>String replacement in JavaScript</td></tr>
+<tr><td>bcrypt generator</td><td>Runs bcrypt.js locally (client-side library)</td></tr>
+</table>
+
+<h2>How to verify it yourself</h2>
+<p>You don't have to trust this page. You can confirm it in about 30 seconds using your browser's developer tools.</p>
+
+<div class="verify-box">
+<h3>The 30-second test</h3>
+<ol>
+<li>Open any DevSecSuite tool, e.g. the <a href="/base64-encoder-decoder/">Base64 encoder</a>.</li>
+<li>Press <strong>F12</strong> (or right-click → Inspect) to open DevTools.</li>
+<li>Click the <strong>Network</strong> tab.</li>
+<li>Clear the network log (trash icon).</li>
+<li>Type a test string into the tool and click "Encode."</li>
+<li>Watch the Network tab. <strong>No new requests appear.</strong> Nothing was sent.</li>
+</ol>
+<p>Try the same test on any tool. You'll see the same result every time.</p>
+</div>
+
+<h2>What we do NOT do</h2>
+<ul>
+<li><strong>We do not log your inputs.</strong> There is no server to log them on.</li>
+<li><strong>We do not store your data.</strong> There is no database.</li>
+<li><strong>We do not sell or share anything you enter.</strong> We never receive it.</li>
+<li><strong>We do not require an account.</strong> No signup, no email, no login.</li>
+</ul>
+
+<h2>What we DO collect</h2>
+<p>Two things, and only two:</p>
+<ul>
+<li><strong>Anonymous analytics.</strong> We use Google Analytics to count page views and see which tools are most used. This records the page URL and general region — not what you type into the tools.</li>
+<li><strong>Basic hosting logs.</strong> Our static host (Cloudflare Pages) records standard web server info like IP and user agent for abuse prevention. This is normal for any website.</li>
+</ul>
+<p>Neither of these has any visibility into the content you process inside the tools. See the <a href="/privacy/">Privacy Policy</a> for details.</p>
+
+<h2>Open standards, not proprietary magic</h2>
+<p>Every tool uses publicly documented standards:</p>
+<ul>
+<li>Base64 — <a href="https://datatracker.ietf.org/doc/html/rfc4648" rel="noopener">RFC 4648</a></li>
+<li>UUIDs — <a href="https://datatracker.ietf.org/doc/html/rfc4122" rel="noopener">RFC 4122</a></li>
+<li>JWT — <a href="https://datatracker.ietf.org/doc/html/rfc7519" rel="noopener">RFC 7519</a></li>
+<li>Cron — <a href="https://man7.org/linux/man-pages/man5/crontab.5.html" rel="noopener">POSIX crontab spec</a></li>
+<li>Hashing — <a href="https://www.w3.org/TR/WebCryptoAPI/" rel="noopener">W3C Web Crypto API</a></li>
+</ul>
+<p>You can independently verify any output by comparing it against a command-line tool on your own machine. For example: run <code>echo -n "hello" | base64</code> in a terminal and paste "hello" into our Base64 encoder. The results will match.</p>
+
+<h2>Why we built it this way</h2>
+<p>Developers and security engineers handle sensitive material all day: API keys, JWT tokens, password hashes, production SQL. Using a random web tool that sends that material to an unknown server is a real risk — one most people don't think about until it's too late.</p>
+<p>DevSecSuite exists to eliminate that risk. The tools are simple, they do one thing well, and they never see your data. That's the whole point.</p>
+
+<h2>Missing a tool?</h2>
+<p>If you have a suggestion for a tool that would fit — especially if you're tired of sending sensitive data to some other site — let us know via the <a href="/contact/">contact page</a>.</p>
+
+<p class="updated">Last updated: 27/9/2026. This page is maintained by Emiliano.</p>
+
+</div>
+</main>
+
+<footer>
+<div class="container">
+<a href="/">Home</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+<a href="/privacy/">Privacy</a>
+<a href="/terms/">Terms</a>
+</div>
+</footer>
+
+</body>
+</html>
