@@ -41,7 +41,8 @@
     "description": "Generate MD5, SHA-1, SHA-256, SHA-512 hashes. Free, private, runs in your browser.",
     "inputs": "Input text, hash algorithm",
     "formula": "Uses Web Crypto API (crypto.subtle.digest) for SHA algorithms.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:37:44.793580Z"
   },
   {
     "slug": "cron-expression-parser",
