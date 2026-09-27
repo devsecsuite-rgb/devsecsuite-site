@@ -118,7 +118,7 @@ REQUIREMENTS:
    - `footer .container{{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}}`
    - `footer a{{color:#8b949e;text-decoration:none;margin-right:1rem}}`
    Do NOT use CSS custom properties. The primary action button MUST be #238636 green.
-3. Header: `<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>`
+3. Header: `<header><div class="container"><a href="/" class="logo">devsecsuite</a><nav><a href="/how-it-works/">How It Works</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav></div></header>``
 4. Include a `<main><div class="container">` wrapper for all content.
 5. Include a `.tool-box` with labeled inputs and a primary action button. Do NOT prefill any input field. No value="..." attribute on any input. No selected attribute on any option. All placeholder text should be a hint like "e.g., hello world" not a real value.
 6. Include an `.output` area with `.output-label` above it showing "Result" or similar. The output updates live or when the button is clicked.
@@ -135,9 +135,15 @@ REQUIREMENTS:
 <script>document.getElementById('pageUrl').value = window.location.href;</script>
 No JavaScript alert functions.
 8. Include a collapsible `<details>` section immediately below the calculator/tool (before content sections) titled "How this tool works". Inside: 2-3 sentences explaining the logic in plain English, plus one line: "Reference: [RFC or standard]." Use the correct standard for the tool (e.g., RFC 4122 for UUID, RFC 7519 for JWT, RFC 4648 for Base64). This <details> section is MANDATORY. Do not skip it. Each content section must contain at least one bulleted or numbered list (use <ul><li> or <ol><li>). Lists should present 3-5 items. Include at least 3 concrete statistics per content section (numbers, percentages, or dollar amounts). This improves AI citability. 
-9. Include 3 content sections, each wrapped in `<section class="content-section">`: "What Is [Tool Name]?", "Common Use Cases", and "Frequently Asked Questions" with 3 Q&As each. Each section 100-200 words with real developer-focused detail. Every content section MUST be wrapped in <section class="content-section">.
+9. Include FIVE content sections, each wrapped in `<section class="content-section">`:
+   a. "What Is [Tool Name]?" — 150-250 words, technical explanation, include 1 bulleted list (3-5 items) and 2-3 concrete statistics (numbers, percentages, or sizes)
+   b. "Common Use Cases" — 150-250 words, include a numbered list of 4-5 real developer scenarios with specific detail
+   c. "What This Tool Does NOT Do" — 100-150 words, include a bulleted list of 3-4 honest limitations (e.g., "This is not encryption", "Does not support streaming input")
+   d. "How It Compares" — 150-250 words, contrast client-side vs. server-based alternatives, include 2-3 concrete comparisons (latency, privacy, offline capability)
+   e. "Frequently Asked Questions" — 3 Q&As, each answer 40-80 words, developer-focused, using `<h3>Question</h3><p>Answer</p>` format
+   Every section MUST be wrapped in `<section class="content-section">`. No thin content — a reviewer should learn something specific from each section.
 10. For FAQ, use `<h3>Question</h3><p>Answer</p>` for each Q&A. Never put multiple Q&As in one `<p>`. Never use "Q:" or "A:" prefixes.
-11. Include footer: `<footer><div class="container"><div><a href="/">Home</a><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>`
+11. Include footer: `<footer><div class="container"><div><a href="/">Home</a><a href="/how-it-works/">How It Works</a><a href="/about/">About</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></div><div>© 2026 DevSecSuite.</div></div></footer>`
 12. Include TWO JSON-LD schema blocks in the head. First, WebApplication schema: {{"@context":"https://schema.org","@type":"WebApplication","name":"{item['name']}","applicationCategory":"DeveloperApplication","operatingSystem":"Web","offers":{{"@type":"Offer","price":"0","priceCurrency":"USD"}}}}. Second, FAQPage schema using the same 3 Q&A pairs from the FAQ content section: {{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{"@type":"Question","name":"Question text","acceptedAnswer":{{"@type":"Answer","text":"Answer text"}}}}]}}.
 13. Include these two lines in the head exactly:
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
