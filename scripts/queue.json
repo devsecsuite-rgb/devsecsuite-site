@@ -50,7 +50,8 @@
     "description": "Parse and explain cron expressions in plain English. Free, private, runs in your browser.",
     "inputs": "Cron expression",
     "formula": "Parses 5-field cron expression and returns human-readable description of schedule.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:40:37.611991Z"
   },
   {
     "slug": "json-formatter",
