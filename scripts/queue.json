@@ -1,12 +1,107 @@
 [
   {
+    "slug": "unix-timestamp-converter",
+    "name": "Unix Timestamp Converter",
+    "description": "Convert Unix timestamps to human-readable dates and back. Supports seconds and milliseconds.",
+    "inputs": "Unix timestamp or date string, timezone",
+    "formula": "Converts between Unix epoch time and human-readable date format. Handles seconds and milliseconds.",
+    "status": "pending"
+  },
+  {
+    "slug": "uuid-generator",
+    "name": "UUID Generator",
+    "description": "Generate RFC 4122 compliant UUID v4. Free, private, runs in your browser.",
+    "inputs": "Number of UUIDs to generate",
+    "formula": "Uses crypto.randomUUID() to generate UUID v4 per RFC 4122.",
+    "status": "pending"
+  },
+  {
+    "slug": "base64-encoder-decoder",
+    "name": "Base64 Encoder / Decoder",
+    "description": "Encode and decode Base64 strings. Free, private, runs in your browser.",
+    "inputs": "Input text, action (encode or decode)",
+    "formula": "Uses btoa() for encoding and atob() for decoding.",
+    "status": "pending"
+  },
+  {
+    "slug": "jwt-decoder",
+    "name": "JWT Decoder",
+    "description": "Decode JWT tokens. View header, payload, and signature. Free, private, runs in your browser.",
+    "inputs": "JWT token string",
+    "formula": "Splits the token into three Base64 parts, decodes header and payload, displays as formatted JSON.",
+    "status": "pending"
+  },
+  {
+    "slug": "hash-generator",
+    "name": "Hash Generator",
+    "description": "Generate MD5, SHA-1, SHA-256, SHA-512 hashes. Free, private, runs in your browser.",
+    "inputs": "Input text, hash algorithm",
+    "formula": "Uses Web Crypto API (crypto.subtle.digest) for SHA algorithms.",
+    "status": "pending"
+  },
+  {
+    "slug": "cron-expression-parser",
+    "name": "Cron Expression Parser",
+    "description": "Parse and explain cron expressions in plain English. Free, private, runs in your browser.",
+    "inputs": "Cron expression",
+    "formula": "Parses 5-field cron expression and returns human-readable description of schedule.",
+    "status": "pending"
+  },
+  {
+    "slug": "json-formatter",
+    "name": "JSON Formatter & Validator",
+    "description": "Format, validate, and minify JSON. Free, private, runs in your browser.",
+    "inputs": "JSON input, indent size, action (format or minify)",
+    "formula": "Uses JSON.parse and JSON.stringify with configurable indentation.",
+    "status": "pending"
+  },
+  {
+    "slug": "url-encoder-decoder",
+    "name": "URL Encoder / Decoder",
+    "description": "Encode and decode URLs and query strings. Free, private, runs in your browser.",
+    "inputs": "Input text, action (encode or decode), component (full URL or query value)",
+    "formula": "Uses encodeURIComponent() and decodeURIComponent() for component encoding.",
+    "status": "pending"
+  },
+  {
+    "slug": "regex-tester",
+    "name": "Regex Tester",
+    "description": "Test regular expressions with live matching and capture groups. Free, private, runs in your browser.",
+    "inputs": "Regex pattern, flags (g, i, m, s, u, y), test string",
+    "formula": "Uses JavaScript RegExp engine. Highlights matches and lists capture groups.",
+    "status": "pending"
+  },
+  {
+    "slug": "sql-formatter",
+    "name": "SQL Formatter",
+    "description": "Format SQL queries. Beautify SELECT, INSERT, UPDATE, DELETE statements.",
+    "inputs": "SQL query, dialect (MySQL, PostgreSQL, SQLite, MSSQL)",
+    "formula": "Tokenizes SQL and re-emits with consistent indentation and keyword casing.",
+    "status": "pending"
+  },
+  {
+    "slug": "diff-checker",
+    "name": "Diff Checker",
+    "description": "Compare two texts and highlight differences. Free, private, runs in your browser.",
+    "inputs": "Original text, modified text, ignore case option, ignore whitespace option",
+    "formula": "Computes line-by-line diff and highlights additions and removals.",
+    "status": "pending"
+  },
+  {
+    "slug": "markdown-previewer",
+    "name": "Markdown Previewer",
+    "description": "Live markdown preview as you type. Free, private, runs in your browser.",
+    "inputs": "Markdown input",
+    "formula": "Converts markdown to HTML and renders a live preview side-by-side.",
+    "status": "pending"
+  },
+  {
     "slug": "bcrypt-generator",
     "name": "Bcrypt Hash Generator",
     "description": "Generate bcrypt password hashes with adjustable cost factor. Free, private, runs in your browser.",
     "inputs": "Plain text password, cost factor (10, 12, 14), salt rounds",
     "formula": "Uses bcryptjs library (loaded inline as a minified blob) to generate a bcrypt hash. Cost factor adjusts computational complexity. Output is a 60-character hash starting with $2a$ or $2b$.",
-    "status": "done",
-    "generated_at": "2026-09-21T07:34:08.397764Z"
+    "status": "pending"
   },
   {
     "slug": "password-generator",
@@ -14,8 +109,7 @@
     "description": "Generate cryptographically secure passwords. Customize length, character sets, and complexity.",
     "inputs": "Password length, include uppercase, include lowercase, include numbers, include symbols, exclude ambiguous characters",
     "formula": "Uses crypto.getRandomValues() to generate passwords. Entropy calculation = log2(pool_size) * length. Displays entropy bits and estimated crack time.",
-    "status": "done",
-    "generated_at": "2026-09-22T03:03:54.188233Z"
+    "status": "pending"
   },
   {
     "slug": "yaml-formatter",
@@ -23,8 +117,7 @@
     "description": "Format, validate, and lint YAML files. Detect syntax errors and convert to JSON.",
     "inputs": "YAML input text, indent size (2 or 4 spaces), output format (YAML or JSON)",
     "formula": "Parses YAML using js-yaml inline. Validates structure, normalizes indentation, optionally converts to JSON. Reports syntax errors with line numbers.",
-    "status": "done",
-    "generated_at": "2026-09-23T03:03:53.777881Z"
+    "status": "pending"
   },
   {
     "slug": "xml-formatter",
@@ -32,8 +125,7 @@
     "description": "Format, validate, and minify XML. Free, private, runs in your browser.",
     "inputs": "XML input text, indent size, action (format, minify, validate)",
     "formula": "Uses DOMParser to parse XML, walks the tree, and re-serializes with configurable indentation. Reports parse errors.",
-    "status": "done",
-    "generated_at": "2026-09-24T03:03:53.919465Z"
+    "status": "pending"
   },
   {
     "slug": "html-entity-encoder",
@@ -41,8 +133,7 @@
     "description": "Encode and decode HTML entities. Convert special characters to safe HTML entities.",
     "inputs": "Input text, action (encode or decode), entity type (named or numeric)",
     "formula": "Replaces special characters with &amp;, &lt;, &gt;, &quot;, &#39; for encoding. Decodes using textarea innerHTML trick or hex/dec conversion.",
-    "status": "done",
-    "generated_at": "2026-09-24T08:17:15.136417Z"
+    "status": "pending"
   },
   {
     "slug": "color-picker-converter",
@@ -50,8 +141,7 @@
     "description": "Convert colors between HEX, RGB, HSL, and HSV. Includes color preview and palette generator.",
     "inputs": "Color input (HEX, RGB, or HSL), target format",
     "formula": "Converts between color spaces using standard formulas. HEX to RGB: parse 6-char hex. RGB to HSL: standard algorithm with hue angle. HSL to RGB inverse.",
-    "status": "done",
-    "generated_at": "2026-09-25T03:03:58.918953Z"
+    "status": "pending"
   },
   {
     "slug": "base64-image-encoder",
@@ -59,8 +149,7 @@
     "description": "Convert images to Base64 data URIs. Free, private, runs in your browser.",
     "inputs": "Image file upload or drag-and-drop, output format (data URI or raw Base64)",
     "formula": "Uses FileReader.readAsDataURL() to encode image as Base64. Displays encoded string and total size. Optional compression via canvas.",
-    "status": "done",
-    "generated_at": "2026-09-26T03:03:28.391366Z"
+    "status": "pending"
   },
   {
     "slug": "markdown-to-html",
