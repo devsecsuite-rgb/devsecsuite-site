@@ -5,7 +5,8 @@
     "description": "Convert Unix timestamps to human-readable dates and back. Supports seconds and milliseconds.",
     "inputs": "Unix timestamp or date string, timezone",
     "formula": "Converts between Unix epoch time and human-readable date format. Handles seconds and milliseconds.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:31:07.658465Z"
   },
   {
     "slug": "uuid-generator",
