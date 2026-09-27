@@ -59,7 +59,8 @@
     "description": "Format, validate, and minify JSON. Free, private, runs in your browser.",
     "inputs": "JSON input, indent size, action (format or minify)",
     "formula": "Uses JSON.parse and JSON.stringify with configurable indentation.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:42:05.996984Z"
   },
   {
     "slug": "url-encoder-decoder",
