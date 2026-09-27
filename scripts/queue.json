@@ -95,7 +95,8 @@
     "description": "Compare two texts and highlight differences. Free, private, runs in your browser.",
     "inputs": "Original text, modified text, ignore case option, ignore whitespace option",
     "formula": "Computes line-by-line diff and highlights additions and removals.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T03:35:12.908843Z"
   },
   {
     "slug": "markdown-previewer",
