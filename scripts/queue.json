@@ -23,7 +23,8 @@
     "description": "Encode and decode Base64 strings. Free, private, runs in your browser.",
     "inputs": "Input text, action (encode or decode)",
     "formula": "Uses btoa() for encoding and atob() for decoding.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T02:34:58.909452Z"
   },
   {
     "slug": "jwt-decoder",
