@@ -149,7 +149,8 @@
     "description": "Encode and decode HTML entities. Convert special characters to safe HTML entities.",
     "inputs": "Input text, action (encode or decode), entity type (named or numeric)",
     "formula": "Replaces special characters with &amp;, &lt;, &gt;, &quot;, &#39; for encoding. Decodes using textarea innerHTML trick or hex/dec conversion.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-09-27T03:44:08.883586Z"
   },
   {
     "slug": "color-picker-converter",
