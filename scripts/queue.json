@@ -194,7 +194,8 @@
     "description": "Break down any URL into protocol, hostname, path, query params, and fragment.",
     "inputs": "URL input",
     "formula": "Uses the URL API (new URL()) to parse. Displays each component separately. Query params are decoded and listed individually.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-02T05:56:30.928558Z"
   },
   {
     "slug": "http-status-codes",
