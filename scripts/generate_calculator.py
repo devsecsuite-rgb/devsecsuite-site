@@ -256,7 +256,7 @@ def extract_html(text):
             return truncated
     raise ValueError("Could not extract HTML")
 
-    def fix_missing_container_css(html):
+def fix_missing_container_css(html):
     """Ensure the .container and header .container CSS rules are present and correct."""
     html = html.replace('.header .container{', 'header .container{')
 
