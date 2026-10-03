@@ -203,7 +203,8 @@
     "description": "Look up any HTTP status code. Full reference of all standard and common codes.",
     "inputs": "Status code number or search query, category filter (1xx, 2xx, 3xx, 4xx, 5xx)",
     "formula": "Static reference data with descriptions, causes, and examples. Search filters by code or description text.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-03T03:14:18.120759Z"
   },
   {
     "slug": "mime-type-lookup",
