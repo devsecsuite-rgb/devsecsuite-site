@@ -212,7 +212,8 @@
     "description": "Look up the correct MIME type for any file extension. Complete reference of standard MIME types.",
     "inputs": "File extension or MIME type, search query",
     "formula": "Static reference map of extensions to MIME types. Reverse lookup also supported. Includes common and uncommon types.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-04T04:33:10.393376Z"
   },
   {
     "slug": "htaccess-redirect-generator",
