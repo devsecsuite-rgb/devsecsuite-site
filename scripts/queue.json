@@ -221,7 +221,8 @@
     "description": "Generate redirect rules for .htaccess, Nginx, Apache, and Cloudflare. Copy-paste ready.",
     "inputs": "Source URL, target URL, redirect type (301 or 302), server type (Apache, Nginx, Cloudflare)",
     "formula": "Generates syntax-correct redirect rules for the selected server. Apache uses RewriteRule, Nginx uses return directive, Cloudflare uses redirect rules.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-05T03:05:57.414701Z"
   },
   {
     "slug": "user-agent-parser",
