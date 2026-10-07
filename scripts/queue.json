@@ -239,7 +239,8 @@
     "description": "Build cron expressions visually. Select intervals, preview the schedule in plain English.",
     "inputs": "Visual selections (minute, hour, day, month, weekday), output format",
     "formula": "Builds cron string from visual selections. Validates against standard cron rules. Human-readable description via pattern matching.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-07T03:05:48.808956Z"
   },
   {
     "slug": "uuid-bulk-generator",
