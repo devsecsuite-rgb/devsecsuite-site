@@ -248,7 +248,8 @@
     "description": "Generate up to 1,000 UUIDs at once. Download as CSV or copy to clipboard.",
     "inputs": "Number of UUIDs (1-1000), UUID version (v4 only for browser), output format (plain, CSV, JSON)",
     "formula": "Uses crypto.randomUUID() in a loop. Formats output based on selection. CSV format includes an index column.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-08T03:05:40.779628Z"
   },
   {
     "slug": "random-number-generator",
