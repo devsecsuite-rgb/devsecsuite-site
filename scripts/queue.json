@@ -257,7 +257,8 @@
     "description": "Generate cryptographically secure random numbers. Customizable range and quantity.",
     "inputs": "Minimum value, maximum value, quantity, allow duplicates",
     "formula": "Uses crypto.getRandomValues() for cryptographic randomness. Scales to range, optionally removes duplicates for lottery-style picks.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-09T03:06:11.901099Z"
   },
   {
     "slug": "lorem-ipsum-generator",
