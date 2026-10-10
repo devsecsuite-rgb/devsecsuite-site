@@ -266,7 +266,8 @@
     "description": "Generate lorem ipsum placeholder text. Control paragraphs, sentences, and word count.",
     "inputs": "Output type (paragraphs, sentences, words), quantity, start with 'Lorem ipsum'",
     "formula": "Static word pool of 50+ Latin words. Randomly assembles sentences and paragraphs based on requested quantity. Always starts with 'Lorem ipsum dolor sit amet'.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-10T03:05:13.186224Z"
   },
   {
     "slug": "slug-generator",
