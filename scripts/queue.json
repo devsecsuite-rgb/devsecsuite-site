@@ -275,7 +275,8 @@
     "description": "Convert any text into a clean, SEO-friendly URL slug.",
     "inputs": "Input text, separator (- or _), lowercase option, remove stop words option",
     "formula": "Lowercases, removes special characters, replaces spaces with separator, optionally strips common stop words (a, an, the, and, or, etc).",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-11T03:05:43.238365Z"
   },
   {
     "slug": "case-converter",
