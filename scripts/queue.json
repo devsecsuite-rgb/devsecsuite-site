@@ -284,6 +284,7 @@
     "description": "Convert text between camelCase, PascalCase, snake_case, kebab-case, UPPERCASE, and more.",
     "inputs": "Input text, target case (camelCase, PascalCase, snake_case, SCREAMING_SNAKE, kebab-case, Title Case, Sentence case, lowercase, UPPERCASE)",
     "formula": "Splits input on word boundaries (spaces, camelCase transitions, underscores), then reassembles using the target case rules.",
-    "status": "pending"
+    "status": "done",
+    "generated_at": "2026-10-12T03:07:05.436704Z"
   }
 ]
