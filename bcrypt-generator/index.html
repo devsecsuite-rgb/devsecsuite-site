@@ -33,7 +33,7 @@
       "name":"How secure is the generated bcrypt hash?",
       "acceptedAnswer":{
         "@type":"Answer",
-        "text":"Bcrypt is a proven adaptive hashing algorithm; with a cost factor of 12 it takes roughly 200 ms on modern CPUs, making brute‑force attacks expensive."
+        "text":"Bcrypt is a proven adaptive hashing algorithm; with a cost factor of 12 it takes roughly 200 ms on modern CPUs, making brute-force attacks expensive."
       }
     },
     {
@@ -41,7 +41,7 @@
       "name":"Can I use this tool for production password storage?",
       "acceptedAnswer":{
         "@type":"Answer",
-        "text":"Yes, the generated hashes are compatible with server‑side libraries in Node, Python, Java, etc., as long as you store the full 60‑character string."
+        "text":"Yes, the generated hashes are compatible with server-side libraries in Node, Python, Java, etc., as long as you store the full 60-character string."
       }
     },
     {
@@ -107,6 +107,8 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   <div class="container">
     <a href="/" class="logo">devsecsuite</a>
     <nav>
+      <a href="/all-tools/">All Tools</a>
+      <a href="/guides/">Guides</a>
       <a href="/how-it-works/">How It Works</a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
@@ -157,19 +159,23 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 
     <details>
       <summary>How this tool works</summary>
-      <p>This tool uses the bcryptjs library to hash the entered password with a generated salt. The cost factor determines the number of key‑expansion rounds, making the hash slower to compute as the factor increases.</p>
-      <p>Reference: <a href="https://tools.ietf.org/html/rfc8017" target="_blank">RFC 8017 (PKCS#5)</a>.</p>
+      <p>This tool uses the bcryptjs library to hash the entered password with a generated salt. The cost factor determines the number of key-expansion rounds, making the hash slower to compute as the factor increases.</p>
+      <p>Reference: <a href="https://www.usenix.org/legacy/events/usenix99/provos/provos_html/node1.html" target="_blank" rel="noopener">Provos &amp; Mazières, "A Future-Adaptable Password Scheme" (USENIX 1999)</a>.</p>
     </details>
+
+    <div style="background:#0d2818;border-left:3px solid #3fb950;padding:1rem 1.25rem;border-radius:6px;margin:1.5rem 0">
+      <p style="margin:0;color:#c9d1d9"><strong style="color:#7ee787">New to bcrypt?</strong> Our guide <a href="/guides/sha256-vs-bcrypt/" style="color:#7ee787;font-weight:600">SHA-256 vs Bcrypt: When to Use Each for Password Storage</a> explains why SHA-256 is unsafe for passwords, how the cost factor works, and which algorithm to choose in 2026.</p>
+    </div>
 
     <section class="content-section">
       <h2>What Is Bcrypt Hash Generator?</h2>
-      <p>The Bcrypt Hash Generator is a client‑side utility that creates bcrypt hashes directly in the browser. Bcrypt is an adaptive hashing algorithm designed to be computationally intensive, protecting stored passwords against brute‑force attacks. By adjusting the cost factor, developers can balance security and performance based on their threat model. The generated output is a 60‑character string prefixed with <code>$2a$</code> or <code>$2b$</code>, containing the salt and hash.</p>
+      <p>The Bcrypt Hash Generator is a client-side utility that creates bcrypt hashes directly in the browser. Bcrypt is an adaptive hashing algorithm designed to be computationally intensive, protecting stored passwords against brute-force attacks. By adjusting the cost factor, developers can balance security and performance based on their threat model. The generated output is a 60-character string prefixed with <code>$2a$</code> or <code>$2b$</code>, containing the salt and hash.</p>
       <ul>
-        <li>Cost factor 10 ≈ 100 ms on a typical laptop CPU.</li>
-        <li>Cost factor 12 ≈ 300 ms, offering higher resistance.</li>
-        <li>Cost factor 14 ≈ 900 ms, suitable for high‑security environments.</li>
+        <li>Cost factor 10 ≈ 100 ms on a typical laptop CPU.</li>
+        <li>Cost factor 12 ≈ 300 ms, offering higher resistance.</li>
+        <li>Cost factor 14 ≈ 900 ms, suitable for high-security environments.</li>
       </ul>
-      <p>Statistics: 85% of modern web applications still store passwords using bcrypt; 30% of breaches involve weak cost factors (<10); the average bcrypt hash size is 60 bytes, occupying minimal storage.</p>
+      <p>Statistics: 85% of modern web applications still store passwords using bcrypt; 30% of breaches involve weak cost factors (&lt;10); the average bcrypt hash size is 60 bytes, occupying minimal storage.</p>
     </section>
 
     <section class="content-section">
@@ -178,11 +184,11 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
       <ol>
         <li>Storing user passwords in a Node.js backend with <code>bcryptjs</code> for authentication.</li>
         <li>Generating password hashes for test data sets without exposing real credentials.</li>
-        <li>Creating salted hashes for API keys or tokens in micro‑service architectures.</li>
+        <li>Creating salted hashes for API keys or tokens in micro-service architectures.</li>
         <li>Embedding bcrypt verification in static site generators for admin panels.</li>
-        <li>Performing client‑side hashing before transmitting over insecure channels (though server‑side hashing is still recommended).</li>
+        <li>Performing client-side hashing before transmitting over insecure channels (though server-side hashing is still recommended).</li>
       </ol>
-      <p>Key figures: 70% of developers prefer bcrypt over Argon2 for legacy support; average verification time is 150 ms; using bcrypt reduces credential‑theft risk by up to 60% compared to plain SHA‑256.</p>
+      <p>Key figures: 70% of developers prefer bcrypt over Argon2 for legacy support; average verification time is 150 ms; using bcrypt reduces credential-theft risk by up to 60% compared to plain SHA-256.</p>
     </section>
 
     <section class="content-section">
@@ -192,27 +198,27 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
         <li>This is not an encryption tool; hashes cannot be reversed.</li>
         <li>It does not store or manage passwords; you must handle persistence yourself.</li>
         <li>It does not support streaming large inputs; passwords must fit in memory.</li>
-        <li>It does not provide server‑side validation; use server libraries for production verification.</li>
+        <li>It does not provide server-side validation; use server libraries for production verification.</li>
       </ul>
     </section>
 
     <section class="content-section">
       <h2>How It Compares</h2>
-      <p>Client‑side bcrypt generation offers distinct advantages and trade‑offs compared to server‑based solutions:</p>
+      <p>Client-side bcrypt generation offers distinct advantages and trade-offs compared to server-based solutions:</p>
       <ul>
         <li><strong>Privacy:</strong> No password leaves the device, unlike APIs that transmit raw credentials.</li>
-        <li><strong>Latency:</strong> Local computation eliminates network round‑trip; typical hash takes <em>~200 ms</em> versus <em>~500 ms</em> over HTTP.</li>
+        <li><strong>Latency:</strong> Local computation eliminates network round-trip; typical hash takes <em>~200 ms</em> versus <em>~500 ms</em> over HTTP.</li>
         <li><strong>Offline Capability:</strong> Works without internet, useful for isolated development environments.</li>
       </ul>
-      <p>Numbers: 40% of developers cite privacy as the top reason for client‑side hashing; offline tools reduce deployment costs by up to $2,000 per year; latency improvement can be as high as 60%.</p>
+      <p>Numbers: 40% of developers cite privacy as the top reason for client-side hashing; offline tools reduce deployment costs by up to $2,000 per year; latency improvement can be as high as 60%.</p>
     </section>
 
     <section class="content-section">
       <h2>Frequently Asked Questions</h2>
       <h3>How secure is the generated bcrypt hash?</h3>
-      <p>Bcrypt is a proven adaptive hashing algorithm; with a cost factor of 12 it takes roughly 200 ms on modern CPUs, making brute‑force attacks expensive.</p>
+      <p>Bcrypt is a proven adaptive hashing algorithm; with a cost factor of 12 it takes roughly 200 ms on modern CPUs, making brute-force attacks expensive.</p>
       <h3>Can I use this tool for production password storage?</h3>
-      <p>Yes, the generated hashes are compatible with server‑side libraries in Node, Python, Java, etc., as long as you store the full 60‑character string.</p>
+      <p>Yes, the generated hashes are compatible with server-side libraries in Node, Python, Java, etc., as long as you store the full 60-character string.</p>
       <h3>Does the tool send my password anywhere?</h3>
       <p>No. All computation happens locally in your browser; the password never leaves your device.</p>
     </section>
@@ -223,6 +229,8 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   <div class="container">
     <div>
       <a href="/">Home</a>
+      <a href="/all-tools/">All Tools</a>
+      <a href="/guides/">Guides</a>
       <a href="/how-it-works/">How It Works</a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
@@ -233,27 +241,40 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   </div>
 </footer>
 
-<!-- bcryptjs 2.4.3 minified -->
-<script>
-!function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=0)}([function(e,t,n){e.exports=n(1)},function(e,t){var n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".split("");function r(e){var t=[];for(var r=0;r<e.length;r+=3){var o=e.charCodeAt(r),i=e.charCodeAt(r+1),a=e.charCodeAt(r+2),c=o<<16|i<<8|a;for(var s=0;s<4;s++)t.push(n[(c>>>6*(3-s))&63])}return t.join("")}function o(e){var t=[];for(var r=0;r<e.length;r+=4){var o=e.charAt(r),i=e.charAt(r+1),a=e.charAt(r+2),c=e.charAt(r+3),s=n.indexOf(o),u=n.indexOf(i),l=n.indexOf(a),f=n.indexOf(c),h=(s<<2|u>>4)&255;var p=(u&15)<<4|l>>2&255;var d=(l&3)<<6|f&63;t.push(String.fromCharCode(h));255!==p&&t.push(String.fromCharCode(p));255!==d&&t.push(String.fromCharCode(d))}return t.join("")}function i(e){var t=e.length;return t%4===0&&e.slice(-2)==="=="}function a(e){return e.replace(/[+\/]/g,function(e){return e==="/"?"-":"_"})}function c(e){return e.replace(/[-_]/g,function(e){return e==="/"?"+" :"/"})}function s(e){return r(e)}function u(e){return o(e)}function l(e){return a(s(e))}function f(e){return c(u(e))}function h(e){return i(e)?u(e):u(e+"==")}function p(e){return i(e)?s(e):s(e+"==")}function d(e){return a(p(e))}function g(e){return c(h(e))}function m(e){var t=e.split("$");if(t.length<4)return null;var n=parseInt(t[2],10);if(isNaN(n))return null;var r=t[3];return{version:t[1],cost:n,salt:r}}function y(e,t){var r=m(e);if(!r)return null;var o=r.salt;var i=String.fromCharCode.apply(null,Array.from({length:16},function(){return Math.floor(Math.random()*256)}));var a=r.version+"$"+("0"+r.cost).slice(-2)+"$"+o;return a}e.exports={encodeBase64:s,decodeBase64:u,encodeBase64Url:l,decodeBase64Url:f,base64Encode:r,base64Decode:o,base64urlEncode:l,base64urlDecode:f,parseHash:m,hash:y}}]);
-</script>
+<!-- Real bcryptjs library from jsDelivr (replaces broken fake library) -->
+<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
 
 <script>
 document.getElementById('generateBtn').addEventListener('click', function() {
+  var output = document.getElementById('output');
   var password = document.getElementById('password').value;
   var costSelect = document.getElementById('cost').value;
   var customRounds = document.getElementById('rounds').value;
-  var rounds = customRounds ? parseInt(customRounds,10) : parseInt(costSelect,10);
-  if (!password) {
+
+  if (typeof bcrypt === 'undefined') {
+    output.textContent = 'Error: bcrypt library failed to load. Please refresh the page.';
     return;
   }
+
+  if (!password) {
+    output.textContent = 'Please enter a password first.';
+    return;
+  }
+
+  var rounds = customRounds ? parseInt(customRounds, 10) : parseInt(costSelect, 10);
+
+  if (isNaN(rounds) || rounds < 4 || rounds > 31) {
+    output.textContent = 'Error: Cost factor must be between 4 and 31.';
+    return;
+  }
+
   try {
     var salt = bcrypt.genSaltSync(rounds);
     var hash = bcrypt.hashSync(password, salt);
-    document.getElementById('output').textContent = hash;
+    output.textContent = hash;
     document.getElementById('leadForm').classList.add('show');
   } catch (e) {
-    document.getElementById('output').textContent = 'Error generating hash.';
+    output.textContent = 'Error generating hash: ' + e.message;
   }
 });
 </script>
