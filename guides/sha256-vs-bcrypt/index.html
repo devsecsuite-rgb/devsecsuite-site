@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHA-256 vs Bcrypt: When to Use Each for Password Storage</title>
+<meta name="description" content="SHA-256 and bcrypt are both hashes, but only one is safe for passwords. Compare speed, security, and when to use each algorithm.">
+<link rel="canonical" href="https://devsecsuite.com/guides/sha256-vs-bcrypt/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="SHA-256 vs Bcrypt: When to Use Each for Password Storage">
+<meta property="og:description" content="SHA-256 and bcrypt are both hashes, but only one is safe for passwords. Compare speed, security, and when to use each.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://devsecsuite.com/guides/sha256-vs-bcrypt/">
+<meta property="og:image" content="https://devsecsuite.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="SHA-256 vs Bcrypt: When to Use Each">
+<meta name="twitter:description" content="SHA-256 and bcrypt are both hashes, but only one is safe for passwords.">
+<link rel="icon" href="/favicon.ico">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SHA-256 vs Bcrypt: When to Use Each for Password Storage",
+  "description": "SHA-256 and bcrypt are both hashes, but only one is safe for passwords. Compare speed, security, and when to use each algorithm.",
+  "author": {"@type": "Person", "name": "Emiliano", "url": "https://devsecsuite.com/about/"},
+  "publisher": {"@type": "Organization", "name": "DevSecSuite", "url": "https://devsecsuite.com", "logo": {"@type": "ImageObject", "url": "https://devsecsuite.com/og-image.png"}},
+  "datePublished": "2026-11-16",
+  "dateModified": "2026-11-16",
+  "url": "https://devsecsuite.com/guides/sha256-vs-bcrypt/",
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://devsecsuite.com/guides/sha256-vs-bcrypt/"},
+  "image": "https://devsecsuite.com/og-image.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I use SHA-256 to store passwords?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. SHA-256 is too fast — a modern GPU can compute roughly 20 billion SHA-256 hashes per second. That makes brute-forcing stolen password hashes trivially cheap. Use bcrypt, scrypt, or Argon2 instead, which are designed to be slow."}
+    },
+    {
+      "@type": "Question",
+      "name": "What bcrypt cost factor should I use in 2026?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Use a cost factor of 12. It takes roughly 250ms per hash on modern hardware, which is fast enough for logins but slow enough to make offline cracking expensive. Never go below 10 — cost factor 10 is now considered the minimum for legacy systems."}
+    },
+    {
+      "@type": "Question",
+      "name": "Does bcrypt include a salt automatically?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. Bcrypt generates a random 16-byte salt for every hash and stores it inside the hash string itself. You never need to manage salts manually. SHA-256, by contrast, has no built-in salt — you must add one or use HMAC."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is SHA-256 still secure for JWT signatures?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. HS256 (HMAC-SHA256) is a standard JWT signing algorithm and is secure for token integrity. The key insight is that SHA-256 is unsafe for password storage but safe for integrity verification where the input is not a low-entropy secret."}
+    },
+    {
+      "@type": "Question",
+      "name": "What is the bcrypt 72-byte password limit?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Bcrypt only processes the first 72 bytes of input. Passwords longer than 72 bytes are silently truncated. This is a known limitation of the original bcrypt design. If you need unlimited password length, use Argon2id or scrypt instead."}
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://devsecsuite.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://devsecsuite.com/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "SHA-256 vs Bcrypt", "item": "https://devsecsuite.com/guides/sha256-vs-bcrypt/"}
+  ]
+}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.7;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:760px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+nav a:hover{color:#58a6ff}
+main{padding:3rem 0}
+.breadcrumb{font-size:.85rem;color:#6e7681;margin-bottom:1.5rem}
+.breadcrumb a{color:#8b949e;text-decoration:none}
+.breadcrumb a:hover{color:#58a6ff}
+.breadcrumb span{margin:0 .4rem}
+h1{font-size:2.2rem;line-height:1.25;margin-bottom:1rem;color:#f0f6fc}
+.lead{font-size:1.15rem;color:#8b949e;margin-bottom:1rem}
+.meta{font-size:.9rem;color:#6e7681;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid #30363d}
+.meta a{color:#8b949e}
+h2{font-size:1.45rem;margin:2.5rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.15rem;margin:1.75rem 0 .75rem;color:#f0f6fc}
+p{margin-bottom:1.1rem;color:#c9d1d9}
+ul,ol{margin:0 0 1.25rem 1.5rem;color:#c9d1d9}
+li{margin-bottom:.5rem}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:#f0f6fc}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+pre{background:#161b22;padding:1rem;border-radius:6px;overflow-x:auto;margin:1rem 0}
+pre code{background:none;padding:0}
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;background:#161b22;border-radius:8px;overflow:hidden}
+th,td{text-align:left;padding:.75rem 1rem;border-bottom:1px solid #30363d}
+th{background:#1c2128;font-weight:600;color:#f0f6fc;font-size:.85rem;text-transform:uppercase;letter-spacing:.03em}
+td{color:#c9d1d9}
+tr:last-child td{border-bottom:none}
+.callout{background:#161b22;border-left:3px solid #58a6ff;border-radius:6px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.callout p{margin:0}
+.callout.warning{border-left-color:#f85149}
+.callout.success{border-left-color:#3fb950}
+.tool-cta{background:#0f2417;border:1px solid #238636;border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.tool-cta p{margin:0 0 .5rem}
+.tool-cta p:last-child{margin:0}
+.tool-cta a{color:#7ee787;font-weight:600}
+.faq{margin-top:3rem}
+.faq-item{border-top:1px solid #30363d;padding:1.5rem 0}
+.faq-item:last-child{border-bottom:1px solid #30363d}
+.faq-item h3{margin-top:0}
+.related{background:#161b22;border-radius:8px;padding:1.5rem;margin:3rem 0 0}
+.related h3{margin-top:0;font-size:1.1rem}
+.related ul{margin-bottom:0}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+footer a:hover{color:#58a6ff}
+@media(max-width:640px){h1{font-size:1.6rem}nav a{margin-left:1rem;font-size:.85rem}.container{padding:0 1rem}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<a href="/" class="logo">devsecsuite</a>
+<nav>
+<a href="/all-tools/">All Tools</a>
+<a href="/how-it-works/">How It Works</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</nav>
+</div>
+</header>
+
+<main>
+<div class="container">
+
+<div class="breadcrumb">
+<a href="/">Home</a><span>›</span><a href="/guides/">Guides</a><span>›</span>SHA-256 vs Bcrypt
+</div>
+
+<h1>SHA-256 vs Bcrypt: When to Use Each for Password Storage</h1>
+<p class="lead">SHA-256 and bcrypt are both hash functions. One is fast, general-purpose, and completely unsuitable for passwords. The other is deliberately slow, salted, and built for exactly one job — protecting user credentials. Mixing them up is one of the most common security mistakes in production code.</p>
+<p class="meta">By <a href="/about/">Emiliano</a> · Published November 16, 2026 · 10 min read</p>
+
+<h2>What is a password hash?</h2>
+<p>A password hash is a one-way mathematical transformation. You feed it a password, and it returns a fixed-length string. You cannot reverse the operation — you cannot "decrypt" a hash to recover the original password.</p>
+<p>When a user signs up, you store the hash. When they log in, you hash what they typed and compare. If the hashes match, the password is correct. This means a database breach does not expose plaintext passwords — attackers get hashes, which they must crack.</p>
+<p>The security of this model depends entirely on <strong>how expensive it is to compute each hash</strong>. Fast hashes are cheap for you and cheap for attackers. Slow hashes are cheap for you and expensive for attackers. That is the entire design rationale behind bcrypt — and the reason SHA-256 should never be used for passwords.</p>
+
+<h2>What is SHA-256?</h2>
+<p>SHA-256 is a cryptographic hash function published by the NSA and standardized by NIST in <strong>FIPS 180-2</strong> (2001) and later refined in <strong>FIPS 180-4</strong> (2015). It belongs to the SHA-2 family, alongside SHA-224, SHA-384, and SHA-512.</p>
+<p>SHA-256 always produces a <strong>256-bit (32-byte) output</strong>, regardless of input size. It is designed for speed and collision resistance — two properties that make it ideal for content integrity, digital signatures, and password-free cryptographic protocols.</p>
+<p>SHA-256 is embedded in TLS 1.3, Bitcoin proof-of-work, Git commit hashing, and JWT signing via HS256. It is everywhere because it is fast, well-studied, and mathematically sound. Those same properties are exactly why it fails as a password hasher.</p>
+
+<div class="callout warning">
+<p><strong>Key point:</strong> SHA-256 was never designed to be slow. Its speed is a feature for content verification and a catastrophic flaw for password storage.</p>
+</div>
+
+<h3>How fast is SHA-256, really?</h3>
+<p>A modern CPU core computes roughly <strong>1.5 GB per second</strong> of SHA-256 throughput. On a consumer GPU like the RTX 4090, that becomes approximately <strong>20 billion hashes per second</strong> for simple password-length inputs. A $2,000 GPU can try every 8-character password in a typical user database in under a minute.</p>
+
+<h2>What is Bcrypt?</h2>
+<p>Bcrypt was designed by <strong>Niels Provos and David Mazières</strong> at USENIX 1999 specifically to make password cracking expensive. The paper, <em>"A Future-Adaptable Password Scheme"</em>, introduced a "cost factor" that lets the algorithm be deliberately tuned to take longer as hardware gets faster.</p>
+<p>Three properties define bcrypt:</p>
+<ul>
+<li><strong>Deliberate slowness.</strong> A cost factor of 12 means 2<sup>12</sup> = 4,096 iterations of an expensive key derivation. Each hash takes roughly 250ms on modern hardware.</li>
+<li><strong>Automatic salting.</strong> Bcrypt generates a random 16-byte salt for every hash and stores it inside the output string. Two identical passwords produce two completely different hashes.</li>
+<li><strong>Adaptive difficulty.</strong> When hardware gets faster, you raise the cost factor. The hash format supports this without changing your code.</li>
+</ul>
+
+<h3>What does a bcrypt hash look like?</h3>
+<pre><code>$2y$12$R9h/cIPz0gi.URNNX3kh2OPST9/PgBkqquzi.Ss7KIUgO2t0jWMUW</code></pre>
+<p>The structure breaks down like this:</p>
+<ul>
+<li><code>$2y$</code> — algorithm version (2y is the current standard)</li>
+<li><code>12</code> — cost factor (2<sup>12</sup> = 4,096 iterations)</li>
+<li><code>R9h/cIPz0gi.URNNX3kh2O</code> — 22-character salt (Base64-encoded 16 bytes)</li>
+<li><code>PST9/PgBkqquzi.Ss7KIUgO2t0jWMUW</code> — 31-character hash output</li>
+</ul>
+<p>Everything the verifier needs is stored in the string itself. You never manage salts manually — bcrypt handles it.</p>
+
+<div class="tool-cta">
+<p><strong>Try it yourself:</strong> Generate a bcrypt hash with your browser using our <a href="/bcrypt-generator/">bcrypt hash generator</a>. Nothing you type leaves your device.</p>
+</div>
+
+<h2>SHA-256 vs Bcrypt: side-by-side comparison</h2>
+
+<table>
+<tr><th>Property</th><th>SHA-256</th><th>Bcrypt</th></tr>
+<tr><td>Designed for</td><td>Integrity, signatures, general hashing</td><td>Password storage only</td></tr>
+<tr><td>Speed (modern CPU)</td><td>~1.5 GB/s (~1.5 billion hashes/s)</td><td>~250 hashes/s at cost 12</td></tr>
+<tr><td>Speed (RTX 4090 GPU)</td><td>~20 billion hashes/s</td><td>~2,000 hashes/s</td></tr>
+<tr><td>Built-in salt</td><td>No</td><td>Yes (16 bytes, per hash)</td></tr>
+<tr><td>Output size</td><td>32 bytes (256 bits)</td><td>~60 bytes (variable format)</td></tr>
+<tr><td>Tunable difficulty</td><td>No</td><td>Yes (cost factor 4–31)</td></tr>
+<tr><td>Max input length</td><td>Unlimited (in practice)</td><td>72 bytes (hard limit)</td></tr>
+<tr><td>Standardized by</td><td>NIST FIPS 180-4 (2015)</td><td>USENIX 1999 paper; OpenBSD</td></tr>
+<tr><td>Safe for passwords?</td><td><strong>No</strong></td><td><strong>Yes</strong></td></tr>
+</table>
+
+<h2>Why is SHA-256 unsafe for passwords?</h2>
+<p>Three overlapping reasons:</p>
+<ol>
+<li><strong>It is too fast.</strong> A GPU computes 20 billion SHA-256 hashes per second. With a rainbow table of common passwords, an attacker finds the plaintext of most users in minutes.</li>
+<li><strong>It has no built-in salt.</strong> Unsalted SHA-256 hashes of the same password are identical across users. An attacker who cracks one hash cracks them all.</li>
+<li><strong>It cannot be tuned.</strong> As hardware improves, SHA-256 gets faster for attackers. There is no way to make it slower for everyone.</li>
+</ol>
+<p>The <strong>RockYou2024 leak</strong> exposed approximately <strong>9.9 billion plaintext passwords</strong>. Any site that stored those passwords as unsalted SHA-256 hashes has effectively published its users' credentials. The hashes offer almost no protection against an attacker with a GPU and a leaked dictionary.</p>
+
+<div class="callout warning">
+<p><strong>Common mistake:</strong> Some developers believe that using SHA-256 with a salt (e.g., <code>sha256(salt + password)</code>) makes it safe. It does not. Salted SHA-256 stops rainbow tables but still falls to brute-force cracking in seconds because the underlying hash is still billions of times too fast.</p>
+</div>
+
+<h2>When should you use SHA-256?</h2>
+<p>SHA-256 is the correct choice whenever you need a <strong>fast, deterministic integrity check</strong> — not password protection. The common legitimate use cases are:</p>
+<ul>
+<li><strong>File integrity verification.</strong> Checking that a download matches a published hash, or verifying that a Git commit has not been tampered with.</li>
+<li><strong>HMAC signatures.</strong> Verifying message authenticity where the input is high-entropy and the risk is tampering, not brute-force. This is the mechanism behind JWT <code>HS256</code>.</li>
+<li><strong>Content addressing.</strong> Bitcoin, IPFS, and Git all use SHA-256 to identify content by its hash.</li>
+<li><strong>Password-derived keys in KDF chains.</strong> When SHA-256 is used inside PBKDF2 with high iteration counts (600,000+ per OWASP), it is acceptable — but at that point you are effectively using SHA-256 as a primitive inside a slow KDF, not as a password hasher directly.</li>
+</ul>
+
+<div class="tool-cta">
+<p><strong>Quick check:</strong> Compute a SHA-256 hash with our <a href="/hash-generator/">hash generator</a> and compare it against your local <code>sha256sum</code> output — the results will match exactly. This is exactly what SHA-256 is designed for.</p>
+</div>
+
+<h3>What about JWT signatures?</h3>
+<p>You may have seen JWTs signed with <code>HS256</code> (HMAC-SHA256). This is safe because the JWT secret is a long random string, not a low-entropy password. An attacker cannot brute-force a 256-bit random secret. To inspect a JWT safely, use our <a href="/jwt-decoder/">JWT decoder</a> — it runs entirely in your browser.</p>
+
+<h2>When should you use Bcrypt?</h2>
+<p>Bcrypt is the correct choice for <strong>password storage, and only that</strong>. If you are storing user credentials in a database — signup, login, password reset — bcrypt is the tool.</p>
+<ul>
+<li><strong>User account passwords.</strong> Any interactive login where users type a password.</li>
+<li><strong>API keys that users create themselves.</strong> If the "key" is human-chosen, treat it like a password.</li>
+<li><strong>Password-protected exports or backups.</strong> Wherever you would otherwise be tempted to use SHA-256 on something human-memorable, use bcrypt instead.</li>
+</ul>
+
+<h3>What cost factor should you use?</h3>
+<p>The cost factor is a power of 2. Cost 12 = 4,096 iterations. Every increment doubles the time to compute one hash, both for you and for an attacker.</p>
+
+<table>
+<tr><th>Cost</th><th>Approximate time per hash (2026 hardware)</th><th>Recommendation</th></tr>
+<tr><td>10</td><td>~60ms</td><td>Legacy systems only</td></tr>
+<tr><td>11</td><td>~125ms</td><td>Acceptable minimum</td></tr>
+<tr><td><strong>12</strong></td><td><strong>~250ms</strong></td><td><strong>Recommended for new applications</strong></td></tr>
+<tr><td>13</td><td>~500ms</td><td>High-security applications</td></tr>
+<tr><td>14+</td><td>1s+</td><td>Use only with a strong reason</td></tr>
+</table>
+
+<p>Use cost factor <strong>12</strong> as your default. It hits the sweet spot: logins still feel instant (250ms is imperceptible to a user), but an attacker with a GPU must run 250,000x slower than they would against SHA-256.</p>
+
+<div class="callout success">
+<p><strong>Why 250ms is safe:</strong> Logins happen once per user per session. A 250ms delay is invisible. But an attacker hashing a stolen database must run that 250ms for every guess — that is the difference between cracking 1 million passwords in a minute (SHA-256) and 4,000 passwords per second (bcrypt cost 12).</p>
+</div>
+
+<h2>Common mistakes developers make</h2>
+<ol>
+<li><strong>Using SHA-256 for passwords.</strong> The single most common security bug in code review.</li>
+<li><strong>Using bcrypt but with a low cost factor.</strong> Cost 4 (16 iterations) offers almost no protection. Always use cost 12.</li>
+<li><strong>Using MD5 or SHA-1 for passwords.</strong> Both are cryptographically broken and even faster than SHA-256. Never use them for security purposes.</li>
+<li><strong>Manually salting SHA-256.</strong> Salted SHA-256 is still far too fast. Salting does not fix the speed problem.</li>
+<li><strong>Storing passwords in a reversible format.</strong> Encryption is not hashing. If the key leaks, every password leaks instantly.</li>
+<li><strong>Ignoring the 72-byte bcrypt limit.</strong> Passwords longer than 72 bytes are silently truncated. For very long passphrases, use Argon2id instead.</li>
+</ol>
+
+<h2>What are the modern alternatives to bcrypt?</h2>
+<p>Bcrypt is still excellent, but three newer algorithms address specific limitations:</p>
+<ul>
+<li><strong>Argon2id.</strong> Winner of the 2015 Password Hashing Competition. Recommended by OWASP as the first choice in 2026. Memory-hard — requires configurable RAM in addition to time. No 72-byte limit.</li>
+<li><strong>scrypt.</strong> Memory-hard like Argon2. Simpler to implement, older, well-studied. A reasonable choice when Argon2 is unavailable.</li>
+<li><strong>PBKDF2 with SHA-256.</strong> Acceptable when configured with 600,000+ iterations (OWASP 2026 recommendation). Only worth choosing for legacy compatibility — it is not memory-hard.</li>
+</ul>
+<p>For a new project in 2026, the priority is: <strong>Argon2id &gt; bcrypt (cost 12) &gt; scrypt &gt; PBKDF2</strong>. Bcrypt remains safe as long as your cost factor is at least 12.</p>
+
+<h2>Frequently asked questions</h2>
+
+<div class="faq">
+
+<div class="faq-item">
+<h3>Can I use SHA-256 to store passwords?</h3>
+<p>No. SHA-256 is too fast — a modern GPU can compute roughly 20 billion SHA-256 hashes per second. That makes brute-forcing stolen password hashes trivially cheap. Use bcrypt, scrypt, or Argon2 instead, which are designed to be slow.</p>
+</div>
+
+<div class="faq-item">
+<h3>What bcrypt cost factor should I use in 2026?</h3>
+<p>Use cost factor 12. It takes roughly 250ms per hash on modern hardware, fast enough for logins but slow enough to make offline cracking expensive. Never go below 10.</p>
+</div>
+
+<div class="faq-item">
+<h3>Does bcrypt include a salt automatically?</h3>
+<p>Yes. Bcrypt generates a random 16-byte salt for every hash and stores it inside the output string. You never manage salts manually. SHA-256, by contrast, has no built-in salt.</p>
+</div>
+
+<div class="faq-item">
+<h3>Is SHA-256 still secure for JWT signatures?</h3>
+<p>Yes. HS256 (HMAC-SHA256) is a standard JWT signing algorithm and is secure for token integrity. The key insight is that SHA-256 is unsafe for password storage but safe for integrity verification where the input is not a low-entropy secret.</p>
+</div>
+
+<div class="faq-item">
+<h3>What is the bcrypt 72-byte password limit?</h3>
+<p>Bcrypt only processes the first 72 bytes of input. Passwords longer than 72 bytes are silently truncated. If you need unlimited password length, use Argon2id or scrypt instead.</p>
+</div>
+
+</div>
+
+<h2>The bottom line</h2>
+<p>SHA-256 and bcrypt are both cryptographic hash functions, but they were designed for opposite purposes. SHA-256 is optimized for speed and integrity — it is the correct tool for file checksums, HMAC signatures, and content addressing, but the worst possible choice for password storage.</p>
+<p>Bcrypt is optimized for exactly one job: making passwords expensive to crack. Use it with cost factor 12, and it will protect your users even if your database leaks tomorrow.</p>
+<p>If you are auditing code and see <code>sha256(password)</code>, that is a bug. If you see <code>sha256(password + salt)</code>, that is still a bug. The correct pattern is <code>bcrypt.hash(password, 12)</code> — and nothing else.</p>
+
+<div class="related">
+<h3>Related tools and guides</h3>
+<ul>
+<li><a href="/bcrypt-generator/">Bcrypt Hash Generator</a> — generate bcrypt hashes with a configurable cost factor, entirely in your browser.</li>
+<li><a href="/hash-generator/">Hash Generator</a> — compute MD5, SHA-1, SHA-256, and SHA-512 for integrity checks.</li>
+<li><a href="/password-generator/">Strong Password Generator</a> — create cryptographically secure passwords before hashing them.</li>
+<li><a href="/jwt-decoder/">JWT Decoder</a> — inspect a JWT's header and payload, including HS256 signatures.</li>
+<li><a href="/all-tools/">All DevSecSuite tools</a> — the full directory of browser-based developer utilities.</li>
+<li><a href="/how-it-works/">How DevSecSuite works</a> — every tool runs locally. Here is how to verify it yourself.</li>
+</ul>
+</div>
+
+</div>
+</main>
+
+<footer>
+<div class="container">
+<div>
+<a href="/">Home</a>
+<a href="/all-tools/">All Tools</a>
+<a href="/how-it-works/">How It Works</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</div>
+<div>
+<a href="/privacy/">Privacy</a>
+<a href="/terms/">Terms</a>
+</div>
+</div>
+</footer>
+
+</body>
+</html>

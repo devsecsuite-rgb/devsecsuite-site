@@ -39,4 +39,6 @@
 <url><loc>https://devsecsuite.com/slug-generator/</loc><priority>0.9</priority></url>
 <url><loc>https://devsecsuite.com/case-converter/</loc><priority>0.9</priority></url>
 <url><loc>https://devsecsuite.com/how-it-works/</loc><priority>0.5</priority></url>
+<url><loc>https://devsecsuite.com/guides/</loc><priority>0.7</priority></url>
+<url><loc>https://devsecsuite.com/guides/sha256-vs-bcrypt/</loc><priority>0.8</priority></url>
 </urlset>
