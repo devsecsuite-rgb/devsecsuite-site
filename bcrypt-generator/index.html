@@ -241,8 +241,9 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   </div>
 </footer>
 
-<!-- Real bcryptjs library from jsDelivr (replaces broken fake library) -->
-<script src="https://cdn.jsdelivr.net/npm/bcryptjs@2.4.3/dist/bcrypt.min.js"></script>
+<!-- Real bcryptjs library — UMD build (creates a proper `bcrypt` global) -->
+<!-- Real bcryptjs library — UMD build (v3.0.3, confirmed working) -->
+<script src="https://cdn.jsdelivr.net/npm/bcryptjs@3.0.3/umd/index.min.js"></script>
 
 <script>
 document.getElementById('generateBtn').addEventListener('click', function() {
@@ -251,7 +252,10 @@ document.getElementById('generateBtn').addEventListener('click', function() {
   var costSelect = document.getElementById('cost').value;
   var customRounds = document.getElementById('rounds').value;
 
-  if (typeof bcrypt === 'undefined') {
+  // UMD build exposes `bcrypt`; dist build exposes `dcodeIO.bcrypt`
+  var bcryptLib = window.bcrypt || (window.dcodeIO && window.dcodeIO.bcrypt);
+
+  if (!bcryptLib || typeof bcryptLib.genSaltSync !== 'function') {
     output.textContent = 'Error: bcrypt library failed to load. Please refresh the page.';
     return;
   }
@@ -269,8 +273,8 @@ document.getElementById('generateBtn').addEventListener('click', function() {
   }
 
   try {
-    var salt = bcrypt.genSaltSync(rounds);
-    var hash = bcrypt.hashSync(password, salt);
+    var salt = bcryptLib.genSaltSync(rounds);
+    var hash = bcryptLib.hashSync(password, salt);
     output.textContent = hash;
     document.getElementById('leadForm').classList.add('show');
   } catch (e) {
