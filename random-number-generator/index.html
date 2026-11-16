@@ -27,17 +27,17 @@
     {
       "@type":"Question",
       "name":"How does the generator ensure cryptographic security?",
-      "acceptedAnswer":{"@type":"Answer","text":"It uses the Web Crypto API’s crypto.getRandomValues() which draws randomness from the operating system’s CSPRNG, providing entropy suitable for security‑critical operations."}
+      "acceptedAnswer":{"@type":"Answer","text":"It uses the Web Crypto API's crypto.getRandomValues() which draws randomness from the operating system's CSPRNG, providing entropy suitable for security-critical operations."}
     },
     {
       "@type":"Question",
       "name":"Can I generate numbers without duplicates?",
-      "acceptedAnswer":{"@type":"Answer","text":"Yes. When “Allow duplicates” is unchecked the script builds a Set of unique values, discarding repeats until the requested quantity is reached, similar to a lottery draw."}
+      "acceptedAnswer":{"@type":"Answer","text":"Yes. When 'Allow duplicates' is unchecked the script builds a Set of unique values, discarding repeats until the requested quantity is reached, similar to a lottery draw."}
     },
     {
       "@type":"Question",
       "name":"Is the tool usable offline?",
-      "acceptedAnswer":{"@type":"Answer","text":"Because it runs entirely in the browser and relies on the built‑in Crypto API, it works without an internet connection after the page has loaded."}
+      "acceptedAnswer":{"@type":"Answer","text":"Because it runs entirely in the browser and relies on the built-in Crypto API, it works without an internet connection after the page has loaded."}
     }
   ]
 }
@@ -64,6 +64,9 @@ input[type="text"],input[type="number"],input[type="email"],select{width:100%;pa
 input:focus,select:focus{outline:2px solid #58a6ff;border-color:transparent}
 .form-group{margin-bottom:1.25rem}
 .output{background:#0d1117;border:1px solid #30363d;border-radius:6px;padding:1rem;font-family:"SF Mono",Monaco,monospace;font-size:.85rem;color:#7ee787;word-break:break-all;min-height:2rem;margin-bottom:1rem;white-space:pre-wrap}
+.output-info{font-size:.85rem;color:#8b949e;margin-bottom:.5rem;font-family:-apple-system,sans-serif}
+.output-info.error{color:#f85149}
+.output-info.warn{color:#d29922}
 .output-label{font-size:.8rem;color:#6e7681;margin-bottom:.4rem;text-transform:uppercase;letter-spacing:.05em}
 button{background:#238636;color:#fff;border:none;padding:.6rem 1.2rem;font-size:.95rem;font-weight:600;border-radius:6px;cursor:pointer}
 button:hover{background:#2ea043}
@@ -91,6 +94,8 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   <div class="container">
     <a href="/" class="logo">devsecsuite</a>
     <nav>
+      <a href="/all-tools/">All Tools</a>
+      <a href="/guides/">Guides</a>
       <a href="/how-it-works/">How It Works</a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
@@ -100,19 +105,20 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <main>
   <div class="container">
     <h1>Random Number Generator</h1>
+    <p>Generate cryptographically secure random integers in your browser. Choose the range, quantity, and whether duplicates are allowed — nothing leaves your device.</p>
     <div class="tool-box">
-      <form id="rngForm">
+      <form id="rngForm" novalidate>
         <div class="form-group">
           <label for="min">Minimum value</label>
-          <input type="number" id="min" name="min" placeholder="e.g., 1">
+          <input type="number" id="min" name="min" value="1">
         </div>
         <div class="form-group">
           <label for="max">Maximum value</label>
-          <input type="number" id="max" name="max" placeholder="e.g., 100">
+          <input type="number" id="max" name="max" value="100">
         </div>
         <div class="form-group">
           <label for="quantity">Quantity</label>
-          <input type="number" id="quantity" name="quantity" placeholder="e.g., 5">
+          <input type="number" id="quantity" name="quantity" value="5">
         </div>
         <div class="form-group">
           <label>
@@ -122,55 +128,60 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
         <button type="submit">Generate</button>
       </form>
       <div class="output-label">Result</div>
+      <div class="output-info" id="outputInfo"></div>
       <div class="output" id="output"></div>
     </div>
 
     <details>
       <summary>How this tool works</summary>
-      <p>This tool calls <code>crypto.getRandomValues()</code> to obtain high‑entropy random bytes from the browser’s built‑in CSPRNG. The bytes are then scaled to the user‑defined range and, if duplicates are disallowed, filtered until the requested quantity of unique numbers is collected.</p>
-      <p>Reference: <a href="https://datatracker.ietf.org/doc/html/rfc4086" target="_blank">RFC 4086</a>.</p>
+      <p>This tool calls <code>crypto.getRandomValues()</code> to obtain high-entropy random bytes from the browser's built-in CSPRNG. Random values are mapped to the user-defined range using rejection sampling to eliminate modulo bias. When duplicates are disallowed, the tool uses a Fisher-Yates shuffle of the full range (fast) when you request most of the range, or a Set-based rejection sampler when you request only a few values.</p>
+      <p>Reference: <a href="https://datatracker.ietf.org/doc/html/rfc4086" target="_blank" rel="noopener">RFC 4086 — Randomness Requirements for Security</a>.</p>
     </details>
+
+    <div style="background:#0d2818;border-left:3px solid #3fb950;padding:1rem 1.25rem;border-radius:6px;margin:1.5rem 0">
+      <p style="margin:0;color:#c9d1d9"><strong style="color:#7ee787">Need secure passwords instead?</strong> Our <a href="/password-generator/" style="color:#7ee787;font-weight:600">Strong Password Generator</a> uses the same Web Crypto API to produce cryptographically secure passwords. And once you've generated credentials, our guide <a href="/guides/sha256-vs-bcrypt/" style="color:#7ee787;font-weight:600">SHA-256 vs Bcrypt</a> explains how to hash them safely for storage.</p>
+    </div>
 
     <section class="content-section">
       <h2>What Is Random Number Generator?</h2>
-      <p>The Random Number Generator (RNG) tool provides developers with a quick way to produce cryptographically secure integers directly in the browser. By leveraging the Web Crypto API, the generator avoids the pitfalls of Math.random() and delivers entropy suitable for security‑sensitive contexts such as token creation, nonce generation, and test data seeding. It operates entirely client‑side, meaning no server round‑trip, zero latency beyond the cryptographic call, and full privacy for the user’s data.</p>
+      <p>The Random Number Generator (RNG) tool provides developers with a quick way to produce cryptographically secure integers directly in the browser. By leveraging the Web Crypto API, the generator avoids the pitfalls of Math.random() and delivers entropy suitable for security-sensitive contexts such as token creation, nonce generation, and test data seeding. It operates entirely client-side, meaning no server round-trip, zero latency beyond the cryptographic call, and full privacy for the user's data.</p>
       <ul>
         <li>Uses <code>crypto.getRandomValues()</code> for CSPRNG quality.</li>
         <li>Supports custom ranges and bulk generation.</li>
-        <li>Optionally enforces uniqueness for lottery‑style draws.</li>
+        <li>Optionally enforces uniqueness for lottery-style draws.</li>
         <li>No external dependencies or network requests.</li>
         <li>Runs offline after page load.</li>
       </ul>
-      <p>Key statistics: 99.9% uptime of the underlying browser crypto module, average generation time of 0.4 ms per number, and 0 USD cost for unlimited use.</p>
+      <p>Key statistics: 99.9% uptime of the underlying browser crypto module, average generation time of 0.4 ms per number, and 0 USD cost for unlimited use.</p>
     </section>
 
     <section class="content-section">
       <h2>Common Use Cases</h2>
       <ol>
-        <li>Generating secure one‑time passwords (OTPs) for multi‑factor authentication.</li>
+        <li>Generating secure one-time passwords (OTPs) for multi-factor authentication.</li>
         <li>Creating unique identifiers for test datasets without colliding with production IDs.</li>
         <li>Simulating lottery draws or random sampling in statistical simulations.</li>
         <li>Producing nonce values for cryptographic protocols like OAuth or JWT.</li>
-        <li>Seeding client‑side games or simulations where fairness is required.</li>
+        <li>Seeding client-side games or simulations where fairness is required.</li>
       </ol>
-      <p>These scenarios benefit from the tool’s speed (sub‑millisecond per value), zero cost, and compliance with security standards.</p>
+      <p>These scenarios benefit from the tool's speed (sub-millisecond per value), zero cost, and compliance with security standards.</p>
     </section>
 
     <section class="content-section">
       <h2>What This Tool Does NOT Do</h2>
       <ul>
-        <li>This is not a full‑featured encryption library.</li>
+        <li>This is not a full-featured encryption library.</li>
         <li>It does not store or transmit generated numbers; persistence is up to the user.</li>
-        <li>It does not support streaming large‑scale random data sets beyond typical UI limits.</li>
-        <li>It does not guarantee statistical randomness beyond the guarantees of the browser’s CSPRNG.</li>
+        <li>It does not support streaming large-scale random data sets beyond typical UI limits.</li>
+        <li>It does not guarantee statistical randomness beyond the guarantees of the browser's CSPRNG.</li>
       </ul>
     </section>
 
     <section class="content-section">
       <h2>How It Compares</h2>
-      <p>Compared to server‑side RNG services, this client‑side tool offers lower latency (≈0 ms network delay) and superior privacy because numbers never leave the user’s device. Server APIs may provide additional features like audit logs, but they introduce network overhead (average 50 ms round‑trip) and potential data exposure. Offline capability is a decisive advantage for developers working in isolated environments or on mobile devices.</p>
+      <p>Compared to server-side RNG services, this client-side tool offers lower latency (≈0 ms network delay) and superior privacy because numbers never leave the user's device. Server APIs may provide additional features like audit logs, but they introduce network overhead (average 50 ms round-trip) and potential data exposure. Offline capability is a decisive advantage for developers working in isolated environments or on mobile devices.</p>
       <ul>
-        <li>Latency: client < 1 ms vs. server ~50 ms.</li>
+        <li>Latency: client &lt; 1 ms vs. server ~50 ms.</li>
         <li>Privacy: 100% local vs. data transmitted to remote servers.</li>
         <li>Availability: works offline vs. requires internet connectivity.</li>
       </ul>
@@ -179,11 +190,11 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
     <section class="content-section">
       <h2>Frequently Asked Questions</h2>
       <h3>How does the generator ensure cryptographic security?</h3>
-      <p>It uses the Web Crypto API’s <code>crypto.getRandomValues()</code> which draws randomness from the operating system’s CSPRNG, providing entropy suitable for security‑critical operations.</p>
+      <p>It uses the Web Crypto API's <code>crypto.getRandomValues()</code> which draws randomness from the operating system's CSPRNG, providing entropy suitable for security-critical operations.</p>
       <h3>Can I generate numbers without duplicates?</h3>
-      <p>Yes. When “Allow duplicates” is unchecked the script builds a Set of unique values, discarding repeats until the requested quantity is reached, similar to a lottery draw.</p>
+      <p>Yes. When "Allow duplicates" is unchecked the script builds a Set of unique values, discarding repeats until the requested quantity is reached, similar to a lottery draw.</p>
       <h3>Is the tool usable offline?</h3>
-      <p>Because it runs entirely in the browser and relies on the built‑in Crypto API, it works without an internet connection after the page has loaded.</p>
+      <p>Because it runs entirely in the browser and relies on the built-in Crypto API, it works without an internet connection after the page has loaded.</p>
     </section>
 
     <div class="lead-form" id="leadForm">
@@ -204,6 +215,8 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   <div class="container">
     <div>
       <a href="/">Home</a>
+      <a href="/all-tools/">All Tools</a>
+      <a href="/guides/">Guides</a>
       <a href="/how-it-works/">How It Works</a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
@@ -214,39 +227,110 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   </div>
 </footer>
 <script>
-document.getElementById('rngForm').addEventListener('submit', function(e){
-  e.preventDefault();
-  const min = parseInt(document.getElementById('min').value,10);
-  const max = parseInt(document.getElementById('max').value,10);
-  const qty = parseInt(document.getElementById('quantity').value,10);
-  const allowDup = document.getElementById('allowDup').checked;
-  if (isNaN(min) || isNaN(max) || isNaN(qty) || min > max) {
-    document.getElementById('output').textContent = 'Please provide valid numeric inputs.';
-    return;
+(function(){
+  const UINT32_RANGE = 4294967296;
+  const MAX_QTY = 10000;
+
+  function randomUint32(){
+    const buf = new Uint32Array(1);
+    window.crypto.getRandomValues(buf);
+    return buf[0];
   }
-  const range = max - min + 1;
-  const result = [];
-  const unique = new Set();
-  const needed = allowDup ? qty : Math.min(qty, range);
-  while (result.length < needed) {
-    const array = new Uint32Array(needed - result.length);
-    crypto.getRandomValues(array);
-    for (let i = 0; i < array.length; i++) {
-      const num = min + (array[i] % range);
-      if (allowDup) {
-        result.push(num);
-      } else {
-        if (!unique.has(num)) {
-          unique.add(num);
-          result.push(num);
-        }
-      }
-      if (result.length >= needed) break;
+
+  function randomBelow(range){
+    if(range <= 0) return 0;
+    const limit = Math.floor(UINT32_RANGE / range) * range;
+    let val;
+    do { val = randomUint32(); } while(val >= limit);
+    return val % range;
+  }
+
+  function shuffledRange(n){
+    const arr = new Array(n);
+    for(let i = 0; i < n; i++) arr[i] = i;
+    for(let i = n - 1; i > 0; i--){
+      const j = randomBelow(i + 1);
+      const tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp;
     }
+    return arr;
   }
-  document.getElementById('output').textContent = result.join(', ');
-  document.getElementById('leadForm').classList.add('show');
-});
+
+  function showInfo(msg, cls){
+    const el = document.getElementById('outputInfo');
+    el.textContent = msg || '';
+    el.className = 'output-info' + (cls ? ' ' + cls : '');
+  }
+
+  document.getElementById('rngForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    const output = document.getElementById('output');
+    output.textContent = '';
+    showInfo('');
+
+    if(!window.crypto || typeof window.crypto.getRandomValues !== 'function'){
+      showInfo('Error: This browser does not support the Web Crypto API. Please use a modern browser.', 'error');
+      return;
+    }
+
+    const min = parseInt(document.getElementById('min').value, 10);
+    const max = parseInt(document.getElementById('max').value, 10);
+    const qty = parseInt(document.getElementById('quantity').value, 10);
+    const allowDup = document.getElementById('allowDup').checked;
+
+    if(isNaN(min) || isNaN(max) || isNaN(qty)){
+      showInfo('Error: Please provide valid numeric inputs for min, max, and quantity.', 'error');
+      return;
+    }
+    if(min > max){
+      showInfo('Error: Minimum value must be less than or equal to maximum value.', 'error');
+      return;
+    }
+    if(qty < 1 || qty > MAX_QTY){
+      showInfo('Error: Quantity must be between 1 and ' + MAX_QTY.toLocaleString() + '. You entered ' + qty + '.', 'error');
+      return;
+    }
+
+    const range = max - min + 1;
+    let result = [];
+    let note = '';
+
+    if(allowDup){
+      for(let i = 0; i < qty; i++){
+        result.push(min + randomBelow(range));
+      }
+      showInfo('Generated ' + result.length + ' number' + (result.length === 1 ? '' : 's') + ' (duplicates allowed).');
+    } else {
+      if(qty > range){
+        note = 'Requested ' + qty + ' unique values but the range ' + min + '–' + max + ' only contains ' + range + '. Returning all ' + range + ' unique values.';
+        result = shuffledRange(range).map(v => min + v);
+        showInfo('Generated ' + result.length + ' of ' + qty + ' requested. ' + note, 'warn');
+      } else if(qty > range / 2){
+        result = shuffledRange(range).slice(0, qty).map(v => min + v);
+        showInfo('Generated ' + result.length + ' unique number' + (result.length === 1 ? '' : 's') + '.');
+      } else {
+        const seen = new Set();
+        let attempts = 0;
+        const maxAttempts = qty * 1000;
+        while(result.length < qty && attempts < maxAttempts){
+          const v = min + randomBelow(range);
+          if(!seen.has(v)){
+            seen.add(v);
+            result.push(v);
+          }
+          attempts++;
+        }
+        if(result.length < qty){
+          showInfo('Error: Could not generate enough unique values in a reasonable time. Please reduce quantity or widen the range.', 'error');
+          return;
+        }
+        showInfo('Generated ' + result.length + ' unique number' + (result.length === 1 ? '' : 's') + '.');
+      }
+    }
+
+    output.textContent = result.join(', ');
+    document.getElementById('leadForm').classList.add('show');
+  });
+})();
 </script>
 </body>
 </html>
