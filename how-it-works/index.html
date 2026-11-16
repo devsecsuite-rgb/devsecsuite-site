@@ -85,21 +85,21 @@ footer a:hover{color:#58a6ff}
 <h2>What this means for each tool</h2>
 <table>
 <tr><th>Tool</th><th>How it runs locally</th></tr>
-<tr><td>Base64 encoder/decoder</td><td>Uses the browser's native <code>btoa()</code> and <code>atob()</code> functions</td></tr>
-<tr><td>Hash generator</td><td>Uses the Web Crypto API (<code>crypto.subtle.digest</code>)</td></tr>
-<tr><td>JWT decoder</td><td>Splits the token and decodes the Base64 payload in JavaScript</td></tr>
-<tr><td>UUID generator</td><td>Uses <code>crypto.randomUUID()</code> — the browser's secure random source</td></tr>
-<tr><td>Password generator</td><td>Uses <code>crypto.getRandomValues()</code> for cryptographic randomness</td></tr>
-<tr><td>JSON/YAML/XML/SQL formatters</td><td>Parse and reformat strings in JavaScript — nothing leaves the page</td></tr>
-<tr><td>Regex tester</td><td>Uses the browser's native <code>RegExp</code> engine</td></tr>
-<tr><td>Cron parser</td><td>Pure JavaScript date logic</td></tr>
-<tr><td>Unix timestamp converter</td><td>Uses JavaScript's <code>Date</code> object</td></tr>
-<tr><td>Diff checker</td><td>String comparison in JavaScript</td></tr>
-<tr><td>Markdown previewer</td><td>Converts Markdown to HTML in the browser</td></tr>
-<tr><td>Color picker</td><td>Uses the browser's native color input</td></tr>
-<tr><td>URL encoder/decoder</td><td>Uses <code>encodeURIComponent()</code> and <code>decodeURIComponent()</code></td></tr>
-<tr><td>HTML entity encoder</td><td>String replacement in JavaScript</td></tr>
-<tr><td>bcrypt generator</td><td>Runs bcrypt.js locally (client-side library)</td></tr>
+<tr><td><a href="/base64-encoder-decoder/">Base64 encoder/decoder</a></td><td>Uses the browser's native <code>btoa()</code> and <code>atob()</code> functions</td></tr>
+<tr><td><a href="/hash-generator/">Hash generator</a></td><td>Uses the Web Crypto API (<code>crypto.subtle.digest</code>)</td></tr>
+<tr><td><a href="/jwt-decoder/">JWT decoder</a></td><td>Splits the token and decodes the Base64 payload in JavaScript</td></tr>
+<tr><td><a href="/uuid-generator/">UUID generator</a></td><td>Uses <code>crypto.randomUUID()</code> — the browser's secure random source</td></tr>
+<tr><td><a href="/password-generator/">Password generator</a></td><td>Uses <code>crypto.getRandomValues()</code> for cryptographic randomness</td></tr>
+<tr><td><a href="/json-formatter/">JSON</a>, <a href="/yaml-formatter/">YAML</a>, <a href="/xml-formatter/">XML</a>, and <a href="/sql-formatter/">SQL formatters</a></td><td>Parse and reformat strings in JavaScript — nothing leaves the page</td></tr>
+<tr><td><a href="/regex-tester/">Regex tester</a></td><td>Uses the browser's native <code>RegExp</code> engine</td></tr>
+<tr><td><a href="/cron-expression-parser/">Cron parser</a></td><td>Pure JavaScript date logic</td></tr>
+<tr><td><a href="/unix-timestamp-converter/">Unix timestamp converter</a></td><td>Uses JavaScript's <code>Date</code> object</td></tr>
+<tr><td><a href="/diff-checker/">Diff checker</a></td><td>String comparison in JavaScript</td></tr>
+<tr><td><a href="/markdown-previewer/">Markdown previewer</a></td><td>Converts Markdown to HTML in the browser</td></tr>
+<tr><td><a href="/color-picker-converter/">Color picker</a></td><td>Uses the browser's native color input</td></tr>
+<tr><td><a href="/url-encoder-decoder/">URL encoder/decoder</a></td><td>Uses <code>encodeURIComponent()</code> and <code>decodeURIComponent()</code></td></tr>
+<tr><td><a href="/html-entity-encoder/">HTML entity encoder</a></td><td>String replacement in JavaScript</td></tr>
+<tr><td><a href="/bcrypt-generator/">bcrypt generator</a></td><td>Runs bcrypt.js locally (client-side library)</td></tr>
 </table>
 
 <h2>How to verify it yourself</h2>
