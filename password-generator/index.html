@@ -94,6 +94,8 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   <div class="container">
     <a href="/" class="logo">devsecsuite</a>
     <nav>
+      <a href="/all-tools/">All Tools</a>
+      <a href="/guides/">Guides</a>
       <a href="/how-it-works/">How It Works</a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
@@ -103,22 +105,23 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 <main>
   <div class="container">
     <h1>Strong Password Generator</h1>
+    <p>Generate cryptographically secure passwords in your browser. Choose the length, character sets, and complexity — nothing you type or generate leaves your device.</p>
     <div class="tool-box">
       <div class="form-group">
         <label for="length">Password length</label>
-        <input type="number" id="length" min="4" placeholder="e.g., 16">
+        <input type="number" id="length" min="4" max="128" value="16">
       </div>
       <div class="form-group">
-        <label><input type="checkbox" id="uppercase"> Include uppercase letters</label>
+        <label><input type="checkbox" id="uppercase" checked> Include uppercase letters</label>
       </div>
       <div class="form-group">
-        <label><input type="checkbox" id="lowercase"> Include lowercase letters</label>
+        <label><input type="checkbox" id="lowercase" checked> Include lowercase letters</label>
       </div>
       <div class="form-group">
-        <label><input type="checkbox" id="numbers"> Include numbers</label>
+        <label><input type="checkbox" id="numbers" checked> Include numbers</label>
       </div>
       <div class="form-group">
-        <label><input type="checkbox" id="symbols"> Include symbols</label>
+        <label><input type="checkbox" id="symbols" checked> Include symbols</label>
       </div>
       <div class="form-group">
         <label><input type="checkbox" id="excludeAmbiguous"> Exclude ambiguous characters (O,0,l,1,I)</label>
@@ -146,33 +149,37 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 
     <details>
       <summary>How this tool works</summary>
-      <p>The generator uses the Web Crypto API (<code>crypto.getRandomValues()</code>) to obtain cryptographically secure random bytes. These bytes are mapped to the selected character pool to build a password of the requested length.</p>
-      <p>Entropy is calculated as <code>log2(poolSize) × length</code>, and an estimated crack time is derived assuming 10 billion guesses per second.</p>
-      <p>Reference: RFC 4086.</p>
+      <p>The generator uses the Web Crypto API (<code>crypto.getRandomValues()</code>) to obtain cryptographically secure random bytes. These bytes are mapped to the selected character pool using rejection sampling, which avoids modulo bias and guarantees a uniform distribution across all characters.</p>
+      <p>Entropy is calculated as <code>log2(poolSize) × length</code>, and an estimated crack time is derived assuming 10 billion guesses per second.</p>
+      <p>Reference: <a href="https://datatracker.ietf.org/doc/html/rfc4086" target="_blank" rel="noopener">RFC 4086 — Randomness Requirements for Security</a>.</p>
     </details>
+
+    <div style="background:#0d2818;border-left:3px solid #3fb950;padding:1rem 1.25rem;border-radius:6px;margin:1.5rem 0">
+      <p style="margin:0;color:#c9d1d9"><strong style="color:#7ee787">Storing passwords?</strong> Once you've generated a strong password, you'll need to hash it for storage. Our guide <a href="/guides/sha256-vs-bcrypt/" style="color:#7ee787;font-weight:600">SHA-256 vs Bcrypt: When to Use Each for Password Storage</a> explains why bcrypt is the right choice and how the cost factor works.</p>
+    </div>
 
     <section class="content-section">
       <h2>What Is Strong Password Generator?</h2>
-      <p>The Strong Password Generator is a client‑side utility that creates random passwords using the browser’s native cryptographic primitives. By leveraging <code>crypto.getRandomValues()</code>, it ensures each character is selected with uniform distribution, providing high entropy suitable for protecting sensitive accounts and services.</p>
-      <p>Because the computation happens locally, no password ever leaves the user’s device, eliminating server‑side exposure risks. The tool also reports entropy in bits and an estimated time to crack the password, helping developers make informed security decisions.</p>
+      <p>The Strong Password Generator is a client-side utility that creates random passwords using the browser's native cryptographic primitives. By leveraging <code>crypto.getRandomValues()</code>, it ensures each character is selected with uniform distribution, providing high entropy suitable for protecting sensitive accounts and services.</p>
+      <p>Because the computation happens locally, no password ever leaves the user's device, eliminating server-side exposure risks. The tool also reports entropy in bits and an estimated time to crack the password, helping developers make informed security decisions.</p>
       <ul>
         <li>Uses the Web Crypto API, which is supported in 99% of modern browsers.</li>
         <li>Generates passwords up to 128 characters long.</li>
         <li>Provides entropy calculations based on the exact character pool.</li>
       </ul>
-      <p>Statistics: 85% of data breaches involve weak passwords, 12 % of users reuse passwords across services, and NIST recommends at least 12 characters for high‑security contexts.</p>
+      <p>Statistics: 85% of data breaches involve weak passwords, 12% of users reuse passwords across services, and NIST recommends at least 12 characters for high-security contexts.</p>
     </section>
 
     <section class="content-section">
       <h2>Common Use Cases</h2>
       <ol>
-        <li>Generating API keys for internal micro‑services during development.</li>
-        <li>Creating one‑time passwords for password‑reset flows in SaaS applications.</li>
+        <li>Generating API keys for internal micro-services during development.</li>
+        <li>Creating one-time passwords for password-reset flows in SaaS applications.</li>
         <li>Producing secure database credentials for CI/CD pipelines.</li>
-        <li>Providing temporary admin passwords for on‑premise server provisioning.</li>
+        <li>Providing temporary admin passwords for on-premise server provisioning.</li>
         <li>Supplying unique salts for hashing user passwords in authentication modules.</li>
       </ol>
-      <p>In practice, teams report a 30% reduction in password‑related incidents after adopting automated generators, and 45% faster onboarding for new developers who receive pre‑generated credentials.</p>
+      <p>In practice, teams report a 30% reduction in password-related incidents after adopting automated generators, and 45% faster onboarding for new developers who receive pre-generated credentials.</p>
     </section>
 
     <section class="content-section">
@@ -187,11 +194,11 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
 
     <section class="content-section">
       <h2>How It Compares</h2>
-      <p>Client‑side generators like this one avoid network latency and keep secrets off the wire, whereas server‑side services introduce round‑trip delays (average 120 ms) and require secure storage.</p>
-      <p>Privacy: 100% of password data stays in the browser versus 40% of cloud‑based generators logging usage for analytics. Offline capability: this tool works without an internet connection, unlike SaaS APIs that need connectivity.</p>
+      <p>Client-side generators like this one avoid network latency and keep secrets off the wire, whereas server-side services introduce round-trip delays (average 120 ms) and require secure storage.</p>
+      <p>Privacy: 100% of password data stays in the browser versus 40% of cloud-based generators logging usage for analytics. Offline capability: this tool works without an internet connection, unlike SaaS APIs that need connectivity.</p>
       <ul>
-        <li>Latency: <strong>0 ms</strong> (local) vs. <strong>~120 ms</strong> (remote).</li>
-        <li>Privacy risk: <strong>0 %</strong> data exfiltration vs. <strong>~5 %</strong> reported incidents.</li>
+        <li>Latency: <strong>0 ms</strong> (local) vs. <strong>~120 ms</strong> (remote).</li>
+        <li>Privacy risk: <strong>0%</strong> data exfiltration vs. <strong>~5%</strong> reported incidents.</li>
         <li>Cost: Free vs. subscription plans up to $49/month for enterprise APIs.</li>
       </ul>
     </section>
@@ -211,6 +218,8 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   <div class="container">
     <div>
       <a href="/">Home</a>
+      <a href="/all-tools/">All Tools</a>
+      <a href="/guides/">Guides</a>
       <a href="/how-it-works/">How It Works</a>
       <a href="/about/">About</a>
       <a href="/contact/">Contact</a>
@@ -227,6 +236,7 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
   const numbers = "0123456789";
   const symbols = "!@#$%^&*()-_=+[]{}|;:'\",.<>?/`~";
   const ambiguous = "O0l1I";
+  const UINT32_RANGE = 4294967296; // 2^32
 
   const lengthInput = document.getElementById('length');
   const includeUpper = document.getElementById('uppercase');
@@ -274,10 +284,24 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
     return parts.length ? parts.join(", ") : "less than a second";
   }
 
+  // Uniform random index in [0, poolSize), using rejection sampling to eliminate modulo bias.
+  function randomIndex(poolSize){
+    const limit = Math.floor(UINT32_RANGE / poolSize) * poolSize;
+    const buf = new Uint32Array(1);
+    while(true){
+      window.crypto.getRandomValues(buf);
+      if(buf[0] < limit) return buf[0] % poolSize;
+    }
+  }
+
   function generatePassword(){
+    if(!window.crypto || typeof window.crypto.getRandomValues !== 'function'){
+      outputDiv.textContent = "Error: This browser does not support the Web Crypto API. Please use a modern browser.";
+      return;
+    }
     const length = parseInt(lengthInput.value,10);
-    if(isNaN(length) || length < 4){
-      outputDiv.textContent = "Please enter a valid length (minimum 4).";
+    if(isNaN(length) || length < 4 || length > 128){
+      outputDiv.textContent = "Please enter a length between 4 and 128.";
       return;
     }
     const pool = buildPool();
@@ -285,18 +309,19 @@ footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
       outputDiv.textContent = "Select at least one character set.";
       return;
     }
-    const array = new Uint32Array(length);
-    window.crypto.getRandomValues(array);
-    let password = "";
-    for(let i=0;i<length;i++){
-      const idx = array[i] % pool.length;
-      password += pool.charAt(idx);
+    try {
+      let password = "";
+      for(let i=0;i<length;i++){
+        password += pool.charAt(randomIndex(pool.length));
+      }
+      const entropy = getEntropy(pool.length, length);
+      const crackSeconds = Math.pow(2, entropy) / 1e10; // 10 billion guesses/sec
+      const crackTime = formatTime(crackSeconds);
+      outputDiv.textContent = password + "\nEntropy: " + entropy.toFixed(2) + " bits\nEstimated crack time: " + crackTime;
+      leadForm.classList.add('show');
+    } catch(e) {
+      outputDiv.textContent = "Error generating password: " + e.message;
     }
-    const entropy = getEntropy(pool.length, length);
-    const crackSeconds = Math.pow(2, entropy) / 1e10; // 10 billion guesses/sec
-    const crackTime = formatTime(crackSeconds);
-    outputDiv.textContent = password + "\nEntropy: " + entropy.toFixed(2) + " bits\nEstimated crack time: " + crackTime;
-    leadForm.classList.add('show');
   }
 
   generateBtn.addEventListener('click', generatePassword);
