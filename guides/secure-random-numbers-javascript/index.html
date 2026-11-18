@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Generate Secure Random Numbers in JavaScript (2026) — DevSecSuite</title>
+<meta name="description" content="Math.random() is not secure. Learn how to use crypto.getRandomValues() the right way, avoid modulo bias, and generate cryptographically secure passwords and tokens.">
+<link rel="canonical" href="https://devsecsuite.com/guides/secure-random-numbers-javascript/">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="How to Generate Secure Random Numbers in JavaScript">
+<meta property="og:description" content="Math.random() is not secure. Use crypto.getRandomValues() correctly, avoid modulo bias, and generate secure passwords and tokens.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://devsecsuite.com/guides/secure-random-numbers-javascript/">
+<meta property="og:image" content="https://devsecsuite.com/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Secure Random Numbers in JavaScript">
+<meta name="twitter:description" content="Math.random() is broken for security. Here's the right way.">
+<link rel="icon" href="/favicon.ico">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FVZSVQEB2C"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-FVZSVQEB2C');</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Generate Secure Random Numbers in JavaScript (2026)",
+  "description": "Math.random() is not secure. Learn how to use crypto.getRandomValues() the right way, avoid modulo bias, and generate cryptographically secure passwords and tokens.",
+  "author": {"@type": "Person", "name": "Emiliano", "url": "https://devsecsuite.com/about/"},
+  "publisher": {"@type": "Organization", "name": "DevSecSuite", "url": "https://devsecsuite.com", "logo": {"@type": "ImageObject", "url": "https://devsecsuite.com/og-image.png"}},
+  "datePublished": "2026-11-19",
+  "dateModified": "2026-11-19",
+  "url": "https://devsecsuite.com/guides/secure-random-numbers-javascript/",
+  "mainEntityOfPage": {"@type": "WebPage", "@id": "https://devsecsuite.com/guides/secure-random-numbers-javascript/"},
+  "image": "https://devsecsuite.com/og-image.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Is Math.random() secure enough for passwords or tokens?",
+      "acceptedAnswer": {"@type": "Answer", "text": "No. Math.random() is a pseudo-random number generator seeded by the time and other predictable values. Its state can be reconstructed from a handful of outputs, making it trivially predictable. It must never be used for passwords, tokens, session IDs, CSRF tokens, or any security-sensitive value. Use crypto.getRandomValues() instead."}
+    },
+    {
+      "@type": "Question",
+      "name": "What is crypto.getRandomValues() and how is it different from Math.random()?",
+      "acceptedAnswer": {"@type": "Answer", "text": "crypto.getRandomValues() is part of the Web Crypto API and draws from the operating system's cryptographically secure pseudorandom number generator (CSPRNG). On macOS and Linux this is /dev/urandom; on Windows it is CryptGenRandom. Unlike Math.random(), the output cannot be predicted from previous outputs, even with full knowledge of the algorithm."}
+    },
+    {
+      "@type": "Question",
+      "name": "What is modulo bias and why does it matter?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Modulo bias happens when you take a random integer from a larger range and use modulo to fit it into a smaller range. Some values get more outcomes than others, making them slightly more likely. The fix is rejection sampling: discard random values that fall in the non-uniform remainder, and only keep values from the divisible portion of the range."}
+    },
+    {
+      "@type": "Question",
+      "name": "How many random bytes should I use for a password?",
+      "acceptedAnswer": {"@type": "Answer", "text": "For passwords in 2026, use at least 16 random bytes (128 bits) generated from crypto.getRandomValues(), then Base64 or hex encode them. That produces a 22-character Base64 string or a 32-character hex string, both with over 100 bits of entropy — enough to resist offline brute-force attacks for decades."}
+    },
+    {
+      "@type": "Question",
+      "name": "Is crypto.getRandomValues() available in Node.js?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Node.js exposes crypto.getRandomValues() via the webcrypto module in Node 15+, or directly in Node 19+. For older versions, use crypto.randomBytes(), which is the equivalent server-side API. Both draw from the OS CSPRNG and are safe for security use."}
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use crypto.randomUUID() for secure identifiers?",
+      "acceptedAnswer": {"@type": "Answer", "text": "Yes. crypto.randomUUID() produces a UUIDv4 identifier with 122 bits of entropy, generated from the browser CSPRNG. It is safe for session IDs, correlation IDs, and unique keys. It is not safe for password generation because it exposes its own format — use crypto.getRandomValues() for those."}
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://devsecsuite.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://devsecsuite.com/guides/"},
+    {"@type": "ListItem", "position": 3, "name": "Secure Random Numbers in JavaScript", "item": "https://devsecsuite.com/guides/secure-random-numbers-javascript/"}
+  ]
+}
+</script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.7;color:#e6e6e6;background:#0d1117}
+header{background:#161b22;border-bottom:1px solid #30363d;padding:1rem 1.5rem}
+.container{max-width:760px;margin:0 auto;padding:0 1.5rem}
+header .container{display:flex;align-items:center;justify-content:space-between;max-width:960px}
+.logo{font-size:1.4rem;font-weight:700;color:#58a6ff;text-decoration:none;font-family:"SF Mono",Monaco,monospace}
+nav a{margin-left:1.5rem;color:#8b949e;text-decoration:none;font-size:.95rem}
+nav a:hover{color:#58a6ff}
+main{padding:3rem 0}
+.breadcrumb{font-size:.85rem;color:#6e7681;margin-bottom:1.5rem}
+.breadcrumb a{color:#8b949e;text-decoration:none}
+.breadcrumb a:hover{color:#58a6ff}
+.breadcrumb span{margin:0 .4rem}
+h1{font-size:2.2rem;line-height:1.25;margin-bottom:1rem;color:#f0f6fc}
+.lead{font-size:1.15rem;color:#8b949e;margin-bottom:1rem}
+.meta{font-size:.9rem;color:#6e7681;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:1px solid #30363d}
+.meta a{color:#8b949e}
+h2{font-size:1.45rem;margin:2.5rem 0 1rem;color:#f0f6fc}
+h3{font-size:1.15rem;margin:1.75rem 0 .75rem;color:#f0f6fc}
+p{margin-bottom:1.1rem;color:#c9d1d9}
+ul,ol{margin:0 0 1.25rem 1.5rem;color:#c9d1d9}
+li{margin-bottom:.5rem}
+a{color:#58a6ff;text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:#f0f6fc}
+code{background:#161b22;padding:.15rem .4rem;border-radius:4px;font-family:"SF Mono",Monaco,monospace;font-size:.9em;color:#7ee787}
+pre{background:#161b22;padding:1rem;border-radius:6px;overflow-x:auto;margin:1rem 0}
+pre code{background:none;padding:0}
+table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem;background:#161b22;border-radius:8px;overflow:hidden}
+th,td{text-align:left;padding:.75rem 1rem;border-bottom:1px solid #30363d}
+th{background:#1c2128;font-weight:600;color:#f0f6fc;font-size:.85rem;text-transform:uppercase;letter-spacing:.03em}
+td{color:#c9d1d9}
+tr:last-child td{border-bottom:none}
+.callout{background:#161b22;border-left:3px solid #58a6ff;border-radius:6px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.callout p{margin:0}
+.callout.warning{border-left-color:#f85149}
+.callout.success{border-left-color:#3fb950}
+.tool-cta{background:#0f2417;border:1px solid #238636;border-radius:8px;padding:1.25rem 1.5rem;margin:1.5rem 0}
+.tool-cta p{margin:0 0 .5rem}
+.tool-cta p:last-child{margin:0}
+.tool-cta a{color:#7ee787;font-weight:600}
+.faq{margin-top:3rem}
+.faq-item{border-top:1px solid #30363d;padding:1.5rem 0}
+.faq-item:last-child{border-bottom:1px solid #30363d}
+.faq-item h3{margin-top:0}
+.related{background:#161b22;border-radius:8px;padding:1.5rem;margin:3rem 0 0}
+.related h3{margin-top:0;font-size:1.1rem}
+.related ul{margin-bottom:0}
+footer{border-top:1px solid #30363d;padding:2rem 0;margin-top:3rem;color:#6e7681;font-size:.9rem;background:#161b22}
+footer .container{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;max-width:960px}
+footer a{color:#8b949e;text-decoration:none;margin-right:1rem}
+footer a:hover{color:#58a6ff}
+@media(max-width:640px){h1{font-size:1.6rem}nav a{margin-left:1rem;font-size:.85rem}.container{padding:0 1rem}}
+</style>
+</head>
+<body>
+
+<header>
+<div class="container">
+<a href="/" class="logo">devsecsuite</a>
+<nav>
+<a href="/all-tools/">All Tools</a>
+<a href="/guides/">Guides</a>
+<a href="/how-it-works/">How It Works</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</nav>
+</div>
+</header>
+
+<main>
+<div class="container">
+
+<div class="breadcrumb">
+<a href="/">Home</a><span>›</span><a href="/guides/">Guides</a><span>›</span>Secure Random Numbers in JavaScript
+</div>
+
+<h1>How to Generate Secure Random Numbers in JavaScript (2026)</h1>
+<p class="lead">Every developer has typed <code>Math.random()</code> to generate a token, an ID, or a password. It is one of the most common security mistakes in JavaScript. This guide explains why, what to use instead, and how to use the right API without introducing a subtler bug — modulo bias.</p>
+<p class="meta">By <a href="/about/">Emiliano</a> · Published November 19, 2026 · 10 min read</p>
+
+<h2>Why Math.random() is not secure</h2>
+<p><code>Math.random()</code> returns a floating-point number between 0 (inclusive) and 1 (exclusive). It is fast, simple, and completely wrong for anything involving security.</p>
+<p>Under the hood, <code>Math.random()</code> is typically implemented as <strong>xorshift128+</strong> or <strong>V8's own PRNG</strong>, seeded from a combination of the current time, the process ID, and some system entropy. The result is deterministic: given the same seed, the sequence of outputs is identical.</p>
+<p>This means an attacker who can observe a handful of <code>Math.random()</code> outputs can reconstruct the internal state and predict all future outputs with high accuracy. In 2015, researchers at <strong>Brave</strong> demonstrated they could recover V8's PRNG state in under 30 seconds from a single browser session. Three years later, a bug bounty report showed that a well-known password manager was using <code>Math.random()</code> to seed its password generation.</p>
+
+<div class="callout warning">
+<p><strong>Rule of thumb:</strong> if the value is used for security, and you typed <code>Math.random()</code>, you have a bug. Passwords, tokens, session IDs, CSRF values, OTPs, and salts all require a cryptographically secure source.</p>
+</div>
+
+<h2>When Math.random() is fine</h2>
+<p>Not every use of randomness is security-relevant. You can safely use <code>Math.random()</code> for:</p>
+<ul>
+<li>Visual effects — random particle positions, confetti, glitch animations.</li>
+<li>Placeholder content — lorem ipsum variants, sample data in non-security demos.</li>
+<li>Non-security game mechanics — dice rolls in a single-player local game, random card shuffle for a solitaire (not for online poker).</li>
+<li>Performance-based sampling — picking 1% of requests to profile. The value is observable but not exploitable.</li>
+</ul>
+
+<p>The dividing line is simple: <strong>if an attacker benefits from predicting the output, you need a cryptographically secure source.</strong> If not, <code>Math.random()</code> is fine and fast.</p>
+
+<h2>Enter crypto.getRandomValues()</h2>
+<p>The Web Crypto API exposes <code>crypto.getRandomValues()</code>, which fills a <code>TypedArray</code> with random bytes drawn from the operating system's cryptographically secure pseudorandom number generator (CSPRNG). On macOS and Linux this is <code>/dev/urandom</code>. On Windows it is <code>CryptGenRandom</code> or <code>BCryptGenRandom</code>.</p>
+
+<p>The difference from <code>Math.random()</code> is fundamental:</p>
+
+<table>
+<tr><th>Property</th><th>Math.random()</th><th>crypto.getRandomValues()</th></tr>
+<tr><td>Source</td><td>Engine PRNG (xorshift128+)</td><td>Operating system CSPRNG</td></tr>
+<tr><td>Seeded by</td><td>Time, PID, limited entropy</td><td>OS-provided true entropy</td></tr>
+<tr><td>Predictable after N samples?</td><td>Yes, typically < 100</td><td>No</td></tr>
+<tr><td>Safe for passwords / tokens?</td><td><strong>No</strong></td><td><strong>Yes</strong></td></tr>
+<tr><td>Speed</td><td>~50 million/sec</td><td>~5 million/sec</td></tr>
+<tr><td>Available in</td><td>All JS runtimes</td><td>Browsers, Node 15+</td></tr>
+</table>
+
+<h2>The basic API — a 5-line example</h2>
+<pre><code>// Fill a 16-byte buffer with cryptographically secure random data
+const bytes = new Uint8Array(16);
+crypto.getRandomValues(bytes);
+
+// Convert to hex string: "a3f2c1..."
+const hex = Array.from(bytes).map(b => b.toString(16).padStart(2, '0')).join('');
+console.log(hex); // 32-character hex string with 128 bits of entropy</code></pre>
+
+<p>That is the correct way to generate a secure token in the browser. Two things to note:</p>
+<ul>
+<li>The buffer is <strong>exactly 16 bytes</strong>. Use 32 bytes (256 bits) for API keys and long-lived tokens.</li>
+<li>The output is a hex string. Encode as Base64 for shorter strings, or keep hex for readability.</li>
+</ul>
+
+<h2>The subtle bug: modulo bias</h2>
+<p>Here is the most common mistake developers make when trying to do the right thing:</p>
+
+<pre><code>// WRONG — biased
+function randomChar(pool) {
+  const bytes = new Uint8Array(1);
+  crypto.getRandomValues(bytes);
+  return pool[bytes[0] % pool.length];
+}</code></pre>
+
+<p>This looks correct. It uses <code>crypto.getRandomValues()</code>, the secure API. But it introduces <strong>modulo bias</strong>.</p>
+
+<p>Here is the problem. <code>bytes[0]</code> is a random number between 0 and 255. <code>pool.length</code> might be 62 (a-z, A-Z, 0-9). <code>256 % 62 = 8</code>, which means the first 8 characters of the pool (a–h) get <strong>9 possible values</strong> each (from 0, 62, 124, 186...) while the remaining 54 characters get <strong>8 possible values</strong> each. The first 8 characters are 12.5% more likely to appear. Over 16 characters, that is a measurable bias.</p>
+
+<p>For passwords, this means real passwords are slightly less random than the entropy calculation claims. For a 20-character password, the effective entropy drops by roughly 3–4 bits — not catastrophic, but preventable.</p>
+
+<h2>The fix: rejection sampling</h2>
+<p>The fix is to discard any random value that would cause bias, and only accept values that are evenly distributed across the pool. This is called rejection sampling:</p>
+
+<pre><code>function randomChar(pool) {
+  const MAX = 256;
+  const limit = Math.floor(MAX / pool.length) * pool.length; // e.g. 248 for a 62-char pool
+  const bytes = new Uint8Array(1);
+  do {
+    crypto.getRandomValues(bytes);
+  } while (bytes[0] >= limit);  // discard values 248–255
+  return pool[bytes[0] % pool.length];
+}</code></pre>
+
+<p>Now every character has exactly 4 possible random values (248 / 62 = 4), so the distribution is uniform. Rejection happens for <code>256 - 248 = 8</code> values out of 256 — about 3% of calls — which is negligible performance cost.</p>
+
+<div class="tool-cta">
+<p><strong>Try it yourself:</strong> Our <a href="/random-number-generator/">Random Number Generator</a> uses this exact rejection-sampling approach. Generate numbers in any range and they will be uniformly distributed — no hidden bias, no rounding errors.</p>
+</div>
+
+<h2>Generating a secure password — the complete function</h2>
+<pre><code>function generatePassword(length, pool) {
+  const MAX = 256;
+  const limit = Math.floor(MAX / pool.length) * pool.length;
+  const bytes = new Uint8Array(length * 2); // over-allocate for rejections
+  let password = '';
+  let idx = 0;
+
+  while (password.length < length) {
+    if (idx >= bytes.length) {
+      crypto.getRandomValues(bytes);
+      idx = 0;
+    }
+    const byte = bytes[idx++];
+    if (byte < limit) {
+      password += pool[byte % pool.length];
+    }
+  }
+  return password;
+}
+
+const pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+console.log(generatePassword(20, pool));</code></pre>
+
+<p>This function is safe to ship. It uses <code>crypto.getRandomValues()</code>, handles modulo bias via rejection sampling, and is fast enough that you would never notice the rejections.</p>
+
+<div class="tool-cta">
+<p><strong>Don't want to write this? Use our tool.</strong> The <a href="/password-generator/">Strong Password Generator</a> implements exactly this algorithm, runs entirely in your browser, and shows the actual entropy of the generated password.</p>
+</div>
+
+<h2>Node.js equivalent</h2>
+<p>If you need the same logic on the server:</p>
+<pre><code>const crypto = require('crypto');
+
+const bytes = crypto.randomBytes(32); // 256 bits
+const token = bytes.toString('base64url');
+console.log(token); // Base64URL-encoded 32-byte token</code></pre>
+<p><code>crypto.randomBytes()</code> is the Node.js equivalent of <code>crypto.getRandomValues()</code> — both draw from the OS CSPRNG. In Node 15+ you can also use <code>crypto.webcrypto.getRandomValues()</code> for portability across browser and server code.</p>
+
+<h2>How much randomness do you actually need?</h2>
+<p>Entropy is measured in bits. Each additional bit doubles the search space an attacker must cover. Here are reasonable minimums in 2026:</p>
+
+<table>
+<tr><th>Use case</th><th>Minimum bits</th><th>Recommended</th></tr>
+<tr><td>CSRF token</td><td>128</td><td>256 (32 bytes)</td></tr>
+<tr><td>Session ID</td><td>128</td><td>256 (32 bytes)</td></tr>
+<tr><td>API key</td><td>160</td><td>256 (32 bytes)</td></tr>
+<tr><td>Password (generated)</td><td>80</td><td>128 (16 bytes)</td></tr>
+<tr><td>Salt for password hashing</td><td>128</td><td>128 (16 bytes)</td></tr>
+<tr><td>Password reset token</td><td>128</td><td>256 (32 bytes)</td></tr>
+</table>
+
+<p>Those numbers are deliberately conservative. An 80-bit password provides enough resistance against offline brute-force for decades; 128 bits is fully future-proof. For tokens and IDs, use 256 bits — the extra cost is zero.</p>
+
+<h2>The 5 mistakes people make with crypto.getRandomValues()</h2>
+<ol>
+<li><strong>Using a 1-byte buffer for passwords.</strong> One byte = 8 bits of entropy per character. You need to accumulate bytes across the password, not call the API once per character.</li>
+<li><strong>Modulo bias.</strong> Covered above — the most common mistake.</li>
+<li><strong>Using Math.random() to seed crypto.getRandomValues().</strong> Pointless. <code>crypto.getRandomValues()</code> does not accept a seed and does not need one.</li>
+<li><strong>Reusing the same buffer without refilling.</strong> Each call to <code>crypto.getRandomValues()</code> overwrites the buffer. Reusing an old buffer means reusing old entropy.</li>
+<li><strong>Converting bytes to a string with <code>String.fromCharCode()</code>.</strong> That mangles non-ASCII bytes. Use hex or Base64 encoding instead.</li>
+</ol>
+
+<h2>What about crypto.randomUUID()?</h2>
+<p><code>crypto.randomUUID()</code> is a shorthand for generating UUIDv4 identifiers — 122 bits of entropy, format guaranteed by spec. It is safe for session IDs, correlation IDs, unique keys, and non-security-critical identifiers.</p>
+<p>It is <em>not</em> safe for password generation because the format is publicly known — an attacker knows the dashes and the fixed version nibble, reducing effective entropy slightly and making dictionary-style attacks against generated passwords easier. For passwords, use <code>crypto.getRandomValues()</code> directly.</p>
+
+<h2>Frequently asked questions</h2>
+
+<div class="faq">
+
+<div class="faq-item">
+<h3>Is Math.random() secure enough for passwords or tokens?</h3>
+<p>No. Math.random() is a pseudo-random number generator seeded by the time and other predictable values. Its state can be reconstructed from a handful of outputs, making it trivially predictable. It must never be used for passwords, tokens, session IDs, CSRF tokens, or any security-sensitive value. Use crypto.getRandomValues() instead.</p>
+</div>
+
+<div class="faq-item">
+<h3>What is crypto.getRandomValues() and how is it different from Math.random()?</h3>
+<p>crypto.getRandomValues() is part of the Web Crypto API and draws from the operating system's cryptographically secure pseudorandom number generator (CSPRNG). On macOS and Linux this is /dev/urandom; on Windows it is CryptGenRandom. Unlike Math.random(), the output cannot be predicted from previous outputs, even with full knowledge of the algorithm.</p>
+</div>
+
+<div class="faq-item">
+<h3>What is modulo bias and why does it matter?</h3>
+<p>Modulo bias happens when you take a random integer from a larger range and use modulo to fit it into a smaller range. Some values get more outcomes than others, making them slightly more likely. The fix is rejection sampling: discard random values that fall in the non-uniform remainder, and only keep values from the divisible portion of the range.</p>
+</div>
+
+<div class="faq-item">
+<h3>How many random bytes should I use for a password?</h3>
+<p>For passwords in 2026, use at least 16 random bytes (128 bits) generated from crypto.getRandomValues(), then Base64 or hex encode them. That produces a 22-character Base64 string or a 32-character hex string, both with over 100 bits of entropy — enough to resist offline brute-force attacks for decades.</p>
+</div>
+
+<div class="faq-item">
+<h3>Is crypto.getRandomValues() available in Node.js?</h3>
+<p>Node.js exposes crypto.getRandomValues() via the webcrypto module in Node 15+, or directly in Node 19+. For older versions, use crypto.randomBytes(), which is the equivalent server-side API. Both draw from the OS CSPRNG and are safe for security use.</p>
+</div>
+
+<div class="faq-item">
+<h3>Can I use crypto.randomUUID() for secure identifiers?</h3>
+<p>Yes. crypto.randomUUID() produces a UUIDv4 identifier with 122 bits of entropy, generated from the browser CSPRNG. It is safe for session IDs, correlation IDs, and unique keys. It is not safe for password generation because it exposes its own format — use crypto.getRandomValues() for those.</p>
+</div>
+
+</div>
+
+<h2>The bottom line</h2>
+<p><code>Math.random()</code> is fast and predictable. <code>crypto.getRandomValues()</code> is slower and secure. Use the first for animations, the second for anything else.</p>
+<p>When you generate the random bytes, avoid modulo bias by using rejection sampling — it costs 3% of iterations and eliminates the subtle weakness. And when you generate passwords, use at least 16 bytes, not the 1–2 bytes many online examples use.</p>
+<p>If you are writing code that generates tokens or passwords, and you have not manually verified that your code uses a CSPRNG, assume it does not. That assumption has caught more production bugs than any other I have seen.</p>
+
+<div class="related">
+<h3>Related tools and guides</h3>
+<ul>
+<li><a href="/random-number-generator/">Random Number Generator</a> — generate cryptographically secure random integers in any range, with duplicate control.</li>
+<li><a href="/password-generator/">Strong Password Generator</a> — generate secure passwords with configurable length, character sets, and entropy display.</li>
+<li><a href="/guides/sha256-vs-bcrypt/">SHA-256 vs Bcrypt: When to Use Each</a> — once you generate a password, you need to hash it for storage. Here's how.</li>
+<li><a href="/guides/how-to-decode-jwt-safely/">How to Decode a JWT Safely</a> — secure random sources are the foundation of secure token systems.</li>
+<li><a href="/all-tools/">All DevSecSuite tools</a> — the full directory of browser-based developer utilities.</li>
+<li><a href="/how-it-works/">How DevSecSuite works</a> — every tool runs locally. Here is how to verify it.</li>
+</ul>
+</div>
+
+</div>
+</main>
+
+<footer>
+<div class="container">
+<div>
+<a href="/">Home</a>
+<a href="/all-tools/">All Tools</a>
+<a href="/guides/">Guides</a>
+<a href="/how-it-works/">How It Works</a>
+<a href="/about/">About</a>
+<a href="/contact/">Contact</a>
+</div>
+<div>
+<a href="/privacy/">Privacy</a>
+<a href="/terms/">Terms</a>
+</div>
+</div>
+</footer>
+
+</body>
+</html>

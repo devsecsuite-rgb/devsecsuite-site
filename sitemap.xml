@@ -42,4 +42,5 @@
 <url><loc>https://devsecsuite.com/guides/</loc><priority>0.7</priority></url>
 <url><loc>https://devsecsuite.com/guides/sha256-vs-bcrypt/</loc><priority>0.8</priority></url>
 <url><loc>https://devsecsuite.com/guides/how-to-decode-jwt-safely/</loc><priority>0.8</priority></url>
+<url><loc>https://devsecsuite.com/guides/secure-random-numbers-javascript/</loc><priority>0.8</priority></url>
 </urlset>
